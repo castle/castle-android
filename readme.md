@@ -81,12 +81,37 @@ OkHttpClient okHttpClient = new OkHttpClient.Builder()
 For other Http clients you can add the headers manually by getting a list based on the whitelist by using
 
 ```java
-Map<String, String> castleHeaders = Castle.headers();
-
-// Add headers to your http request
-...
+Castle.headers(url);
 ```
+```
+// OkHttp
+String url = "https://exampleapi.com/v1/awesomeendpoint";
+OkHttpClient client = new OkHttpClient();
+Request.Builder requestBuilder = new Request.Builder()
+        .url(url);
 
+for (Map.Entry<String, String> entry : Castle.headers(url).entrySet()) {
+    requestBuilder.header(entry.getKey(), entry.getValue());
+}
+Request request = requestBuilder.build();
+
+Response response = client.newCall(request).execute();
+// Read response
+```
+```
+// HttpURLConnection
+URL url = new URL("https://exampleapi.com/v1/awesomeendpoint");
+HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+for (Map.Entry<String, String> entry : Castle.headers(url.toString()).entrySet()) {
+    urlConnection.setRequestProperty(entry.getKey(), entry.getValue());
+}
+try {
+    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+    // Read response
+} finally {
+    urlConnection.disconnect();
+}
+```
 #### Identify
 
 The identify call lets you tie a user to their action and record traits about them. We recommend calling it once after the user successfully logged in. The user_id will be persisted locally so subsequent calls to track and screen will automatically be tied to that user.
