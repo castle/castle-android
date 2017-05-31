@@ -8,10 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -22,9 +19,6 @@ import io.castle.android.api.model.Event;
 import io.castle.android.api.model.IdentifyEvent;
 import io.castle.android.api.model.ScreenEvent;
 import io.castle.android.queue.EventQueue;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Copyright (c) 2017 Castle
@@ -47,34 +41,6 @@ public class Castle {
         this.configuration = configuration;
         this.identifier = storageHelper.getDeviceId();
         this.eventQueue = new EventQueue(context);
-    }
-
-    private void test() {
-
-        // OkHttp
-        String url = "https://exampleapi.com/v1/awesomeendpoint";
-        OkHttpClient client = new OkHttpClient();
-        Request.Builder requestBuilder = new Request.Builder()
-                .url(url);
-
-        for (Map.Entry<String, String> entry : Castle.headers(url).entrySet()) {
-            requestBuilder.header(entry.getKey(), entry.getValue());
-        }
-        Request request = requestBuilder.build();
-
-        Response response = client.newCall(request).execute();
-
-        // HttpURLConnection
-        URL url = new URL("https://exampleapi.com/v1/awesomeendpoint");
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        for (Map.Entry<String, String> entry : Castle.headers(url.toString()).entrySet()) {
-            urlConnection.setRequestProperty(entry.getKey(), entry.getValue());
-        }
-        try {
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-        } finally {
-            urlConnection.disconnect();
-        }
     }
 
     private void registerLifeCycleCallbacks(Application application) {
