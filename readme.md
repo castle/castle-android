@@ -1,4 +1,7 @@
-![Castle: The easiest way to protect your users](http://fprimecapital.com/assets/2016/11/Castle-Logo-HiRez.png)
+# Android SDK for Castle
+
+**[Castle](https://castle.io) adds real-time monitoring of your authentication stack, instantly notifying you and your users on potential account hijacks.**
+
 
 - [Features](#features)
 - [Requirements](#requirements)
