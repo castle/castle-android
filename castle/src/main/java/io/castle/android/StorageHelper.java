@@ -48,7 +48,16 @@ class StorageHelper {
     }
 
     String getDeviceId() {
-        return getPreferences().getString(DEVICE_ID_KEY, UUID.randomUUID().toString());
+        String deviceId = getPreferences().getString(DEVICE_ID_KEY, null);
+        if (deviceId == null) {
+            deviceId = UUID.randomUUID().toString();
+            setDeviceId(deviceId);
+        }
+        return deviceId;
+    }
+
+    private void setDeviceId(String deviceId) {
+        getPreferencesEditor().putString(DEVICE_ID_KEY, deviceId).commit();
     }
 
     private SharedPreferences getPreferences() {
