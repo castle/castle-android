@@ -9,7 +9,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
-        versionName "0.9"
+        versionName "0.9.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -52,7 +52,7 @@ install {
             packaging 'aar'
             groupId 'io.castle.android'
             artifactId 'castle'
-            version '0.9'
+            version '0.9.1'
 
             scm {
                 connection 'https://github.com/castle/castle-android.git'
@@ -79,7 +79,7 @@ bintray {
         vcsUrl = 'https://github.com/castle/castle-android.git'
         publish = true
         version {
-            name = '0.9'
+            name = '0.9.1'
             desc = 'Android client library for Castle'
         }
     }
