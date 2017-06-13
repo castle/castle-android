@@ -23,7 +23,6 @@ class CastleActivityLifecycleCallbacks implements Application.ActivityLifecycleC
 
     @Override
     public void onActivityResumed(Activity activity) {
-        Castle.flush();
     }
 
     @Override

@@ -28,6 +28,7 @@ public class EventQueue implements Callback<Void> {
     private ObjectQueue<Event> eventObjectQueue;
 
     private Call<Void> flushCall;
+    private int flushCount;
 
     public EventQueue(Context context) {
         try {
@@ -62,18 +63,24 @@ public class EventQueue implements Callback<Void> {
 
     public synchronized void flush() throws IOException {
         CastleLogger.d("EventQueue size " + eventObjectQueue.size());
-        if (flushCall == null && !eventObjectQueue.isEmpty() && eventObjectQueue.size() >= Castle.configuration().flushLimit()) {
+        if (isFlushing() && (!eventObjectQueue.isEmpty())) {
             trim();
 
-            CastleLogger.d("Flushing EventQueue " + eventObjectQueue.size());
             List<Event> events = eventObjectQueue.peek(Castle.configuration().flushLimit());
 
             Batch batch = new Batch();
             batch.addEvents(events);
 
+            CastleLogger.d("Flushing EventQueue " + events.size());
+
+            flushCount = events.size();
             flushCall = CastleAPIService.getInstance().batch(batch);
             flushCall.enqueue(this);
         }
+    }
+
+    public boolean needsFlush() {
+        return eventObjectQueue.size() >= Castle.configuration().flushLimit();
     }
 
     @Override
@@ -83,7 +90,7 @@ public class EventQueue implements Callback<Void> {
             CastleLogger.i("Batch request successful");
 
             try {
-                eventObjectQueue.remove(Castle.configuration().flushLimit());
+                eventObjectQueue.remove(flushCount);
                 CastleLogger.d("Removed " + Castle.configuration().flushLimit() + " events from EventQueue");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -100,12 +107,14 @@ public class EventQueue implements Callback<Void> {
                 CastleLogger.e("Batch request error");
             }
         }
+        flushCount = 0;
         flushCall = null;
     }
 
     @Override
     public void onFailure(Call<Void> call, Throwable t) {
         CastleLogger.e("Batch request failed", t);
+        flushCount = 0;
         flushCall = null;
     }
 }

@@ -77,6 +77,7 @@ public class Castle {
             properties.put("build", "" + currentBuild);
             track("Application Opened", properties);
         }
+        flush();
 
         // Update the recorded version.
         storageHelper.setVersion(currentVersion);
@@ -109,7 +110,9 @@ public class Castle {
 
     private static void track(Event event) {
         instance.eventQueue.add(event);
-        flush();
+        if (instance.eventQueue.needsFlush()) {
+            flush();
+        }
     }
 
     public static void identify(String userId) {
@@ -119,6 +122,7 @@ public class Castle {
     public static void identify(String userId, Map<String, String> traits) {
         Castle.userId(userId);
         track(new IdentifyEvent(userId, traits));
+        flush();
     }
 
     private static void userId(String userId) {
