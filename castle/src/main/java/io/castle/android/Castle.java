@@ -101,10 +101,16 @@ public class Castle {
     }
 
     public static void track(String event, Map<String, String> properties) {
+        if (event == null || event.isEmpty() || properties == null) {
+            return;
+        }
         track(new Event(event, properties));
     }
 
     public static void track(String event) {
+        if (event == null || event.isEmpty()) {
+            return;
+        }
         track(new Event(event));
     }
 
@@ -116,10 +122,18 @@ public class Castle {
     }
 
     public static void identify(String userId) {
+        if (userId == null || userId.isEmpty()) {
+            return;
+        }
+        Castle.userId(userId);
         track(new IdentifyEvent(userId));
+        flush();
     }
 
     public static void identify(String userId, Map<String, String> traits) {
+        if (userId == null || userId.isEmpty() || traits == null) {
+            return;
+        }
         Castle.userId(userId);
         track(new IdentifyEvent(userId, traits));
         flush();
@@ -140,10 +154,16 @@ public class Castle {
     }
 
     public static void screen(String name, Map<String, String> properties) {
+        if (name == null || name.isEmpty() || properties == null) {
+            return;
+        }
         track(new ScreenEvent(name, properties));
     }
 
     public static void screen(String name) {
+        if (name == null || name.isEmpty()) {
+            return;
+        }
         track(new ScreenEvent(name));
     }
 
