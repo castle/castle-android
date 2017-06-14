@@ -58,8 +58,10 @@ public class EventQueue implements Callback<Void> {
 
     public void add(Event event) {
         try {
-            eventObjectQueue.add(event);
-        } catch (IOException e) {
+            synchronized (eventObjectQueue) {
+                eventObjectQueue.add(event);
+            }
+        } catch (Exception e) {
             CastleLogger.e("Add to queue failed", e);
         }
     }
@@ -69,7 +71,9 @@ public class EventQueue implements Callback<Void> {
             int eventsToTrim = eventObjectQueue.size() - Castle.configuration().maxQueueLimit();
             CastleLogger.d("Trimming " + eventsToTrim + " events from queue");
 
-            eventObjectQueue.remove(eventsToTrim);
+            synchronized (eventObjectQueue) {
+                eventObjectQueue.remove(eventsToTrim);
+            }
         }
     }
 
@@ -106,8 +110,10 @@ public class EventQueue implements Callback<Void> {
             CastleLogger.i("Batch request successful");
 
             try {
-                eventObjectQueue.remove(flushCount);
-                CastleLogger.d("Removed " + Castle.configuration().flushLimit() + " events from EventQueue");
+                synchronized (eventObjectQueue) {
+                    eventObjectQueue.remove(flushCount);
+                }
+                CastleLogger.d("Removed " + flushCount+ " events from EventQueue");
             } catch (IOException e) {
                 e.printStackTrace();
 
