@@ -83,7 +83,7 @@ public class EventQueue implements Callback<Void> {
 
     public synchronized void flush() throws IOException {
         CastleLogger.d("EventQueue size " + eventObjectQueue.size());
-        if (isFlushing() && (!eventObjectQueue.isEmpty())) {
+        if (!isFlushing() && (!eventObjectQueue.isEmpty())) {
             trim();
 
             List<Event> events = eventObjectQueue.peek(Castle.configuration().flushLimit());
