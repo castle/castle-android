@@ -87,14 +87,12 @@ public class Castle {
         storageHelper.setBuild(currentBuild);
     }
 
-    public static void setupWithConfiguration(Application application, Configuration configuaration) {
+    public static void setupWithConfiguration(Application application, Configuration configuration) {
         if (instance == null) {
-            instance = new Castle(application, configuaration);
-
-            if (publishableKey() == null || !publishableKey().startsWith("pk_")) {
+            if (configuration.publishableKey() == null || !configuration.publishableKey().startsWith("pk_")) {
                 throw new RuntimeException("You must provide a valid Castle publishable key when initializing the SDK.");
             }
-
+            instance = new Castle(application, configuration);
             instance.registerLifeCycleCallbacks(application);
         }
     }
