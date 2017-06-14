@@ -30,6 +30,7 @@ public class Castle {
     private Configuration configuration;
     private EventQueue eventQueue;
     private StorageHelper storageHelper;
+    private CastleActivityLifecycleCallbacks activityLifecycleCallbacks;
 
     private Castle(Application application, Configuration configuaration) {
         setup(application, configuaration);
@@ -44,7 +45,9 @@ public class Castle {
     }
 
     private void registerLifeCycleCallbacks(Application application) {
-        application.registerActivityLifecycleCallbacks(new CastleActivityLifecycleCallbacks());
+        activityLifecycleCallbacks = new CastleActivityLifecycleCallbacks();
+
+        application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
 
         // Get the current version.
         PackageInfo packageInfo = Utils.getPackageInfo(application);
@@ -223,5 +226,16 @@ public class Castle {
 
     public static int queueSize() {
         return instance.eventQueue.size();
+    }
+
+    public static void destroy(Application application) {
+        if (instance != null) {
+            instance.unregisterLifeCycleCallbacks(application);
+            instance = null;
+        }
+    }
+
+    private void unregisterLifeCycleCallbacks(Application application) {
+        application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
     }
 }
