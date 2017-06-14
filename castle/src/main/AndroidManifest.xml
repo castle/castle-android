@@ -7,6 +7,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
 
+        <meta-data android:name="castle_publishable_key"
+            android:value="@string/castle_publishable_key"/>
+
+        <activity android:name=".TestActivity"/>
     </application>
 
 </manifest>
