@@ -77,7 +77,7 @@ public class EventQueue implements Callback<Void> {
         }
     }
 
-    private boolean isFlushing() {
+    public boolean isFlushing() {
         return flushCall != null;
     }
 
