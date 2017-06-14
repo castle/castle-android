@@ -208,9 +208,9 @@ public class Castle {
     private static boolean isUrlWhitelisted(String urlString) {
         try {
             URL url = new URL(urlString);
-            String baseUrl = url.getProtocol() + "://" + url.getHost();
+            String baseUrl = url.getProtocol() + "://" + url.getHost() + "/";
 
-            if (!Castle.configuration().baseURLWhiteList().isEmpty()) {
+            if (Castle.configuration().baseURLWhiteList() != null && !Castle.configuration().baseURLWhiteList().isEmpty()) {
                 if (Castle.configuration().baseURLWhiteList().contains(baseUrl)) {
                     return true;
                 }
