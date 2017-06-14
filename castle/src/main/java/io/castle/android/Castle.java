@@ -202,4 +202,8 @@ public class Castle {
         }
         return false;
     }
+
+    public static int queueSize() {
+        return instance.eventQueue.size();
+    }
 }
