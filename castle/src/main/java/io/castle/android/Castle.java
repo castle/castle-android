@@ -195,9 +195,7 @@ public class Castle {
         Map<String, String> headers = new HashMap<>();
 
         if (isUrlWhitelisted(url)) {
-            headers.put("__cid", Castle.deviceIdentifier());
-            headers.put("X-Castle-Cookie", Castle.deviceIdentifier());
-            headers.put("Castle-Device-Id", Castle.deviceIdentifier());
+            headers.put("X-Castle-Mobile-Device-Id", Castle.deviceIdentifier());
         }
 
         return headers;
