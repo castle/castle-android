@@ -226,6 +226,10 @@ public class Castle {
         return instance.eventQueue.size();
     }
 
+    public static boolean isFlushingQueue() {
+        return instance.eventQueue.isFlushing();
+    }
+
     public static void destroy(Application application) {
         if (instance != null) {
             instance.unregisterLifeCycleCallbacks(application);
