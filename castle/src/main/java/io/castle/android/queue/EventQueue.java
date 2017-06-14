@@ -32,12 +32,28 @@ public class EventQueue implements Callback<Void> {
 
     public EventQueue(Context context) {
         try {
-            File file = new File(context.getApplicationContext().getFilesDir().getAbsoluteFile(), QUEUE_FILENAME);
-            QueueFile queueFile = new QueueFile.Builder(file).build();
-            eventObjectQueue = ObjectQueue.create(queueFile, new GsonConverter<>(Event.class));
+            init(context);
         } catch (IOException e) {
             e.printStackTrace();
+
+            // Delete the file and try again
+            getFile(context).delete();
+            try {
+                init(context);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
+    }
+
+    private File getFile(Context context) {
+        return new File(context.getApplicationContext().getFilesDir().getAbsoluteFile(), QUEUE_FILENAME);
+    }
+
+    private void init(Context context) throws IOException {
+        File file = getFile(context);
+        QueueFile queueFile = new QueueFile.Builder(file).build();
+        eventObjectQueue = ObjectQueue.create(queueFile, new GsonConverter<>(Event.class));
     }
 
     public void add(Event event) {
