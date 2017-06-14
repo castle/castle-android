@@ -117,4 +117,8 @@ public class EventQueue implements Callback<Void> {
         flushCount = 0;
         flushCall = null;
     }
+
+    public int size() {
+        return eventObjectQueue.size();
+    }
 }
