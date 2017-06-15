@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class Configuration {
     private String publishableKey;
-    private boolean lifecycleTrackingEnabled = true;
     private boolean screenTrackingEnabled = true;
     private boolean debugLoggingEnabled = false;
     private int flushLimit = 20;
@@ -39,20 +38,12 @@ public class Configuration {
         return publishableKey;
     }
 
-    public void lifecycleTrackingEnabled(boolean enabled) {
-        this.lifecycleTrackingEnabled = enabled;
-    }
-
     public void screenTrackingEnabled(boolean enabled) {
         this.screenTrackingEnabled = enabled;
     }
 
     public void debugLoggingEnabled(boolean enabled) {
         this.debugLoggingEnabled = enabled;
-    }
-    
-    public boolean lifecycleTrackingEnabled() {
-        return lifecycleTrackingEnabled;
     }
 
     public boolean screenTrackingEnabled() {

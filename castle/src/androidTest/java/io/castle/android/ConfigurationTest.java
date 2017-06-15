@@ -46,7 +46,6 @@ public class ConfigurationTest {
         configuration.flushLimit(10);
         configuration.baseURLWhiteList(baseUrlWhiteList);
         configuration.maxQueueLimit(1000);
-        configuration.lifecycleTrackingEnabled(true);
 
         Assert.assertTrue(configuration.screenTrackingEnabled());
         Assert.assertTrue(configuration.debugLoggingEnabled());
@@ -54,7 +53,6 @@ public class ConfigurationTest {
         Assert.assertEquals(1, configuration.baseURLWhiteList().size());
         Assert.assertEquals("https://google.com/", configuration.baseURLWhiteList().get(0));
         Assert.assertEquals(1000, configuration.maxQueueLimit());
-        Assert.assertTrue(configuration.lifecycleTrackingEnabled());
 
         // Setup Castle SDK with provided configuration
         Castle.setupWithConfiguration(application, configuration);
