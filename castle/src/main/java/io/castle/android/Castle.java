@@ -58,28 +58,27 @@ public class Castle {
         String previousVersion = storageHelper.getVersion();
         int previousBuild = storageHelper.getBuild();
 
-        if (Castle.configuration().lifecycleTrackingEnabled()) {
-            // Check and track Application Installed or Application Updated.
-            if (previousBuild == -1) {
-                Map<String, String> properties = new HashMap<>();
-                properties.put("version", currentVersion);
-                properties.put("build", "" + currentBuild);
-                track("Application Installed", properties);
-            } else if (currentBuild != previousBuild) {
-                Map<String, String> properties = new HashMap<>();
-                properties.put("version", currentVersion);
-                properties.put("build", "" + currentBuild);
-                properties.put("previous_version", previousVersion);
-                properties.put("previous_build", "" + previousBuild);
-                track("Application Updated", properties);
-            }
-
-            // Track Application Opened.
+        // Check and track Application Installed or Application Updated.
+        if (previousBuild == -1) {
             Map<String, String> properties = new HashMap<>();
             properties.put("version", currentVersion);
             properties.put("build", "" + currentBuild);
-            track("Application Opened", properties);
+            track("Application Installed", properties);
+        } else if (currentBuild != previousBuild) {
+            Map<String, String> properties = new HashMap<>();
+            properties.put("version", currentVersion);
+            properties.put("build", "" + currentBuild);
+            properties.put("previous_version", previousVersion);
+            properties.put("previous_build", "" + previousBuild);
+            track("Application Updated", properties);
         }
+
+        // Track Application Opened.
+        Map<String, String> properties = new HashMap<>();
+        properties.put("version", currentVersion);
+        properties.put("build", "" + currentBuild);
+        track("Application Opened", properties);
+
         flush();
 
         // Update the recorded version.
