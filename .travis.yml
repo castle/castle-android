@@ -13,13 +13,17 @@ android:
     - extra-android-m2repository
 
 before_script:
-  # Create and start emulator
-  - echo no | android create avd --force -n test -t android-14 --abi armeabi-v7a
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+    # Create and start emulator
+    - echo no | android create avd --force -n test -t android-14 --abi armeabi-v7a
+    - emulator -avd test -no-skin -no-audio -no-window &
 
-script: ./gradlew connectedAndroidTest
+script: 
+    - android-wait-for-emulator
+    - adb shell input keyevent 82 &
+    - ./gradlew connectedAndroidTest
+
+before_install:
+    - pip install --user codecov    #Install codecov
 
 after_success:
-- bash <(curl -s https://codecov.io/bash)
+    - codecov                       #Run codecov
