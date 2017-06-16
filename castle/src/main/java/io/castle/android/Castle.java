@@ -31,6 +31,7 @@ public class Castle {
     private EventQueue eventQueue;
     private StorageHelper storageHelper;
     private CastleActivityLifecycleCallbacks activityLifecycleCallbacks;
+    private CastleComponentCallback componentCallbacks;
 
     private Castle(Application application, Configuration configuaration) {
         setup(application, configuaration);
@@ -46,8 +47,10 @@ public class Castle {
 
     private void registerLifeCycleCallbacks(Application application) {
         activityLifecycleCallbacks = new CastleActivityLifecycleCallbacks();
-
         application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
+
+        componentCallbacks = new CastleComponentCallback();
+        application.registerComponentCallbacks(componentCallbacks);
 
         // Get the current version.
         PackageInfo packageInfo = Utils.getPackageInfo(application);
@@ -115,6 +118,7 @@ public class Castle {
     }
 
     private static void track(Event event) {
+        CastleLogger.d("Tracking event " + Utils.getGsonInstance().toJson(event));
         instance.eventQueue.add(event);
         if (instance.eventQueue.needsFlush()) {
             flush();
@@ -232,11 +236,24 @@ public class Castle {
     public static void destroy(Application application) {
         if (instance != null) {
             instance.unregisterLifeCycleCallbacks(application);
+            instance.unregisterComponentCallbacks(application);
             instance = null;
         }
     }
 
     private void unregisterLifeCycleCallbacks(Application application) {
         application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
+    }
+
+    private void unregisterComponentCallbacks(Application application) {
+        application.unregisterComponentCallbacks(componentCallbacks);
+    }
+
+    public static int getCurrentBuild() {
+        return instance.storageHelper.getBuild();
+    }
+
+    public static String getCurrentVersion() {
+        return instance.storageHelper.getVersion();
     }
 }
