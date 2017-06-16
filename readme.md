@@ -2,7 +2,10 @@
 
 **[Castle](https://castle.io) adds real-time monitoring of your authentication stack, instantly notifying you and your users on potential account hijacks.**
 
- [ ![Download](https://api.bintray.com/packages/castleintelligence/castle-android/castle/images/download.svg) ](https://bintray.com/castleintelligence/castle-android/castle/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/castleintelligence/castle-android/castle/images/download.svg) ](https://bintray.com/castleintelligence/castle-android/castle/_latestVersion)
+[![Build Status](https://travis-ci.org/castle/castle-android.svg?branch=master)](https://travis-ci.org/castle/castle-android)
+[![codecov](https://codecov.io/gh/castle/castle-android/branch/master/graph/badge.svg)](https://codecov.io/gh/castle/castle-android)
+
 
 - [Features](#features)
 - [Requirements](#requirements)
