@@ -2,15 +2,23 @@ language: android
 jdk: oraclejdk8
 sudo: false
 
+before_cache:
+    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  directories:      #Cache all dirs under .gradle folder
+    - $HOME/.gradle/daemon      #Cache daemon logs
+    - $HOME/.gradle/native      #Cache library downloaded from the gradle dependency
+    - $HOME/.gradle/wrapper     #Cache the gradle
+
 android:
   components:
     - platform-tools
     - tools
     - build-tools-25.0.3
-    - android-14
     - android-25
-    - sys-img-armeabi-v7a-android-14
     - extra-android-m2repository
+    - sys-img-armeabi-v7a-android-14
 
 before_script:
     # Create and start emulator
