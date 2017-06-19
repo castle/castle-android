@@ -29,7 +29,7 @@ Castle is available through Gradle.
 Add the following line to your projects ```build.gradle```
 
 ```ruby
-compile 'io.castle.android:castle:0.9'
+compile 'io.castle.android:castle:latest-version'
 ```
 
 ### Usage
