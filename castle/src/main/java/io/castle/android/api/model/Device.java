@@ -31,33 +31,4 @@ class Device {
 
         return device;
     }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getOs() {
-        return os;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public String getId() {
-        return id;
-    }
-
 }

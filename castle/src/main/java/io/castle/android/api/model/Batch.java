@@ -21,21 +21,6 @@ public class Batch {
         sentAt = Utils.getTimestamp();
     }
 
-    public ArrayList<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(ArrayList<Event> events) {
-        this.events = events;
-    }
-
-    public void addEvent(Event event) {
-        if (events == null) {
-            events = new ArrayList<>();
-        }
-        events.add(event);
-    }
-
     public void addEvents(List<Event> events) {
         if (this.events == null) {
             this.events = new ArrayList<>();

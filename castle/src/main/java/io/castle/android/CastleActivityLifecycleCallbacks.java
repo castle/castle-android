@@ -10,9 +10,7 @@ import android.os.Bundle;
 
 class CastleActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
     @Override
-    public void onActivityCreated(Activity activity, Bundle bundle) {
-
-    }
+    public void onActivityCreated(Activity activity, Bundle bundle) {}
 
     @Override
     public void onActivityStarted(Activity activity) {
@@ -22,27 +20,17 @@ class CastleActivityLifecycleCallbacks implements Application.ActivityLifecycleC
     }
 
     @Override
-    public void onActivityResumed(Activity activity) {
-        Castle.flush();
-    }
+    public void onActivityResumed(Activity activity) {}
 
     @Override
-    public void onActivityPaused(Activity activity) {
-
-    }
+    public void onActivityPaused(Activity activity) {}
 
     @Override
-    public void onActivityStopped(Activity activity) {
-
-    }
+    public void onActivityStopped(Activity activity) {}
 
     @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-
-    }
+    public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {}
 
     @Override
-    public void onActivityDestroyed(Activity activity) {
-
-    }
+    public void onActivityDestroyed(Activity activity) {}
 }

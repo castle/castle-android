@@ -22,7 +22,6 @@ public class SampleApplication extends Application {
 
         // Enable the desired functionality
         configuration.publishableKey("pk_CTsfAeRTqxGgA7HHxqpEESvjfPp4QAKA");
-        configuration.lifecycleTrackingEnabled(true); // Default: true
         configuration.screenTrackingEnabled(true); // Default: true
         configuration.debugLoggingEnabled(true); // Default: false
 

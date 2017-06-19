@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Castle</string>
+    <string name="castle_publishable_key">pk_xxxxxxxxxx</string>
 </resources>

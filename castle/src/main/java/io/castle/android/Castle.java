@@ -30,6 +30,8 @@ public class Castle {
     private Configuration configuration;
     private EventQueue eventQueue;
     private StorageHelper storageHelper;
+    private CastleActivityLifecycleCallbacks activityLifecycleCallbacks;
+    private CastleComponentCallback componentCallbacks;
 
     private Castle(Application application, Configuration configuaration) {
         setup(application, configuaration);
@@ -44,7 +46,11 @@ public class Castle {
     }
 
     private void registerLifeCycleCallbacks(Application application) {
-        application.registerActivityLifecycleCallbacks(new CastleActivityLifecycleCallbacks());
+        activityLifecycleCallbacks = new CastleActivityLifecycleCallbacks();
+        application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
+
+        componentCallbacks = new CastleComponentCallback();
+        application.registerComponentCallbacks(componentCallbacks);
 
         // Get the current version.
         PackageInfo packageInfo = Utils.getPackageInfo(application);
@@ -55,42 +61,40 @@ public class Castle {
         String previousVersion = storageHelper.getVersion();
         int previousBuild = storageHelper.getBuild();
 
-        if (Castle.configuration().lifecycleTrackingEnabled()) {
-            // Check and track Application Installed or Application Updated.
-            if (previousBuild == -1) {
-                Map<String, String> properties = new HashMap<>();
-                properties.put("version", currentVersion);
-                properties.put("build", "" + currentBuild);
-                track("Application Installed", properties);
-            } else if (currentBuild != previousBuild) {
-                Map<String, String> properties = new HashMap<>();
-                properties.put("version", currentVersion);
-                properties.put("build", "" + currentBuild);
-                properties.put("previous_version", previousVersion);
-                properties.put("previous_build", "" + previousBuild);
-                track("Application Updated", properties);
-            }
-
-            // Track Application Opened.
+        // Check and track Application Installed or Application Updated.
+        if (previousBuild == -1) {
             Map<String, String> properties = new HashMap<>();
             properties.put("version", currentVersion);
             properties.put("build", "" + currentBuild);
-            track("Application Opened", properties);
+            track("Application Installed", properties);
+        } else if (currentBuild != previousBuild) {
+            Map<String, String> properties = new HashMap<>();
+            properties.put("version", currentVersion);
+            properties.put("build", "" + currentBuild);
+            properties.put("previous_version", previousVersion);
+            properties.put("previous_build", "" + previousBuild);
+            track("Application Updated", properties);
         }
+
+        // Track Application Opened.
+        Map<String, String> properties = new HashMap<>();
+        properties.put("version", currentVersion);
+        properties.put("build", "" + currentBuild);
+        track("Application Opened", properties);
+
+        flush();
 
         // Update the recorded version.
         storageHelper.setVersion(currentVersion);
         storageHelper.setBuild(currentBuild);
     }
 
-    public static void setupWithConfiguration(Application application, Configuration configuaration) {
+    public static void setupWithConfiguration(Application application, Configuration configuration) {
         if (instance == null) {
-            instance = new Castle(application, configuaration);
-
-            if (publishableKey() == null || !publishableKey().startsWith("pk_")) {
+            if (configuration.publishableKey() == null || !configuration.publishableKey().startsWith("pk_")) {
                 throw new RuntimeException("You must provide a valid Castle publishable key when initializing the SDK.");
             }
-
+            instance = new Castle(application, configuration);
             instance.registerLifeCycleCallbacks(application);
         }
     }
@@ -100,25 +104,43 @@ public class Castle {
     }
 
     public static void track(String event, Map<String, String> properties) {
+        if (event == null || event.isEmpty() || properties == null) {
+            return;
+        }
         track(new Event(event, properties));
     }
 
     public static void track(String event) {
+        if (event == null || event.isEmpty()) {
+            return;
+        }
         track(new Event(event));
     }
 
     private static void track(Event event) {
+        CastleLogger.d("Tracking event " + Utils.getGsonInstance().toJson(event));
         instance.eventQueue.add(event);
-        flush();
+        if (instance.eventQueue.needsFlush()) {
+            flush();
+        }
     }
 
     public static void identify(String userId) {
+        if (userId == null || userId.isEmpty()) {
+            return;
+        }
+        Castle.userId(userId);
         track(new IdentifyEvent(userId));
+        flush();
     }
 
     public static void identify(String userId, Map<String, String> traits) {
+        if (userId == null || userId.isEmpty() || traits == null) {
+            return;
+        }
         Castle.userId(userId);
         track(new IdentifyEvent(userId, traits));
+        flush();
     }
 
     private static void userId(String userId) {
@@ -136,10 +158,16 @@ public class Castle {
     }
 
     public static void screen(String name, Map<String, String> properties) {
+        if (name == null || name.isEmpty() || properties == null) {
+            return;
+        }
         track(new ScreenEvent(name, properties));
     }
 
     public static void screen(String name) {
+        if (name == null || name.isEmpty()) {
+            return;
+        }
         track(new ScreenEvent(name));
     }
 
@@ -171,9 +199,7 @@ public class Castle {
         Map<String, String> headers = new HashMap<>();
 
         if (isUrlWhitelisted(url)) {
-            headers.put("__cid", Castle.deviceIdentifier());
-            headers.put("X-Castle-Cookie", Castle.deviceIdentifier());
-            headers.put("Castle-Device-Id", Castle.deviceIdentifier());
+            headers.put("X-Castle-Mobile-Device-Id", Castle.deviceIdentifier());
         }
 
         return headers;
@@ -186,9 +212,9 @@ public class Castle {
     private static boolean isUrlWhitelisted(String urlString) {
         try {
             URL url = new URL(urlString);
-            String baseUrl = url.getProtocol() + "://" + url.getHost();
+            String baseUrl = url.getProtocol() + "://" + url.getHost() + "/";
 
-            if (!Castle.configuration().baseURLWhiteList().isEmpty()) {
+            if (Castle.configuration().baseURLWhiteList() != null && !Castle.configuration().baseURLWhiteList().isEmpty()) {
                 if (Castle.configuration().baseURLWhiteList().contains(baseUrl)) {
                     return true;
                 }
@@ -197,5 +223,37 @@ public class Castle {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static int queueSize() {
+        return instance.eventQueue.size();
+    }
+
+    public static boolean isFlushingQueue() {
+        return instance.eventQueue.isFlushing();
+    }
+
+    public static void destroy(Application application) {
+        if (instance != null) {
+            instance.unregisterLifeCycleCallbacks(application);
+            instance.unregisterComponentCallbacks(application);
+            instance = null;
+        }
+    }
+
+    private void unregisterLifeCycleCallbacks(Application application) {
+        application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
+    }
+
+    private void unregisterComponentCallbacks(Application application) {
+        application.unregisterComponentCallbacks(componentCallbacks);
+    }
+
+    public static int getCurrentBuild() {
+        return instance.storageHelper.getBuild();
+    }
+
+    public static String getCurrentVersion() {
+        return instance.storageHelper.getVersion();
     }
 }
