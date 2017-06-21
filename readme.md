@@ -6,7 +6,6 @@
 [![Build Status](https://travis-ci.org/castle/castle-android.svg?branch=master)](https://travis-ci.org/castle/castle-android)
 [![codecov](https://codecov.io/gh/castle/castle-android/branch/master/graph/badge.svg)](https://codecov.io/gh/castle/castle-android)
 
-
 - [Features](#features)
 - [Requirements](#requirements)
 - [Installation](#installation)
@@ -32,6 +31,14 @@ Add the following line to your projects ```build.gradle```
 compile 'io.castle.android:castle:latest-version'
 ```
 
+Castle uses Tape2 for queuing events and it is currently only available in sonatypes snapshot repository. Add the following maven repository to your build.gradle.
+
+```ruby
+maven {
+	url "https://oss.sonatype.org/content/repositories/snapshots"
+}
+```
+
 ### Usage
 
 #### Configuration
@@ -43,8 +50,7 @@ Configurating Castle is easy. Add the following snippet to your applications's `
 Castle.Configuration configuration = new Castle.Configuration(this);
 
 // Enable the desired functionality
-configuration.appId("566492732398746");
-configuration.lifecycleTrackingEnabled(true); // Default: true
+configuration.publishableKey("pk_123sdawggkdk2lk123");
 configuration.screenTrackingEnabled(true); // Default: true
 configuration.debugLoggingEnabled(true); // Default: false
 ```
@@ -63,11 +69,11 @@ Then setup Castle with the by providing the configuration
 Castle.setupWithConfiguration(this, configuration);
 ```
 
-The Castle app id for your application can also be provided as meda-data in your applications Android Manifest
+The Castle publishable key for your application can also be provided as meda-data in your applications Android Manifest
 
 ```xml
-<meta-data android:name="castle_app_id"
-            android:value="@string/castle_app_id"/>
+<meta-data android:name="castle_publishable_key"
+            android:value="@string/castle_publishable_key"/>
 ```
 
 Then simply setup Castle with the default configuration like so
