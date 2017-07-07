@@ -199,7 +199,7 @@ public class Castle {
         Map<String, String> headers = new HashMap<>();
 
         if (isUrlWhitelisted(url)) {
-            headers.put("X-Castle-Device-Id", Castle.deviceIdentifier());
+            headers.put("X-Castle-Client-Id", Castle.deviceIdentifier());
         }
 
         return headers;

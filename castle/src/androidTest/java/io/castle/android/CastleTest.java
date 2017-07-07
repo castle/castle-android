@@ -171,8 +171,8 @@ public class CastleTest {
         Map<String, String> headers = Castle.headers("https://google.com/test");
         Assert.assertNotNull(headers);
         Assert.assertTrue(!headers.isEmpty());
-        Assert.assertTrue(headers.containsKey("X-Castle-Device-Id"));
-        Assert.assertEquals(headers.get("X-Castle-Device-Id"), Castle.deviceIdentifier());
+        Assert.assertTrue(headers.containsKey("X-Castle-Client-Id"));
+        Assert.assertEquals(headers.get("X-Castle-Client-Id"), Castle.deviceIdentifier());
     }
 
     @Test
@@ -182,13 +182,13 @@ public class CastleTest {
                 .build();
 
         Response response = client.newCall(request).execute();
-        Assert.assertEquals(Castle.deviceIdentifier(), response.request().header("X-Castle-Device-Id"));
+        Assert.assertEquals(Castle.deviceIdentifier(), response.request().header("X-Castle-Client-Id"));
 
         request = new Request.Builder()
                 .url("https://example.com/test")
                 .build();
 
         response = client.newCall(request).execute();
-        Assert.assertEquals(null, response.request().header("X-Castle-Device-Id"));
+        Assert.assertEquals(null, response.request().header("X-Castle-Client-Id"));
     }
 }
