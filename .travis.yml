@@ -1,47 +1,35 @@
 language: android
 jdk: oraclejdk8
-sudo: false
-
-before_cache:
-    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-
 cache:
-  directories:      #Cache all dirs under .gradle folder
-    - $HOME/.gradle/daemon      #Cache daemon logs
-    - $HOME/.gradle/native      #Cache library downloaded from the gradle dependency
-    - $HOME/.gradle/wrapper     #Cache the gradle
-
-android:
-    components:
-        - platform-tools
-        - tools
-        - build-tools-25.0.3
-        - android-25
-        - android-14
-        - extra-android-m2repository
-        - sys-img-armeabi-v7a-android-14
-    licenses:
-        - 'android-sdk-license-.+'
-
+  directories:
+    - $HOME/.gradle/caches/2.9
+    - $HOME/.gradle/daemon
+    - $HOME/.gradle/native
+    - $HOME/.gradle/wrapper
 env:
-    global:
-        # install timeout in minutes (2 minutes by default)
-        - ADB_INSTALL_TIMEOUT=8
-
-before_script:
-    - chmod +x gradlew      #Grant permissions
-    - android list targets
-    - echo no | android create avd --force -n test -t android-14 --abi armeabi-v7a
-    - emulator -avd test -no-skin -no-audio -no-window &
-    - android-wait-for-emulator
-    - adb shell input keyevent 82 &
-
-script: 
-    - android list targets
-    - ./gradlew connectedAndroidTest
-
-before_install:
-    - pip install --user codecov    #Install codecov
-
+  global:
+    - ANDROID_TARGET=android-14
+    - ANDROID_ABI=armeabi-v7a
+    - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
+    - ADB_INSTALL_TIMEOUT=8
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-25.0.3
+  - android-25
+  - android-14
+  - extra-android-m2repository
+  - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
+script:
+  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
+  - ./gradlew connectedAndroidTest jacocoTestReport
 after_success:
-    - codecov                       #Run codecov
+    - pip install --user codecov
+    - codecov
+    - bash <(curl -s https://codecov.io/bash)
+after_failure: "cat $TRAVIS_BUILD_DIR/app/build/outputs/lint-results-debug.xml"
