@@ -3,6 +3,9 @@ machine:
   environment:
     QEMU_AUDIO_DRV: none
 
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --all --filter "Android SDK Build-Tools 25.0.3"
 test:
   pre:
     # start emulator
