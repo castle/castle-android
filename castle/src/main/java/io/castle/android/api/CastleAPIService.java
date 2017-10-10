@@ -16,7 +16,8 @@ import retrofit2.http.POST;
 
 public class CastleAPIService {
 
-    private static final String API_URL = "https://api.castle.io/v1/";
+    // public static final String API_URL = "https://api.castle.io/v1/";
+    public static final String API_URL = "http://192.168.64.18:3002/v1/";
     private static CastleAPI instance;
 
     public interface CastleAPI {
@@ -29,19 +30,22 @@ public class CastleAPIService {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-            OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .addInterceptor(new CastleAuthenticationInterceptor())
-                    .addInterceptor(logging)
-                    .build();
+            OkHttpClient okHttpClient =
+                new OkHttpClient.Builder()
+                                .addInterceptor(new CastleAuthenticationInterceptor())
+                                .addInterceptor(logging)
+                                .build();
 
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(API_URL)
-                    .addConverterFactory(GsonConverterFactory.create(Utils.getGsonInstance()))
-                    .client(okHttpClient)
-                    .build();
+            Retrofit retrofit =
+                new Retrofit.Builder()
+                            .baseUrl(API_URL)
+                            .addConverterFactory(GsonConverterFactory.create(Utils.getGsonInstance()))
+                            .client(okHttpClient)
+                            .build();
 
             instance = retrofit.create(CastleAPI.class);
         }
+
         return instance;
     }
 }

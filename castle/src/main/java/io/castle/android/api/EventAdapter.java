@@ -18,11 +18,12 @@ import io.castle.android.api.model.ScreenEvent;
 /**
  * Copyright (c) 2017 Castle
  */
-public class EventAdapter implements JsonSerializer<Event>, JsonDeserializer<Event> {
+public class EventAdapter implements JsonSerializer<Event> {
     @Override
     public JsonElement serialize(Event src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = (JsonObject) new Gson().toJsonTree(src, typeOfSrc);
 
+        // XXXAus: We should do this a better way.
         if (src instanceof IdentifyEvent) {
             jsonObject.add("traits", jsonObject.get("properties"));
             jsonObject.remove("properties");
@@ -32,18 +33,5 @@ public class EventAdapter implements JsonSerializer<Event>, JsonDeserializer<Eve
         }
 
         return jsonObject;
-    }
-
-    @Override
-    public Event deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        JsonObject jsonObject = json.getAsJsonObject();
-        if (jsonObject.get("type").getAsString().equals(Event.EVENT_TYPE_IDENTIFY)) {
-            typeOfT = IdentifyEvent.class;
-        } else if (jsonObject.get("type").getAsString().equals(Event.EVENT_TYPE_SCREEN)) {
-            typeOfT = ScreenEvent.class;
-        }
-
-        Gson gson = new Gson();
-        return gson.fromJson(json, typeOfT);
     }
 }

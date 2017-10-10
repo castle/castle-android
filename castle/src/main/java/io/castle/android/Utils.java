@@ -23,12 +23,12 @@ public class Utils {
     private static SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.US);
     private static Gson gson;
 
-    public static String getTimestamp() {
-        return formatDate(new Date());
+    public static String formatDate(Date date) {
+        return formatter.format(date);
     }
 
-    private static String formatDate(Date date) {
-        return formatter.format(date);
+    public static String getTimestamp() {
+        return formatDate(new Date());
     }
 
     public static Gson getGsonInstance() {

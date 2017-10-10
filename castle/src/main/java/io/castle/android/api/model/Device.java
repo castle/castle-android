@@ -9,25 +9,24 @@ import io.castle.android.Castle;
  */
 
 class Device {
-    private String type;
-    private String name;
-    private String os;
-    private String version;
+    private String id;
     private String manufacturer;
     private String model;
-    private String id;
+    private String name;
+    private String os;
+    private String type;
+    private String version;
 
-    static Device create() {
+    public static Device create() {
         Device device = new Device();
 
-        device.id = Build.MODEL;
-        device.name = Build.MODEL;
-        device.type = Build.DEVICE;
-        device.os = "Android";
-        device.version = Build.VERSION.RELEASE;
+        device.id = Castle.deviceIdentifier();
         device.manufacturer = Build.MANUFACTURER;
         device.model = Build.MODEL;
-        device.id = Castle.deviceIdentifier();
+        device.name = Build.MODEL;
+        device.os = "Android";
+        device.type = Build.DEVICE;
+        device.version = Build.VERSION.RELEASE;
 
         return device;
     }

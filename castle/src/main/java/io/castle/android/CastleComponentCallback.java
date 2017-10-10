@@ -25,12 +25,8 @@ public class CastleComponentCallback implements ComponentCallbacks2 {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration configuration) {
-
-    }
+    public void onConfigurationChanged(Configuration configuration) {}
 
     @Override
-    public void onLowMemory() {
-
-    }
+    public void onLowMemory() {}
 }

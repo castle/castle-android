@@ -9,7 +9,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
-        versionName "0.9.2"
+        versionName "1.0b1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -51,6 +51,5 @@ dependencies {
 
 
 if (!travisBuild) {
-    apply from: 'bintray.gradle'
+    // apply from: 'bintray.gradle'
 }
-

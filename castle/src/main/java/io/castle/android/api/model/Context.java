@@ -11,7 +11,7 @@ public class Context {
         this.device = Device.create();
     }
 
-    static Context create() {
+    public static Context create() {
         return new Context();
     }
 }
