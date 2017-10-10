@@ -8,7 +8,7 @@ cache:
     - $HOME/.gradle/wrapper
 env:
   global:
-    - ANDROID_TARGET=android-14
+    - ANDROID_TARGET=android-15
     - ANDROID_ABI=armeabi-v7a
     - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
     - ADB_INSTALL_TIMEOUT=8
@@ -18,15 +18,15 @@ android:
   - platform-tools
   - build-tools-25.0.3
   - android-25
-  - android-14
+  - android-15
   - extra-android-m2repository
   - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
 script:
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
+  - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
-  - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
+  # - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
   - ./gradlew connectedAndroidTest jacocoTestReport
 after_success:
     - pip install --user codecov

@@ -69,11 +69,11 @@ Then setup Castle with the by providing the configuration
 Castle.setupWithConfiguration(this, configuration);
 ```
 
-The Castle publishable key for your application can also be provided as meda-data in your applications Android Manifest
+The Castle publishable key for your application can also be provided as meta-data in your applications Android Manifest
 
 ```xml
 <meta-data android:name="castle_publishable_key"
-            android:value="@string/castle_publishable_key"/>
+           android:value="@string/castle_publishable_key"/>
 ```
 
 Then simply setup Castle with the default configuration like so
