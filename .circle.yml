@@ -5,7 +5,7 @@ machine:
 
 dependencies:
   pre:
-    - echo y | android update sdk --no-ui --all --filter "Android SDK Build-Tools 25.0.3"
+    - echo y | android update sdk --no-ui --all --filter "platform,6"
 test:
   pre:
     # start emulator
