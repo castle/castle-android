@@ -152,9 +152,8 @@ public class Castle {
     }
 
     public static void reset() {
-        // this should also flush the queue
-        Castle.userId(null);
         Castle.flush();
+        Castle.userId(null);
     }
 
     public static void screen(String name, Map<String, String> properties) {
@@ -198,7 +197,7 @@ public class Castle {
     public static Map<String, String> headers(String url) {
         Map<String, String> headers = new HashMap<>();
 
-        if (isUrlWhitelisted(url)) {
+        if (isUrlWhiteListed(url)) {
             headers.put("X-Castle-Client-Id", Castle.deviceIdentifier());
         }
 
@@ -209,7 +208,7 @@ public class Castle {
         return new CastleInterceptor();
     }
 
-    private static boolean isUrlWhitelisted(String urlString) {
+    private static boolean isUrlWhiteListed(String urlString) {
         try {
             URL url = new URL(urlString);
             String baseUrl = url.getProtocol() + "://" + url.getHost() + "/";
@@ -241,6 +240,14 @@ public class Castle {
         }
     }
 
+    public static int getCurrentBuild() {
+        return instance.storageHelper.getBuild();
+    }
+
+    public static String getCurrentVersion() {
+        return instance.storageHelper.getVersion();
+    }
+
     private void unregisterLifeCycleCallbacks(Application application) {
         application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
     }
@@ -249,11 +256,4 @@ public class Castle {
         application.unregisterComponentCallbacks(componentCallbacks);
     }
 
-    public static int getCurrentBuild() {
-        return instance.storageHelper.getBuild();
-    }
-
-    public static String getCurrentVersion() {
-        return instance.storageHelper.getVersion();
-    }
 }

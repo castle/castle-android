@@ -21,7 +21,7 @@ public class SampleApplication extends Application {
         Configuration configuration = new Configuration(this);
 
         // Enable the desired functionality
-        configuration.publishableKey("pk_CTsfAeRTqxGgA7HHxqpEESvjfPp4QAKA");
+        configuration.publishableKey("pk_btApAXqt1jpJtEARf1stsnvyov6czPmn");
         configuration.screenTrackingEnabled(true); // Default: true
         configuration.debugLoggingEnabled(true); // Default: false
 

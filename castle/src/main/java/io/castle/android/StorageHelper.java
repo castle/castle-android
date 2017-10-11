@@ -22,23 +22,6 @@ class StorageHelper {
         preferences = context.getSharedPreferences(STORAGE_PREFERENCE, Context.MODE_PRIVATE);
     }
 
-    String getIdentity() {
-        return getPreferences().getString(USER_ID_KEY, null);
-    }
-
-    void setIdentity(String userId) {
-        getPreferencesEditor().putString(USER_ID_KEY, userId).commit();
-
-    }
-
-    String getVersion() {
-        return getPreferences().getString(VERSION_KEY, null);
-    }
-
-    void setVersion(String version) {
-        getPreferencesEditor().putString(VERSION_KEY, version).commit();
-    }
-
     int getBuild() {
         return getPreferences().getInt(BUILD_KEY, -1);
     }
@@ -60,11 +43,27 @@ class StorageHelper {
         getPreferencesEditor().putString(DEVICE_ID_KEY, deviceId).commit();
     }
 
+    String getIdentity() {
+        return getPreferences().getString(USER_ID_KEY, null);
+    }
+
+    void setIdentity(String userId) {
+        getPreferencesEditor().putString(USER_ID_KEY, userId).commit();
+    }
+
     private SharedPreferences getPreferences() {
         return preferences;
     }
 
     private SharedPreferences.Editor getPreferencesEditor() {
         return preferences.edit();
+    }
+
+    String getVersion() {
+        return getPreferences().getString(VERSION_KEY, null);
+    }
+
+    void setVersion(String version) {
+        getPreferencesEditor().putString(VERSION_KEY, version).commit();
     }
 }

@@ -2,7 +2,8 @@
 
 **[Castle](https://castle.io) adds real-time monitoring of your authentication stack, instantly notifying you and your users on potential account hijacks.**
 
-[ ![Download](https://api.bintray.com/packages/castleintelligence/castle-android/castle/images/download.svg) ](https://bintray.com/castleintelligence/castle-android/castle/_latestVersion)
+[![Download](https://api.bintray.com/packages/castleintelligence/castle-android/castle/images/download.svg) ](https://bintray.com/castleintelligence/castle-android/castle/_latestVersion)
+[![CircleCI](https://circleci.com/gh/castle/castle-android/tree/master.svg?style=svg)](https://circleci.com/gh/castle/castle-android/tree/master)
 [![Build Status](https://travis-ci.org/castle/castle-android.svg?branch=master)](https://travis-ci.org/castle/castle-android)
 [![codecov](https://codecov.io/gh/castle/castle-android/branch/master/graph/badge.svg)](https://codecov.io/gh/castle/castle-android)
 
@@ -69,11 +70,11 @@ Then setup Castle with the by providing the configuration
 Castle.setupWithConfiguration(this, configuration);
 ```
 
-The Castle publishable key for your application can also be provided as meda-data in your applications Android Manifest
+The Castle publishable key for your application can also be provided as meta-data in your applications Android Manifest
 
 ```xml
 <meta-data android:name="castle_publishable_key"
-            android:value="@string/castle_publishable_key"/>
+           android:value="@string/castle_publishable_key"/>
 ```
 
 Then simply setup Castle with the default configuration like so

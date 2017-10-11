@@ -19,10 +19,8 @@ class CastleAuthenticationInterceptor implements Interceptor {
 
         Request.Builder builder = originalRequest.newBuilder()
                 .header("Authorization", Credentials.basic("", Castle.publishableKey()))
-                .header("X-Castle-Cookie-Id", Castle.deviceIdentifier());
+                .header("X-Castle-Client-Id", Castle.deviceIdentifier());
 
-        Request newRequest = builder.build();
-
-        return chain.proceed(newRequest);
+        return chain.proceed(builder.build());
     }
 }

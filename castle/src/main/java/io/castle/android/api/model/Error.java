@@ -5,17 +5,15 @@ package io.castle.android.api.model;
  */
 
 public class Error {
-    static final String ERROR_INVALID_PARAMETERS = "invalid_parameters";
-
-    String type;
     String message;
-
-    public String getType() {
-        return type;
-    }
+    String type;
 
     public String getMessage() {
         return message;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override

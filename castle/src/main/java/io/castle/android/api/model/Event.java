@@ -17,25 +17,25 @@ public class Event {
     public static String EVENT_TYPE_SCREEN = "screen";
     public static String EVENT_TYPE_IDENTIFY = "identify";
 
+    Context context;
     String event;
+    Map<String, String> properties;
+    String timestamp;
     String type;
     @SerializedName("user_id")
     String userId;
-    Map<String, String> properties = new HashMap<>();
-    Context context;
-    String timestamp;
 
     public Event(String event) {
         this.context = Context.create();
-        this.timestamp = Utils.getTimestamp();
-        this.userId = Castle.userId();
         this.event = event;
+        this.timestamp = Utils.getTimestamp();
         this.type = EVENT_TYPE_EVENT;
+        this.userId = Castle.userId();
     }
 
     public Event(String event, Map<String,String> traits) {
         this(event);
-        this.properties = traits;
+        this.properties = new HashMap<>(traits);
     }
 
     public String getType() {

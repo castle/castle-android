@@ -23,7 +23,7 @@ public class Batch {
 
     public void addEvents(List<Event> events) {
         if (this.events == null) {
-            this.events = new ArrayList<>();
+            this.events = new ArrayList<>(events.size());
         }
         this.events.addAll(events);
     }

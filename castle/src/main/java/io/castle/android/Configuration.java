@@ -11,16 +11,22 @@ import java.util.List;
  * Copyright (c) 2017 Castle
  */
 public class Configuration {
-    private String publishableKey;
-    private boolean screenTrackingEnabled = true;
     private boolean debugLoggingEnabled = false;
+
     private int flushLimit = 20;
     private int maxQueueLimit = 1000;
+
+    private String publishableKey;
+    private boolean screenTrackingEnabled = true;
+
     private List<String> whiteList;
 
     public Configuration(Application application) {
         try {
-            ApplicationInfo applicationInfo = application.getPackageManager().getApplicationInfo(application.getPackageName(), PackageManager.GET_META_DATA);
+            ApplicationInfo applicationInfo =
+                    application.getPackageManager()
+                               .getApplicationInfo(application.getPackageName(),
+                                                   PackageManager.GET_META_DATA);
             Bundle bundle = applicationInfo.metaData;
             this.publishableKey = bundle.getString("castle_publishable_key");
         } catch (PackageManager.NameNotFoundException e) {
@@ -30,36 +36,20 @@ public class Configuration {
         }
     }
 
-    public void publishableKey(String publishableKey) {
-        this.publishableKey = publishableKey;
-    }
-
-    public String publishableKey() {
-        return publishableKey;
-    }
-
-    public void screenTrackingEnabled(boolean enabled) {
-        this.screenTrackingEnabled = enabled;
-    }
-
-    public void debugLoggingEnabled(boolean enabled) {
-        this.debugLoggingEnabled = enabled;
-    }
-
-    public boolean screenTrackingEnabled() {
-        return screenTrackingEnabled;
-    }
-
-    public boolean debugLoggingEnabled() {
-        return debugLoggingEnabled;
-    }
-
     public void baseURLWhiteList(List<String> whiteList) {
         this.whiteList = whiteList;
     }
 
     public List<String> baseURLWhiteList() {
         return whiteList;
+    }
+
+    public void debugLoggingEnabled(boolean enabled) {
+        this.debugLoggingEnabled = enabled;
+    }
+
+    public boolean debugLoggingEnabled() {
+        return debugLoggingEnabled;
     }
 
     public int flushLimit() {
@@ -76,5 +66,21 @@ public class Configuration {
 
     public void maxQueueLimit(int maxQueueLimit) {
         this.maxQueueLimit = maxQueueLimit;
+    }
+
+    public void publishableKey(String publishableKey) {
+        this.publishableKey = publishableKey;
+    }
+
+    public String publishableKey() {
+        return publishableKey;
+    }
+
+    public void screenTrackingEnabled(boolean enabled) {
+        this.screenTrackingEnabled = enabled;
+    }
+
+    public boolean screenTrackingEnabled() {
+        return screenTrackingEnabled;
     }
 }

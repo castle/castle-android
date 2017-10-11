@@ -1,6 +1,5 @@
 package io.castle.android.queue;
 
-
 import android.content.Context;
 
 import com.squareup.tape2.ObjectQueue;
@@ -33,21 +32,24 @@ public class EventQueue implements Callback<Void> {
     public EventQueue(Context context) {
         try {
             init(context);
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        catch (IOException e) {
+            CastleLogger.e("Failed to create queue", e);
 
             // Delete the file and try again
             getFile(context).delete();
+
             try {
                 init(context);
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            } catch (IOException eRetry) {
+                CastleLogger.e("Deleted queue file. Retried. Failed.", eRetry);
             }
         }
     }
 
     private File getFile(Context context) {
-        return new File(context.getApplicationContext().getFilesDir().getAbsoluteFile(), QUEUE_FILENAME);
+        return new File(context.getApplicationContext().getFilesDir().getAbsoluteFile(),
+                        QUEUE_FILENAME);
     }
 
     private void init(Context context) throws IOException {
@@ -61,24 +63,17 @@ public class EventQueue implements Callback<Void> {
             synchronized (eventObjectQueue) {
                 eventObjectQueue.add(event);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             CastleLogger.e("Add to queue failed", e);
         }
     }
 
-    private void trim() throws IOException {
-        if (!isFlushing() && eventObjectQueue.size() > Castle.configuration().maxQueueLimit()) {
-            int eventsToTrim = eventObjectQueue.size() - Castle.configuration().maxQueueLimit();
-            CastleLogger.d("Trimming " + eventsToTrim + " events from queue");
-
-            synchronized (eventObjectQueue) {
-                eventObjectQueue.remove(eventsToTrim);
-            }
+    private synchronized void trim() throws IOException {
+        if (!isFlushing() && this.size() > Castle.configuration().maxQueueLimit()) {
+            int eventsToTrim = this.size() - Castle.configuration().maxQueueLimit();
+            eventObjectQueue.remove(eventsToTrim);
+            CastleLogger.d("Trimmed " + eventsToTrim + " events from queue");
         }
-    }
-
-    public boolean isFlushing() {
-        return flushCall != null;
     }
 
     public synchronized void flush() throws IOException {
@@ -99,8 +94,21 @@ public class EventQueue implements Callback<Void> {
         }
     }
 
-    public boolean needsFlush() {
+    public synchronized boolean isFlushing() {
+        return flushCall != null;
+    }
+
+    public synchronized boolean needsFlush() {
         return eventObjectQueue.size() >= Castle.configuration().flushLimit();
+    }
+
+    private synchronized void flushed() {
+        flushCall = null;
+        flushCount = 0;
+    }
+
+    public synchronized int size() {
+        return eventObjectQueue.size();
     }
 
     @Override
@@ -113,34 +121,25 @@ public class EventQueue implements Callback<Void> {
                 synchronized (eventObjectQueue) {
                     eventObjectQueue.remove(flushCount);
                 }
-                CastleLogger.d("Removed " + flushCount+ " events from EventQueue");
+                CastleLogger.d("Removed " + flushCount + " events from EventQueue");
             } catch (IOException e) {
-                e.printStackTrace();
-
-                CastleLogger.e("Failed to remove events from queue");
+                CastleLogger.e("Failed to remove events from queue", e);
             }
         } else {
             CastleLogger.e(response.code() + " " + response.message());
             try {
-                CastleLogger.e("Batch request error :" + response.errorBody().string());
+                CastleLogger.e("Batch request error:" + response.errorBody().string());
             } catch (IOException e) {
-                e.printStackTrace();
-
-                CastleLogger.e("Batch request error");
+                CastleLogger.e("Batch request error", e);
             }
         }
-        flushCount = 0;
-        flushCall = null;
+
+        flushed();
     }
 
     @Override
     public void onFailure(Call<Void> call, Throwable t) {
         CastleLogger.e("Batch request failed", t);
-        flushCount = 0;
-        flushCall = null;
-    }
-
-    public int size() {
-        return eventObjectQueue.size();
+        flushed();
     }
 }
