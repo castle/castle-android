@@ -4,7 +4,6 @@
 
 [![Download](https://api.bintray.com/packages/castleintelligence/castle-android/castle/images/download.svg) ](https://bintray.com/castleintelligence/castle-android/castle/_latestVersion)
 [![CircleCI](https://circleci.com/gh/castle/castle-android/tree/master.svg?style=svg)](https://circleci.com/gh/castle/castle-android/tree/master)
-[![Build Status](https://travis-ci.org/castle/castle-android.svg?branch=master)](https://travis-ci.org/castle/castle-android)
 [![codecov](https://codecov.io/gh/castle/castle-android/branch/master/graph/badge.svg)](https://codecov.io/gh/castle/castle-android)
 
 - [Features](#features)
