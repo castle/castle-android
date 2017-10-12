@@ -16,8 +16,7 @@ import retrofit2.http.POST;
 
 public class CastleAPIService {
 
-    // public static final String API_URL = "https://api.castle.io/v1/";
-    public static final String API_URL = "http://192.168.64.18:3002/v1/";
+    public static final String API_URL = "https://api.castle.io/v1/";
     private static CastleAPI instance;
 
     public interface CastleAPI {
