@@ -47,7 +47,7 @@ Configurating Castle is easy. Add the following snippet to your applications's `
 
 ```java
 // Create configuration
-Castle.Configuration configuration = new Castle.Configuration(this);
+Configuration configuration = new Configuration(this);
 
 // Enable the desired functionality
 configuration.publishableKey("pk_123sdawggkdk2lk123");
@@ -87,7 +87,7 @@ To enable Castle to include our device_id in your requests to your backend we ne
 
 ```java
 OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .addInterceptor(Castle.interceptor())
+                    .addInterceptor(Castle.castleInterceptor())
                     .build();
 ```
 
