@@ -18,7 +18,9 @@ public class Event {
     public static String EVENT_TYPE_IDENTIFY = "identify";
 
     Context context;
+    @SerializedName(value="event", alternate={"name"})
     String event;
+    @SerializedName(value="properties", alternate={"traits"})
     Map<String, String> properties;
     String timestamp;
     String type;
