@@ -108,6 +108,11 @@ for (Map.Entry<String, String> entry : Castle.headers(url).entrySet()) {
 }
 Request request = requestBuilder.build();
 
+// Force a flush if request to whitelisted url
+if (Castle.isUrlWhiteListed(url)) {
+	Castle.flush();
+}
+
 Response response = client.newCall(request).execute();
 // Read response
 ```
@@ -118,6 +123,12 @@ HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 for (Map.Entry<String, String> entry : Castle.headers(url.toString()).entrySet()) {
     urlConnection.setRequestProperty(entry.getKey(), entry.getValue());
 }
+
+// Force a flush if request to whitelisted url
+if (Castle.isUrlWhiteListed(url.toString())) {
+	Castle.flush();
+}
+
 try {
     InputStream in = new BufferedInputStream(urlConnection.getInputStream());
     // Read response
