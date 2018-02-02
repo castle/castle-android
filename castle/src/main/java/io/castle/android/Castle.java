@@ -208,7 +208,7 @@ public class Castle {
         return new CastleInterceptor();
     }
 
-    private static boolean isUrlWhiteListed(String urlString) {
+    public static boolean isUrlWhiteListed(String urlString) {
         try {
             URL url = new URL(urlString);
             String baseUrl = url.getProtocol() + "://" + url.getHost() + "/";

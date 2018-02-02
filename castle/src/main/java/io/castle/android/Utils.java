@@ -13,6 +13,8 @@ import java.util.Locale;
 
 import io.castle.android.api.EventAdapter;
 import io.castle.android.api.model.Event;
+import io.castle.android.api.model.IdentifyEvent;
+import io.castle.android.api.model.ScreenEvent;
 
 /**
  * Copyright (c) 2017 Castle
@@ -34,7 +36,10 @@ public class Utils {
     public static Gson getGsonInstance() {
         if (gson == null) {
             GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.registerTypeAdapter(Event.class, new EventAdapter());
+            EventAdapter eventAdapter = new EventAdapter();
+            gsonBuilder.registerTypeAdapter(Event.class, eventAdapter);
+            gsonBuilder.registerTypeAdapter(IdentifyEvent.class, eventAdapter);
+            gsonBuilder.registerTypeAdapter(ScreenEvent.class, eventAdapter);
 
             gson = gsonBuilder.create();
         }

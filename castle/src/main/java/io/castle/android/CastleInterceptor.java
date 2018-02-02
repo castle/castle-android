@@ -26,6 +26,11 @@ class CastleInterceptor implements Interceptor {
 
         Request newRequest = builder.build();
 
+        // Force a flush if request to whitelisted url
+        if (Castle.isUrlWhiteListed(originalRequest.url().toString())) {
+            Castle.flush();
+        }
+
         return chain.proceed(newRequest);
     }
 }
