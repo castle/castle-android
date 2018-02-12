@@ -28,7 +28,7 @@ public class Event {
     String userId;
 
     public Event(String event) {
-        this.context = Context.create();
+        this.context = Castle.createContext();
         this.event = event;
         this.timestamp = Utils.getTimestamp();
         this.type = EVENT_TYPE_EVENT;

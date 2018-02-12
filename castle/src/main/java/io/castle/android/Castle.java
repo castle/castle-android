@@ -7,6 +7,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -17,6 +19,7 @@ import java.util.Map;
 
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.IdentifyEvent;
+import io.castle.android.api.model.Screen;
 import io.castle.android.api.model.ScreenEvent;
 import io.castle.android.queue.EventQueue;
 
@@ -26,6 +29,7 @@ import io.castle.android.queue.EventQueue;
 
 public class Castle {
     private static Castle instance;
+    private Application application;
     private String identifier;
     private Configuration configuration;
     private EventQueue eventQueue;
@@ -43,6 +47,7 @@ public class Castle {
         this.configuration = configuration;
         this.identifier = storageHelper.getDeviceId();
         this.eventQueue = new EventQueue(context);
+        this.application = application;
     }
 
     private void registerLifeCycleCallbacks(Application application) {
@@ -256,4 +261,7 @@ public class Castle {
         application.unregisterComponentCallbacks(componentCallbacks);
     }
 
+    public static io.castle.android.api.model.Context createContext() {
+        return io.castle.android.api.model.Context.create(instance.application.getApplicationContext());
+    }
 }

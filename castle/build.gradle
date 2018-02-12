@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation 'com.squareup.tape2:tape:2.0.0-SNAPSHOT'
+    implementation 'com.android.support:support-core-utils:27.0.2'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
