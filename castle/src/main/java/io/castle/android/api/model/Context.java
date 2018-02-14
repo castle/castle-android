@@ -22,7 +22,7 @@ public class Context {
         this.device = Device.create();
         this.os = OS.create();
         this.timezone = TimeZone.getDefault().getID();
-        this.locale = Locale.getDefault().toString();
+        this.locale = Locale.getDefault().getLanguage() + "-" + Locale.getDefault().getCountry();
         this.screen = Screen.create(context);
         this.library = LibraryVersion.create();
         this.network = Network.create(context);
