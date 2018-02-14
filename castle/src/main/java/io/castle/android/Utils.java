@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import io.castle.android.api.EventAdapter;
 import io.castle.android.api.model.Event;
@@ -21,11 +22,15 @@ import io.castle.android.api.model.ScreenEvent;
  */
 
 public class Utils {
-    private static String pattern = "yyyy-MM-dd'T'HH:mm:ssZ";
-    private static SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.US);
+    private static String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    private static SimpleDateFormat formatter = null;
     private static Gson gson;
 
-    public static String formatDate(Date date) {
+    private static String formatDate(Date date) {
+        if (formatter == null) {
+            formatter = new SimpleDateFormat(pattern, Locale.US);
+            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        }
         return formatter.format(date);
     }
 
