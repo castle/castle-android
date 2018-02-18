@@ -28,6 +28,8 @@ import io.castle.android.queue.EventQueue;
  */
 
 public class Castle {
+    public static final String X_CASTLE_CLIENT_ID = "X-Castle-Client-Id";
+
     private static Castle instance;
     private Application application;
     private String identifier;
@@ -203,7 +205,7 @@ public class Castle {
         Map<String, String> headers = new HashMap<>();
 
         if (isUrlWhiteListed(url)) {
-            headers.put("X-Castle-Client-Id", Castle.deviceIdentifier());
+            headers.put(X_CASTLE_CLIENT_ID, Castle.deviceIdentifier());
         }
 
         return headers;
