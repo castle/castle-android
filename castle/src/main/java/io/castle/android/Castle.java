@@ -233,7 +233,7 @@ public class Castle {
         return instance.eventQueue.size();
     }
 
-    public static boolean isFlushingQueue() {
+    static boolean isFlushingQueue() {
         return instance.eventQueue.isFlushing();
     }
 
@@ -245,11 +245,11 @@ public class Castle {
         }
     }
 
-    public static int getCurrentBuild() {
+    static int getCurrentBuild() {
         return instance.storageHelper.getBuild();
     }
 
-    public static String getCurrentVersion() {
+    static String getCurrentVersion() {
         return instance.storageHelper.getVersion();
     }
 
