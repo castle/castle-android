@@ -98,17 +98,14 @@ Castle.headers(url);
 String url = "https://api.example.com/v1/auth";
 OkHttpClient client = new OkHttpClient();
 Request.Builder requestBuilder = new Request.Builder()
-        .url(url);
+		.url(url);
 
-for (Map.Entry<String, String> entry : Castle.headers(url).entrySet()) {
-    requestBuilder.header(entry.getKey(), entry.getValue());
-}
+requestBuilder.header(Castle.X_CASTLE_CLIENT_ID, Castle.deviceIdentifier());
+
 Request request = requestBuilder.build();
 
-// Force a flush if request to whitelisted url
-if (Castle.isUrlWhiteListed(url)) {
-	Castle.flush();
-}
+// Flush if request to whitelisted url
+Castle.flushIfNeeded(url);
 
 Response response = client.newCall(request).execute();
 ```
@@ -118,20 +115,52 @@ Response response = client.newCall(request).execute();
 ```java
 URL url = new URL("https://api.example.com/v1/auth");
 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-for (Map.Entry<String, String> entry : Castle.headers(url.toString()).entrySet()) {
-    urlConnection.setRequestProperty(entry.getKey(), entry.getValue());
-}
 
-// Force a flush if request to whitelisted url
-if (Castle.isUrlWhiteListed(url.toString())) {
-	Castle.flush();
-}
+urlConnection.setRequestProperty(Castle.X_CASTLE_CLIENT_ID, Castle.deviceIdentifier());
+
+// Flush if request to whitelisted url
+Castle.flushIfNeeded(url.toString());
 
 try {
-    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+	InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 } finally {
-    urlConnection.disconnect();
+	urlConnection.disconnect();
 }
+```
+
+##### Volley
+
+```java
+// Instantiate the RequestQueue.
+RequestQueue queue = Volley.newRequestQueue(context);
+String url = "https://api.example.com/v1/auth";
+
+// Request a string response from the provided URL.
+StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+	new Response.Listener<String>() {
+		@Override
+    	public void onResponse(String response) {
+       	}
+    }, new Response.ErrorListener() {
+    	@Override
+     	public void onErrorResponse(VolleyError error) {
+    	}
+	}) {
+    	@Override
+    	public Map<String, String> getHeaders() throws AuthFailureError {
+	   		Map<String, String>  headers = super.getHeaders();
+
+			headers.put(Castle.X_CASTLE_CLIENT_ID, Castle.deviceIdentifier());
+
+			return headers;
+		}
+};
+
+// Flush if request to whitelisted url
+Castle.flushIfNeeded(url);
+
+// Add the request to the RequestQueue.
+queue.add(stringRequest);
 ```
 #### Identify
 
