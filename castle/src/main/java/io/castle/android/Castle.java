@@ -201,6 +201,13 @@ public class Castle {
         }
     }
 
+    public static void flushIfNeeded(String url) {
+        // Flush if request to whitelisted url
+        if (isUrlWhiteListed(url)) {
+            flush();
+        }
+    }
+
     public static Map<String, String> headers(String url) {
         Map<String, String> headers = new HashMap<>();
 
@@ -215,7 +222,7 @@ public class Castle {
         return new CastleInterceptor();
     }
 
-    public static boolean isUrlWhiteListed(String urlString) {
+    static boolean isUrlWhiteListed(String urlString) {
         try {
             URL url = new URL(urlString);
             String baseUrl = url.getProtocol() + "://" + url.getHost() + "/";
