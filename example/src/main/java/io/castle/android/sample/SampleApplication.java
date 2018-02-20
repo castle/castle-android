@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.castle.android.Castle;
-import io.castle.android.Configuration;
+import io.castle.android.CastleConfiguration;
 
 /**
  * Copyright (c) 2017 Castle
@@ -18,7 +18,7 @@ public class SampleApplication extends Application {
         super.onCreate();
 
         // Create configuration object
-        Configuration configuration = new Configuration(this);
+        CastleConfiguration configuration = new CastleConfiguration(this);
 
         // Enable the desired functionality
         configuration.publishableKey("pk_btApAXqt1jpJtEARf1stsnvyov6czPmn");
@@ -29,9 +29,9 @@ public class SampleApplication extends Application {
         configuration.baseURLWhiteList(whitelist);
 
         // Setup Castle SDK with provided configuration
-        Castle.setupWithConfiguration(this, configuration);
+        Castle.configure(this, configuration);
 
         // Setup Castle SDK with default configuration
-        Castle.setupWithDefaultConfiguration(this); // Reads appId from manifest meta tag
+        Castle.configure(this); // Reads appId from manifest meta tag
     }
 }

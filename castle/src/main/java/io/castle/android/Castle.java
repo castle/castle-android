@@ -26,17 +26,17 @@ public class Castle {
     private static Castle instance;
     private Application application;
     private String identifier;
-    private Configuration configuration;
+    private CastleConfiguration configuration;
     private EventQueue eventQueue;
     private StorageHelper storageHelper;
     private CastleActivityLifecycleCallbacks activityLifecycleCallbacks;
     private CastleComponentCallback componentCallbacks;
 
-    private Castle(Application application, Configuration configuaration) {
-        setup(application, configuaration);
+    private Castle(Application application, CastleConfiguration castleConfiguration) {
+        setup(application, castleConfiguration);
     }
 
-    private void setup(Application application, Configuration configuration) {
+    private void setup(Application application, CastleConfiguration configuration) {
         Context context = application.getApplicationContext();
         this.storageHelper = new StorageHelper(context);
         this.configuration = configuration;
@@ -89,18 +89,31 @@ public class Castle {
         storageHelper.setBuild(currentBuild);
     }
 
-    public static void setupWithConfiguration(Application application, Configuration configuration) {
+    public static void configure(Application application, CastleConfiguration castleConfiguration) {
         if (instance == null) {
-            if (configuration.publishableKey() == null || !configuration.publishableKey().startsWith("pk_")) {
+            if (castleConfiguration.publishableKey() == null || !castleConfiguration.publishableKey().startsWith("pk_")) {
                 throw new RuntimeException("You must provide a valid Castle publishable key when initializing the SDK.");
             }
-            instance = new Castle(application, configuration);
+            instance = new Castle(application, castleConfiguration);
             instance.registerLifeCycleCallbacks(application);
         }
     }
 
-    public static void setupWithDefaultConfiguration(Application application) {
-        setupWithConfiguration(application, new Configuration(application));
+    public static void configure(Application application, String publishableKey) {
+        configure(application, publishableKey, new CastleConfiguration(application));
+    }
+
+    public static void configure(Application application, String publishableKey, CastleConfiguration castleConfiguration) {
+        if (instance == null) {
+            castleConfiguration.publishableKey(publishableKey);
+
+            instance = new Castle(application, castleConfiguration);
+            instance.registerLifeCycleCallbacks(application);
+        }
+    }
+
+    public static void configure(Application application) {
+        configure(application, new CastleConfiguration(application));
     }
 
     public static void track(String event, Map<String, String> properties) {
@@ -182,7 +195,7 @@ public class Castle {
         return instance.identifier;
     }
 
-    public static Configuration configuration() {
+    public static CastleConfiguration configuration() {
         return instance.configuration;
     }
 

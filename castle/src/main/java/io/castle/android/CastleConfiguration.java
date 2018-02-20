@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Copyright (c) 2017 Castle
  */
-public class Configuration {
+public class CastleConfiguration {
     private boolean debugLoggingEnabled = false;
 
     private int flushLimit = 20;
@@ -21,7 +21,7 @@ public class Configuration {
 
     private List<String> whiteList;
 
-    public Configuration(Application application) {
+    public CastleConfiguration(Application application) {
         try {
             ApplicationInfo applicationInfo =
                     application.getPackageManager()

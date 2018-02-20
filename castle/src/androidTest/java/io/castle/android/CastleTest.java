@@ -40,12 +40,12 @@ public class CastleTest {
         ArrayList<String> baseUrlWhiteList = new ArrayList<>();
         baseUrlWhiteList.add("https://google.com/");
 
-        Configuration configuration = new Configuration(application);
-        configuration.publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZy");
-        configuration.screenTrackingEnabled(true);
-        configuration.baseURLWhiteList(baseUrlWhiteList);
+        CastleConfiguration castleConfiguration = new CastleConfiguration(application);
+        castleConfiguration.publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZy");
+        castleConfiguration.screenTrackingEnabled(true);
+        castleConfiguration.baseURLWhiteList(baseUrlWhiteList);
 
-        Castle.setupWithConfiguration(application, configuration);
+        Castle.configure(application, castleConfiguration);
 
         client = new OkHttpClient.Builder()
                 .addInterceptor(Castle.castleInterceptor())
@@ -55,7 +55,7 @@ public class CastleTest {
     @Test
     public void testDeviceIdentifier() {
         // Check device ID
-        Assert.assertNotNull(Castle.deviceIdentifier());
+        Assert.assertNotNull(Castle.clientId());
     }
 
     @Test
@@ -172,7 +172,7 @@ public class CastleTest {
         Assert.assertNotNull(headers);
         Assert.assertTrue(!headers.isEmpty());
         Assert.assertTrue(headers.containsKey("X-Castle-Client-Id"));
-        Assert.assertEquals(headers.get("X-Castle-Client-Id"), Castle.deviceIdentifier());
+        Assert.assertEquals(headers.get("X-Castle-Client-Id"), Castle.clientId());
     }
 
     @Test
@@ -182,7 +182,7 @@ public class CastleTest {
                 .build();
 
         Response response = client.newCall(request).execute();
-        Assert.assertEquals(Castle.deviceIdentifier(), response.request().header("X-Castle-Client-Id"));
+        Assert.assertEquals(Castle.clientId(), response.request().header("X-Castle-Client-Id"));
 
         request = new Request.Builder()
                 .url("https://example.com/test")
