@@ -18,7 +18,7 @@ class Device {
     public static Device create() {
         Device device = new Device();
 
-        device.id = Castle.deviceIdentifier();
+        device.id = Castle.clientId();
         device.manufacturer = Build.MANUFACTURER;
         device.model = Build.MODEL;
         device.name = Build.MODEL;

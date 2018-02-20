@@ -3,23 +3,16 @@ package io.castle.android;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.WindowManager;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.IdentifyEvent;
-import io.castle.android.api.model.Screen;
 import io.castle.android.api.model.ScreenEvent;
 import io.castle.android.queue.EventQueue;
 
@@ -28,7 +21,7 @@ import io.castle.android.queue.EventQueue;
  */
 
 public class Castle {
-    public static final String X_CASTLE_CLIENT_ID = "X-Castle-Client-Id";
+    public static final String clientIdHeaderName = "X-Castle-Client-Id";
 
     private static Castle instance;
     private Application application;
@@ -185,7 +178,7 @@ public class Castle {
         return instance.configuration.publishableKey();
     }
 
-    public static String deviceIdentifier() {
+    public static String clientId() {
         return instance.identifier;
     }
 
@@ -212,7 +205,7 @@ public class Castle {
         Map<String, String> headers = new HashMap<>();
 
         if (isUrlWhiteListed(url)) {
-            headers.put(X_CASTLE_CLIENT_ID, Castle.deviceIdentifier());
+            headers.put(clientIdHeaderName, Castle.clientId());
         }
 
         return headers;
