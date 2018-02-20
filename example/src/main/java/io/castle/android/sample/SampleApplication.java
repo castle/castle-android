@@ -17,21 +17,17 @@ public class SampleApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        List<String> baseURLWhiteList = Arrays.asList(new String[] { "https://api.castle.io/" });
+
         // Create configuration object
-        CastleConfiguration configuration = new CastleConfiguration(this);
-
-        // Enable the desired functionality
-        configuration.publishableKey("pk_btApAXqt1jpJtEARf1stsnvyov6czPmn");
-        configuration.screenTrackingEnabled(true); // Default: true
-        configuration.debugLoggingEnabled(true); // Default: false
-
-        List<String> whitelist = Arrays.asList(new String[] { "https://api.castle.io/" });
-        configuration.baseURLWhiteList(whitelist);
+        CastleConfiguration configuration = new CastleConfiguration.Builder()
+                .publishableKey("pk_btApAXqt1jpJtEARf1stsnvyov6czPmn")
+                .screenTrackingEnabled(true)
+                .debugLoggingEnabled(true)
+                .baseURLWhiteList(baseURLWhiteList)
+                .build();
 
         // Setup Castle SDK with provided configuration
         Castle.configure(this, configuration);
-
-        // Setup Castle SDK with default configuration
-        Castle.configure(this); // Reads appId from manifest meta tag
     }
 }

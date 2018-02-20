@@ -40,12 +40,11 @@ public class CastleTest {
         ArrayList<String> baseUrlWhiteList = new ArrayList<>();
         baseUrlWhiteList.add("https://google.com/");
 
-        CastleConfiguration castleConfiguration = new CastleConfiguration(application);
-        castleConfiguration.publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZy");
-        castleConfiguration.screenTrackingEnabled(true);
-        castleConfiguration.baseURLWhiteList(baseUrlWhiteList);
-
-        Castle.configure(application, castleConfiguration);
+        Castle.configure(application, new CastleConfiguration.Builder()
+                .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZy")
+                .screenTrackingEnabled(true)
+                .baseURLWhiteList(baseUrlWhiteList)
+                .build());
 
         client = new OkHttpClient.Builder()
                 .addInterceptor(Castle.castleInterceptor())

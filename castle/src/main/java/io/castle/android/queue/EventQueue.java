@@ -142,4 +142,11 @@ public class EventQueue implements Callback<Void> {
         CastleLogger.e("Batch request failed", t);
         flushed();
     }
+
+    public void destroy() {
+        if (flushCall != null) {
+            flushCall.cancel();
+        }
+        flushed();
+    }
 }

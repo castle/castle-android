@@ -3,7 +3,10 @@ package io.castle.android;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -100,20 +103,34 @@ public class Castle {
     }
 
     public static void configure(Application application, String publishableKey) {
-        configure(application, publishableKey, new CastleConfiguration(application));
+        if (instance == null) {
+            instance = new Castle(application, new CastleConfiguration.Builder().publishableKey(publishableKey).build());
+            instance.registerLifeCycleCallbacks(application);
+        }
     }
 
-    public static void configure(Application application, String publishableKey, CastleConfiguration castleConfiguration) {
+    public static void configure(Application application, String publishableKey, CastleConfiguration configuration) {
         if (instance == null) {
-            castleConfiguration.publishableKey(publishableKey);
-
-            instance = new Castle(application, castleConfiguration);
+            instance = new Castle(application, new CastleConfiguration.Builder(configuration).publishableKey(publishableKey).build());
             instance.registerLifeCycleCallbacks(application);
         }
     }
 
     public static void configure(Application application) {
-        configure(application, new CastleConfiguration(application));
+        try {
+            ApplicationInfo applicationInfo =
+                    application.getPackageManager()
+                            .getApplicationInfo(application.getPackageName(),
+                                    PackageManager.GET_META_DATA);
+            Bundle bundle = applicationInfo.metaData;
+            String publishableKey = bundle.getString("castle_publishable_key");
+
+            configure(application, new CastleConfiguration.Builder().publishableKey(publishableKey).build());
+        } catch (PackageManager.NameNotFoundException e) {
+            CastleLogger.e("Failed to load meta-data, NameNotFound: " + e.getMessage());
+        } catch (NullPointerException e) {
+            CastleLogger.e("Failed to load meta-data, NullPointer: " + e.getMessage());
+        }
     }
 
     public static void track(String event, Map<String, String> properties) {
@@ -254,6 +271,7 @@ public class Castle {
 
     public static void destroy(Application application) {
         if (instance != null) {
+            instance.eventQueue.destroy();
             instance.unregisterLifeCycleCallbacks(application);
             instance.unregisterComponentCallbacks(application);
             instance = null;

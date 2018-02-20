@@ -28,13 +28,14 @@ public class CastleConfigurationTest {
         ArrayList<String> baseUrlWhiteList = new ArrayList<>();
         baseUrlWhiteList.add("https://google.com/");
 
-        CastleConfiguration configuration = new CastleConfiguration(application);
-        configuration.publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ");
-        configuration.screenTrackingEnabled(true);
-        configuration.debugLoggingEnabled(true);
-        configuration.flushLimit(10);
-        configuration.baseURLWhiteList(baseUrlWhiteList);
-        configuration.maxQueueLimit(1000);
+        CastleConfiguration configuration = new CastleConfiguration.Builder()
+                .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
+                .screenTrackingEnabled(true)
+                .debugLoggingEnabled(true)
+                .flushLimit(10)
+                .baseURLWhiteList(baseUrlWhiteList)
+                .maxQueueLimit(1000)
+                .build();
 
         Assert.assertTrue(configuration.screenTrackingEnabled());
         Assert.assertTrue(configuration.debugLoggingEnabled());
@@ -61,15 +62,10 @@ public class CastleConfigurationTest {
         // Destroy current instance
         Castle.destroy(application);
 
-        Castle.configure(application, "pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ", configuration);
-        Assert.assertEquals("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ", Castle.publishableKey());
-
-        // Destroy current instance
-        Castle.destroy(application);
-
         // Setup Castle SDK with invalid publishableKey
-        configuration = new CastleConfiguration(application);
-        configuration.publishableKey("sk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ");
+        configuration = new CastleConfiguration.Builder()
+                .publishableKey("sk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
+                .build();
         try {
             Castle.configure(application, configuration);
             Assert.fail("Should have thrown RuntimeException exception");
