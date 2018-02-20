@@ -39,26 +39,30 @@ maven {
 Add the following snippet to your application's `onCreate` method.
 
 ```java
-// Create configuration
-Configuration configuration = new Configuration(this);
-
-// Enable the desired functionality
-configuration.publishableKey("pk_123sdawggkdk2lk123");
-configuration.screenTrackingEnabled(true); // Default: true
-configuration.debugLoggingEnabled(true); // Default: false
+// Create configuration object and enable the desired functionality
+CastleConfiguration configuration = new CastleConfiguration.Builder()
+                .publishableKey("pk_123sdawggkdk2lk123")
+                .screenTrackingEnabled(true) // Default: true
+                .debugLoggingEnabled(true) // Default: false
+                .baseURLWhiteList(baseURLWhiteList)
+                .build();
 ```
 
 Include the Client ID in all calls to your API backend. This lets us tie a specific transaction in your backend to it’s origin.
 
 ```java
 List<String> whitelist = Arrays.asList(new String[] { "https://api.example.com/" });
-configuration.baseURLWhiteList(whitelist);
+
+new CastleConfiguration.Builder()
+                .publishableKey("pk_123sdawggkdk2lk123")
+                .baseURLWhiteList(whitelist)
+                .build();
 ```
 
-Then setup Castle with the by providing the configuration
+Then configure Castle with the by providing the configuration
 
 ```java
-Castle.setupWithConfiguration(this, configuration);
+Castle.configure(this, configuration);
 ```
 
 ##### Alt. 2: Manifest
@@ -73,7 +77,7 @@ The Castle Publishable Key for your application can also be provided as meta-dat
 Then simply setup Castle with the default configuration:
 
 ```java
-Castle.setupWithDefaultConfiguration(this); // Reads appId from manifest meta tag
+Castle.configure(this); // Reads appId from manifest meta tag
 ```
 
 #### Client ID forwarding
@@ -100,7 +104,7 @@ OkHttpClient client = new OkHttpClient();
 Request.Builder requestBuilder = new Request.Builder()
 		.url(url);
 
-requestBuilder.header(Castle.X_CASTLE_CLIENT_ID, Castle.deviceIdentifier());
+requestBuilder.header(Castle.clientIdHeaderName, Castle.clientId());
 
 Request request = requestBuilder.build();
 
@@ -116,7 +120,7 @@ Response response = client.newCall(request).execute();
 URL url = new URL("https://api.example.com/v1/auth");
 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
-urlConnection.setRequestProperty(Castle.X_CASTLE_CLIENT_ID, Castle.deviceIdentifier());
+urlConnection.setRequestProperty(Castle.clientIdHeaderName, Castle.clientId());
 
 // Flush if request to whitelisted url
 Castle.flushIfNeeded(url.toString());
@@ -150,7 +154,7 @@ StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
     	public Map<String, String> getHeaders() throws AuthFailureError {
 	   		Map<String, String>  headers = super.getHeaders();
 
-			headers.put(Castle.X_CASTLE_CLIENT_ID, Castle.deviceIdentifier());
+			headers.put(Castle.clientIdHeaderName, Castle.clientId());
 
 			return headers;
 		}
