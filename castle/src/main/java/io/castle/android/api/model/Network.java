@@ -7,6 +7,8 @@ import android.net.NetworkInfo;
 import android.support.v4.content.PermissionChecker;
 import android.telephony.TelephonyManager;
 
+import com.google.gson.annotations.SerializedName;
+
 import static android.Manifest.permission.ACCESS_NETWORK_STATE;
 import static android.content.Context.CONNECTIVITY_SERVICE;
 import static android.content.Context.TELEPHONY_SERVICE;
@@ -19,9 +21,13 @@ import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
  * Copyright (c) 2017 Castle
  */
 public class Network {
+    @SerializedName("bluetooth")
     Boolean bluetooth = null;
+    @SerializedName("carrier")
     String carrier = "unknown";
+    @SerializedName("cellular")
     Boolean cellular = null;
+    @SerializedName("wifi")
     Boolean wifi = null;
 
     @SuppressLint("MissingPermission")
