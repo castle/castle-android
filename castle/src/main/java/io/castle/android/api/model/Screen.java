@@ -4,13 +4,18 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+import com.google.gson.annotations.SerializedName;
+
 
 /**
  * Copyright (c) 2017 Castle
  */
 public class Screen {
+    @SerializedName("width")
     int width;
+    @SerializedName("height")
     int height;
+    @SerializedName("density")
     float density;
 
     private Screen(Context context) {

@@ -17,12 +17,15 @@ public class Event {
     public static String EVENT_TYPE_SCREEN = "screen";
     public static String EVENT_TYPE_IDENTIFY = "identify";
 
+    @SerializedName("context")
     Context context;
     @SerializedName(value="event", alternate={"name"})
     String event;
     @SerializedName(value="properties", alternate={"traits"})
     Map<String, String> properties;
+    @SerializedName("timestamp")
     String timestamp;
+    @SerializedName("type")
     String type;
     @SerializedName("user_id")
     String userId;

@@ -1,5 +1,7 @@
 package io.castle.android.api.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -10,12 +12,19 @@ import io.castle.android.Castle;
  */
 
 public class Context {
+    @SerializedName("device")
     Device device;
+    @SerializedName("os")
     OS os;
+    @SerializedName("library")
     LibraryVersion library;
+    @SerializedName("timezone")
     String timezone;
+    @SerializedName("locale")
     String locale;
+    @SerializedName("screen")
     Screen screen;
+    @SerializedName("network")
     Network network;
 
     private Context(android.content.Context context) {
