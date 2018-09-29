@@ -44,15 +44,15 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation 'com.squareup.tape2:tape:2.0.0-SNAPSHOT'
-    implementation 'com.android.support:support-core-utils:27.1.0'
+    implementation 'com.android.support:support-core-utils:27.1.1'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.8.0'
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.9.0'
 }
 
 // or use the remote copy to keep update with latest changes
