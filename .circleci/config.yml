@@ -31,5 +31,8 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
+      - run:
+          name: Run codecoverage
+          command: ./gradlew test createDebugCoverageReport
       - codecov/upload:
-          file: app/build/reports
+          file: app/build/reports/coverage/debug/report.xml
