@@ -1,9 +1,6 @@
 package io.castle.android;
 
 import android.app.Application;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,6 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.ScreenEvent;
 import okhttp3.OkHttpClient;
@@ -35,7 +35,7 @@ public class CastleTest {
 
     @Before
     public void setup() {
-        application = (Application) InstrumentationRegistry.getTargetContext().getApplicationContext();
+        application = ApplicationProvider.getApplicationContext();
 
         ArrayList<String> baseUrlWhiteList = new ArrayList<>();
         baseUrlWhiteList.add("https://google.com/");
@@ -151,10 +151,6 @@ public class CastleTest {
         Assert.assertEquals(count + 1, newCount);
 
         Castle.flush();
-
-        while (Castle.isFlushingQueue()) {
-            // wait until flush is finished
-        }
     }
 
     @Test

@@ -1,8 +1,6 @@
 package io.castle.android;
 
 import android.app.Application;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,6 +8,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**
  * Copyright (c) 2017 Castle
@@ -20,7 +21,7 @@ public class CastleConfigurationTest {
 
     @Before
     public void setup() {
-        application = (Application) InstrumentationRegistry.getTargetContext().getApplicationContext();
+        application = ApplicationProvider.getApplicationContext();
     }
 
     @Test
@@ -48,10 +49,6 @@ public class CastleConfigurationTest {
         Castle.configure(application, configuration);
 
         Assert.assertEquals(1, Castle.headers("https://google.com/test").size());
-
-        while (Castle.isFlushingQueue()) {
-
-        }
 
         // Destroy current instance
         Castle.destroy(application);
