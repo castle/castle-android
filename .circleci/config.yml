@@ -28,7 +28,7 @@ jobs:
           command: ./gradlew lint test
       - run:
           name: Run Code Coverage
-          command: ./gradlew createDebugCoverageReport
+          command: ./gradlew castle:jacocoTestReport
       - store_artifacts:
           path: castle/build/reports
           destination: reports
