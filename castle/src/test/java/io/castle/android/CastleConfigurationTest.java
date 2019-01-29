@@ -38,22 +38,36 @@ public class CastleConfigurationTest {
                 .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
                 .screenTrackingEnabled(true)
                 .debugLoggingEnabled(true)
-                .flushLimit(10)
+                .flushLimit(2)
                 .baseURLWhiteList(baseUrlWhiteList)
-                .maxQueueLimit(1000)
+                .maxQueueLimit(100)
                 .build();
 
         Assert.assertTrue(configuration.screenTrackingEnabled());
         Assert.assertTrue(configuration.debugLoggingEnabled());
-        Assert.assertEquals(10, configuration.flushLimit());
+        Assert.assertEquals(2, configuration.flushLimit());
         Assert.assertEquals(1, configuration.baseURLWhiteList().size());
         Assert.assertEquals("https://google.com/", configuration.baseURLWhiteList().get(0));
-        Assert.assertEquals(1000, configuration.maxQueueLimit());
+        Assert.assertEquals(100, configuration.maxQueueLimit());
 
         // Setup Castle SDK with provided configuration
         Castle.configure(application, configuration);
 
+        Assert.assertEquals(2, Castle.configuration().flushLimit());
+        Assert.assertEquals(1, Castle.configuration().baseURLWhiteList().size());
+        Assert.assertEquals("https://google.com/", Castle.configuration().baseURLWhiteList().get(0));
+        Assert.assertEquals(100, Castle.configuration().maxQueueLimit());
+
         Assert.assertEquals(1, Castle.headers("https://google.com/test").size());
+
+        // Try and set up SDK with new configuration while already configured
+        configuration = new CastleConfiguration.Builder()
+                .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
+                .build();
+
+        Castle.configure(application, configuration);
+
+        Assert.assertEquals(100, Castle.configuration().maxQueueLimit());
 
         // Destroy current instance
         Castle.destroy(application);
