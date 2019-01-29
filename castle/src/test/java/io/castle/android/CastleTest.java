@@ -2,6 +2,7 @@ package io.castle.android;
 
 import android.app.Application;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -185,5 +186,10 @@ public class CastleTest {
 
         response = client.newCall(request).execute();
         Assert.assertEquals(null, response.request().header(Castle.clientIdHeaderName));
+    }
+
+    @After
+    public void after() {
+        Castle.destroy(application);
     }
 }

@@ -2,6 +2,7 @@ package io.castle.android;
 
 import android.app.Application;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,5 +78,10 @@ public class CastleConfigurationTest {
         new StorageHelper(application).setBuild(0);
 
         Castle.configure(application);
+    }
+
+    @After
+    public void after() {
+        Castle.destroy(application);
     }
 }
