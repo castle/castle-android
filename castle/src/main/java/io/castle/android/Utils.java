@@ -51,7 +51,7 @@ public class Utils {
         return gson;
     }
 
-    public static PackageInfo getPackageInfo(Context context) {
+    static PackageInfo getPackageInfo(Context context) {
         PackageManager packageManager = context.getPackageManager();
         try {
             return packageManager.getPackageInfo(context.getPackageName(), 0);
