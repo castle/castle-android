@@ -35,4 +35,4 @@ jobs:
       - store_test_results:
           path: castle/build/test-results
       - codecov/upload:
-          file: castle/build/reports/coverage/debug/report.xml
+          file: castle/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
