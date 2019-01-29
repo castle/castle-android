@@ -67,7 +67,7 @@ public class CastleConfiguration {
         private List<String> baseURLWhiteList;
 
         public Builder() {
-            debugLoggingEnabled = true;
+            debugLoggingEnabled = false;
             flushLimit = 20;
             maxQueueLimit = 1000;
             screenTrackingEnabled = true;
