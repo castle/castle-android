@@ -68,6 +68,15 @@ public class CastleTest {
     }
 
     @Test
+    public void testflushIfNeeded() {
+        // Make sure flush is done for whitelisted base url
+        boolean flushed = Castle.flushIfNeeded("https://google.com/");
+
+        // FlushIfNeeded returns true if url is whitelisted and flush() is called
+        Assert.assertTrue(flushed);
+    }
+
+    @Test
     public void testReset() {
         Castle.reset();
 

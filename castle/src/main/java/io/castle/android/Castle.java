@@ -224,11 +224,13 @@ public class Castle {
         }
     }
 
-    public static void flushIfNeeded(String url) {
+    public static boolean flushIfNeeded(String url) {
         // Flush if request to whitelisted url
         if (isUrlWhiteListed(url)) {
             flush();
+            return true;
         }
+        return false;
     }
 
     public static Map<String, String> headers(String url) {
