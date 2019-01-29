@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 import io.castle.android.api.model.Event;
@@ -36,7 +35,7 @@ public class CastleTest {
 
     @Before
     public void setup() {
-        application = ApplicationProvider.getApplicationContext();
+        application = rule.getActivity().getApplication();
 
         ArrayList<String> baseUrlWhiteList = new ArrayList<>();
         baseUrlWhiteList.add("https://google.com/");

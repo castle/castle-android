@@ -5,24 +5,28 @@ import android.app.Application;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 
 /**
  * Copyright (c) 2017 Castle
  */
 @RunWith(AndroidJUnit4.class)
 public class CastleConfigurationTest {
+    @Rule
+    public ActivityTestRule<TestActivity> rule  = new ActivityTestRule<>(TestActivity.class);
+
     private Application application;
 
     @Before
     public void setup() {
-        application = ApplicationProvider.getApplicationContext();
+        application = rule.getActivity().getApplication();
     }
 
     @Test
