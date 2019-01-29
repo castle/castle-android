@@ -1,5 +1,6 @@
 package io.castle.android;
 
+import android.Manifest;
 import android.app.Application;
 
 import org.junit.After;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
+import androidx.test.rule.GrantPermissionRule;
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.ScreenEvent;
 import okhttp3.OkHttpClient;
@@ -29,6 +31,9 @@ import okhttp3.Response;
 public class CastleTest {
     @Rule
     public ActivityTestRule<TestActivity> rule  = new ActivityTestRule<>(TestActivity.class);
+
+    @Rule
+    public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_NETWORK_STATE);
 
     private Application application;
     private OkHttpClient client;
