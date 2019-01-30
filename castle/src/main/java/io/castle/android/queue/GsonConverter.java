@@ -19,7 +19,7 @@ import io.castle.android.Utils;
 class GsonConverter<T> implements ObjectQueue.Converter<T> {
     private final Class<T> type;
 
-    public GsonConverter(Class<T> type) {
+    GsonConverter(Class<T> type) {
         this.type = type;
     }
 

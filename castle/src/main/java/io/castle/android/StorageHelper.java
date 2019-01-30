@@ -18,7 +18,7 @@ class StorageHelper {
 
     private SharedPreferences preferences;
 
-    public StorageHelper(Context context) {
+    StorageHelper(Context context) {
         preferences = context.getSharedPreferences(STORAGE_PREFERENCE, Context.MODE_PRIVATE);
     }
 

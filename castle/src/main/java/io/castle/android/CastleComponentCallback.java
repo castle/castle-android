@@ -12,7 +12,7 @@ import android.content.res.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CastleComponentCallback implements ComponentCallbacks2 {
+class CastleComponentCallback implements ComponentCallbacks2 {
     @Override
     public void onTrimMemory(int level) {
         if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
