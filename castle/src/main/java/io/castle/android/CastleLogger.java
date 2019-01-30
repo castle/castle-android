@@ -1,10 +1,10 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android;
 
 import android.util.Log;
-
-/**
- * Copyright (c) 2017 Castle
- */
 
 public class CastleLogger {
     private static final String TAG = "Castle";

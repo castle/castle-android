@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.queue;
 
 import android.content.Context;
@@ -18,9 +22,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Copyright (c) 2017 Castle
- */
 public class EventQueue implements Callback<Void> {
     private static final String QUEUE_FILENAME = "castle-queue";
 

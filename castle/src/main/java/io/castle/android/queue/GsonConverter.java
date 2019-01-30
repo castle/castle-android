@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.queue;
 
 import com.squareup.tape2.ObjectQueue;
@@ -12,9 +16,6 @@ import java.io.Writer;
 
 import io.castle.android.Utils;
 
-/**
- * Copyright (c) 2017 Castle
- */
 class GsonConverter<T> implements ObjectQueue.Converter<T> {
     private final Class<T> type;
 

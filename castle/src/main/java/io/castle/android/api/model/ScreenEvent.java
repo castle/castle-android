@@ -1,12 +1,12 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api.model;
 
 import android.app.Activity;
 
 import java.util.Map;
-
-/**
- * Copyright (c) 2017 Castle
- */
 
 public class ScreenEvent extends Event {
 

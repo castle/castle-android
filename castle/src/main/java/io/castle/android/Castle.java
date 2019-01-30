@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android;
 
 import android.app.Activity;
@@ -18,10 +22,6 @@ import io.castle.android.api.model.Event;
 import io.castle.android.api.model.IdentifyEvent;
 import io.castle.android.api.model.ScreenEvent;
 import io.castle.android.queue.EventQueue;
-
-/**
- * Copyright (c) 2017 Castle
- */
 
 public class Castle {
     public static final String clientIdHeaderName = "X-Castle-Client-Id";

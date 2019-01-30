@@ -1,15 +1,11 @@
-package io.castle.android;
+/*
+ * Copyright (c) 2017 Castle
+ */
 
-import android.app.Application;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
+package io.castle.android;
 
 import java.util.List;
 
-/**
- * Copyright (c) 2017 Castle
- */
 public class CastleConfiguration {
     private boolean debugLoggingEnabled = false;
 

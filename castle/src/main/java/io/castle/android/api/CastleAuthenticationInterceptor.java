@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api;
 
 import java.io.IOException;
@@ -7,10 +11,6 @@ import okhttp3.Credentials;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-
-/**
- * Copyright (c) 2017 Castle
- */
 
 class CastleAuthenticationInterceptor implements Interceptor {
     @Override

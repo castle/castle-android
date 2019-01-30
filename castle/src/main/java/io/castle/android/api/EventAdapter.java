@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api;
 
 import com.google.gson.Gson;
@@ -15,9 +19,6 @@ import io.castle.android.api.model.Event;
 import io.castle.android.api.model.IdentifyEvent;
 import io.castle.android.api.model.ScreenEvent;
 
-/**
- * Copyright (c) 2017 Castle
- */
 public class EventAdapter implements JsonSerializer<Event>, JsonDeserializer<Event> {
     Gson gson = new Gson();
 

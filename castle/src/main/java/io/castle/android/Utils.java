@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android;
 
 import android.content.Context;
@@ -16,10 +20,6 @@ import io.castle.android.api.EventAdapter;
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.IdentifyEvent;
 import io.castle.android.api.model.ScreenEvent;
-
-/**
- * Copyright (c) 2017 Castle
- */
 
 public class Utils {
     private static String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";

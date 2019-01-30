@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android;
 
 import android.app.Application;
@@ -14,9 +18,6 @@ import java.util.ArrayList;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-/**
- * Copyright (c) 2017 Castle
- */
 @RunWith(AndroidJUnit4.class)
 public class CastleConfigurationTest {
     @Rule

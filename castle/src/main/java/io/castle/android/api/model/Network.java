@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api.model;
 
 import android.annotation.SuppressLint;
@@ -17,9 +21,6 @@ import static android.net.ConnectivityManager.TYPE_MOBILE;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
 
-/**
- * Copyright (c) 2017 Castle
- */
 public class Network {
     @SerializedName("bluetooth")
     Boolean bluetooth = null;

@@ -1,13 +1,13 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.UUID;
-
-/**
- * Copyright (c) 2017 Castle
- */
 
 class StorageHelper {
     private static final String STORAGE_PREFERENCE = "castle_storage";

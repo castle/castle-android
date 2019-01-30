@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api.model;
 
 import com.google.gson.annotations.SerializedName;
@@ -7,10 +11,6 @@ import java.util.Map;
 
 import io.castle.android.Castle;
 import io.castle.android.Utils;
-
-/**
- * Copyright (c) 2017 Castle
- */
 
 public class Event {
     public static String EVENT_TYPE_EVENT = "track";

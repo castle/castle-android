@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api;
 
 import io.castle.android.Utils;
@@ -9,10 +13,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
-
-/**
- * Copyright (c) 2017 Castle
- */
 
 public class CastleAPIService {
 

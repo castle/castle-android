@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android;
 
 import java.io.IOException;
@@ -6,10 +10,6 @@ import java.util.Map;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-
-/**
- * Copyright (c) 2017 Castle
- */
 
 class CastleInterceptor implements Interceptor {
     @Override

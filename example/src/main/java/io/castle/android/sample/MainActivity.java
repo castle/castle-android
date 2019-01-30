@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.sample;
 
 import android.os.Bundle;
@@ -11,10 +15,6 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.castle.android.Castle;
-
-/**
- * Copyright (c) 2017 Castle
- */
 
 public class MainActivity extends AppCompatActivity {
     @Override
