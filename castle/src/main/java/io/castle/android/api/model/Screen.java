@@ -10,6 +10,9 @@ import android.view.WindowManager;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model class for screen information, included in all events
+ */
 public class Screen {
     @SerializedName("width")
     int width;

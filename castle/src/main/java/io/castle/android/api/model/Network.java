@@ -21,6 +21,9 @@ import static android.net.ConnectivityManager.TYPE_MOBILE;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
 
+/**
+ * Model class for network status, included in all events
+ */
 public class Network {
     @SerializedName("bluetooth")
     Boolean bluetooth = null;

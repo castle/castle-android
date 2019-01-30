@@ -23,6 +23,9 @@ import io.castle.android.api.model.IdentifyEvent;
 import io.castle.android.api.model.ScreenEvent;
 import io.castle.android.queue.EventQueue;
 
+/**
+ * One stop shop for all Castle related things
+ */
 public class Castle {
     public static final String clientIdHeaderName = "X-Castle-Client-Id";
 
@@ -92,16 +95,26 @@ public class Castle {
         storageHelper.setBuild(currentBuild);
     }
 
-    public static void configure(Application application, CastleConfiguration castleConfiguration) {
+    /**
+     * Configure Castle using the provided configuration
+     * @param application Application instance
+     * @param configuration CastleConfiguration instance
+     */
+    public static void configure(Application application, CastleConfiguration configuration) {
         if (instance == null) {
-            if (castleConfiguration.publishableKey() == null || !castleConfiguration.publishableKey().startsWith("pk_")) {
+            if (configuration.publishableKey() == null || !configuration.publishableKey().startsWith("pk_")) {
                 throw new RuntimeException("You must provide a valid Castle publishable key when initializing the SDK.");
             }
-            instance = new Castle(application, castleConfiguration);
+            instance = new Castle(application, configuration);
             instance.registerLifeCycleCallbacks(application);
         }
     }
 
+    /**
+     * Configure Castle with default configuration using publishable key
+     * @param application Application instance
+     * @param publishableKey Castle publishable key
+     */
     public static void configure(Application application, String publishableKey) {
         if (instance == null) {
             instance = new Castle(application, new CastleConfiguration.Builder().publishableKey(publishableKey).build());
@@ -109,6 +122,12 @@ public class Castle {
         }
     }
 
+    /**
+     * Configure Castle with provided configuration and publishable key
+     * @param application Application instance
+     * @param publishableKey Castle publishable key
+     * @param configuration CastleConfiguration instance
+     */
     public static void configure(Application application, String publishableKey, CastleConfiguration configuration) {
         if (instance == null) {
             instance = new Castle(application, new CastleConfiguration.Builder(configuration).publishableKey(publishableKey).build());
@@ -116,6 +135,10 @@ public class Castle {
         }
     }
 
+    /**
+     * Configure Castle with default configuration, will try to get publishable key from AndroidManifest meta tag castle_publishable_key
+     * @param application Application instance
+     */
     public static void configure(Application application) {
         try {
             ApplicationInfo applicationInfo =
@@ -133,6 +156,11 @@ public class Castle {
         }
     }
 
+    /**
+     * Track event
+     * @param event Event name
+     * @param properties Event properties
+     */
     public static void track(String event, Map<String, String> properties) {
         if (event == null || event.isEmpty() || properties == null) {
             return;
@@ -140,6 +168,10 @@ public class Castle {
         track(new Event(event, properties));
     }
 
+    /**
+     * Track event
+     * @param event Event name
+     */
     public static void track(String event) {
         if (event == null || event.isEmpty()) {
             return;
@@ -155,6 +187,10 @@ public class Castle {
         }
     }
 
+    /**
+     * Track identify event
+     * @param userId user id
+     */
     public static void identify(String userId) {
         if (userId == null || userId.isEmpty()) {
             return;
@@ -164,6 +200,11 @@ public class Castle {
         flush();
     }
 
+    /**
+     * Track identify event
+     * @param userId user id
+     * @param traits user traits
+     */
     public static void identify(String userId, Map<String, String> traits) {
         if (userId == null || userId.isEmpty() || traits == null) {
             return;
@@ -177,15 +218,27 @@ public class Castle {
         instance.storageHelper.setIdentity(userId);
     }
 
+    /**
+     * Get user id from last identify call, returns null if not set
+     * @return user id
+     */
     public static String userId() {
         return instance.storageHelper.getIdentity();
     }
 
+    /**
+     * Reset user saved user information
+     */
     public static void reset() {
         Castle.flush();
         Castle.userId(null);
     }
 
+    /**
+     * Track screen event
+     * @param name Event name
+     * @param properties Event properties
+     */
     public static void screen(String name, Map<String, String> properties) {
         if (name == null || name.isEmpty() || properties == null) {
             return;
@@ -193,6 +246,10 @@ public class Castle {
         track(new ScreenEvent(name, properties));
     }
 
+    /**
+     * Track screen event
+     * @param name Event name
+     */
     public static void screen(String name) {
         if (name == null || name.isEmpty()) {
             return;
@@ -200,22 +257,41 @@ public class Castle {
         track(new ScreenEvent(name));
     }
 
+    /**
+     * Track screen event using activity title
+     * @param activity Activity
+     */
     public static void screen(Activity activity) {
         track(new ScreenEvent(activity));
     }
 
+    /**
+     * Get configured publishable key
+     * @return publishable key
+     */
     public static String publishableKey() {
         return instance.configuration.publishableKey();
     }
 
+    /**
+     * Get identifier if set, otherwise returns null
+     * @return identifier
+     */
     public static String clientId() {
         return instance.identifier;
     }
 
+    /**
+     * Get configuration
+     * @return configuration
+     */
     public static CastleConfiguration configuration() {
         return instance.configuration;
     }
 
+    /**
+     * Force a flush of the batch event queue
+     */
     public static void flush() {
         try {
             instance.eventQueue.flush();
@@ -224,6 +300,9 @@ public class Castle {
         }
     }
 
+    /**
+     * Force a flush if needed for a specific url, flushes if url is whitelisted
+     */
     public static boolean flushIfNeeded(String url) {
         // Flush if request to whitelisted url
         if (isUrlWhiteListed(url)) {
@@ -233,6 +312,9 @@ public class Castle {
         return false;
     }
 
+    /**
+     * Get Castle headers for a specific url, returns non-empty when url is whitelisted
+     */
     public static Map<String, String> headers(String url) {
         Map<String, String> headers = new HashMap<>();
 
@@ -243,10 +325,17 @@ public class Castle {
         return headers;
     }
 
+    /**
+     * Get Castle OkHttp interceptor
+     */
     public static CastleInterceptor castleInterceptor() {
         return new CastleInterceptor();
     }
 
+    /**
+     * Checks if provided url is whitelisted
+     * @return true if whitelisted
+     */
     static boolean isUrlWhiteListed(String urlString) {
         try {
             URL url = new URL(urlString);
@@ -263,14 +352,25 @@ public class Castle {
         return false;
     }
 
+    /**
+     * Get current batch queue size
+     * @return current queue size
+     */
     public static int queueSize() {
         return instance.eventQueue.size();
     }
 
-    static boolean isFlushingQueue() {
+    /**
+     * Check if queue is being flushed
+     * @return true if flushing is in progress
+     */
+    static boolean isFlushing() {
         return instance.eventQueue.isFlushing();
     }
 
+    /**
+     * Destroy instance of the Castle SDK
+     */
     public static void destroy(Application application) {
         if (instance != null) {
             instance.eventQueue.destroy();
@@ -280,10 +380,18 @@ public class Castle {
         }
     }
 
+    /**
+     * Get current app versionCode
+     * @return current build
+     */
     static int getCurrentBuild() {
         return instance.storageHelper.getBuild();
     }
 
+    /**
+     * Get current app versionName
+     * @return current build
+     */
     static String getCurrentVersion() {
         return instance.storageHelper.getVersion();
     }
@@ -296,6 +404,10 @@ public class Castle {
         application.unregisterComponentCallbacks(componentCallbacks);
     }
 
+    /**
+     * Get context with device information
+     * @return Context with current device information
+     */
     public static io.castle.android.api.model.Context createContext() {
         return io.castle.android.api.model.Context.create(instance.application.getApplicationContext());
     }

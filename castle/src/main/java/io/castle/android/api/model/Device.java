@@ -10,6 +10,9 @@ import com.google.gson.annotations.SerializedName;
 
 import io.castle.android.Castle;
 
+/**
+ * Model class containing device information for a user. Included in all events
+ */
 class Device {
     @SerializedName("id")
     private String id;

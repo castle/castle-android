@@ -14,6 +14,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
+/**
+ * API Service for Castle APIs, do not use directly, use suitable method in {@link io.castle.android.Castle}
+ */
 public class CastleAPIService {
 
     private static final String API_URL = "https://api.castle.io/v1/";
@@ -24,6 +27,10 @@ public class CastleAPIService {
         public Call<Void> batch(@Body Batch batch);
     }
 
+    /**
+     * Get Instance of CastleAPI
+     * @return Instance of CastleAPI
+     */
     public static CastleAPI getInstance() {
         if (instance == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();

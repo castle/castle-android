@@ -12,6 +12,9 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Interceptor used for auth to Castle APIs
+ */
 class CastleAuthenticationInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {

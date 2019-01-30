@@ -6,6 +6,9 @@ package io.castle.android.api.model;
 
 import android.os.Build;
 
+/**
+ * Model class for os version information, included in all events
+ */
 class OS extends Version {
 
     private OS(String name, String version) {

@@ -24,6 +24,11 @@ public class Batch {
         sentAt = Utils.getTimestamp();
     }
 
+    /**
+     * Add {@link io.castle.android.api.model.Event} objects to include in batch
+     *
+     * @param events List of {@link io.castle.android.api.model.Event} objects
+     */
     public void addEvents(List<Event> events) {
         if (this.events == null) {
             this.events = new ArrayList<>(events.size());

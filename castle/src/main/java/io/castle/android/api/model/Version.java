@@ -6,6 +6,9 @@ package io.castle.android.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model class for version information
+ */
 public abstract class Version {
     @SerializedName("version")
     protected String version;
