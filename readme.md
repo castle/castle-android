@@ -22,14 +22,6 @@ Add the following line to your projects `build.gradle`
 api 'io.castle.android:castle:latest-version'
 ```
 
-Castle uses Tape2 for queuing events and is currently only available in the Sonatype snapshot repository. Add the following maven repository to your `build.gradle`.
-
-```ruby
-maven {
-	url "https://oss.sonatype.org/content/repositories/snapshots"
-}
-```
-
 ## Usage
 
 Please see the [Mobile Integration Guide](https://castle.io/docs/mobile).

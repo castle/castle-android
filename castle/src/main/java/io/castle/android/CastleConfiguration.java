@@ -7,15 +7,17 @@ package io.castle.android;
 import java.util.List;
 
 public class CastleConfiguration {
-    private boolean debugLoggingEnabled = false;
+    private static final boolean DEFAULT_DEBUG_LOGGING_ENABLED = false;
+    private static final int DEFAULT_FLUSH_LIMIT = 20;
+    private static final int DEFAULT_MAX_QUEUE_LIMIT = 1000;
+    private static final boolean DEFAULT_SCREEN_TRACKING_ENABLED = true;
 
-    private int flushLimit = 20;
-    private int maxQueueLimit = 1000;
-
-    private String publishableKey;
-    private boolean screenTrackingEnabled = true;
-
+    private boolean debugLoggingEnabled;
+    private int flushLimit;
+    private int maxQueueLimit;
+    private boolean screenTrackingEnabled;
     private List<String> baseURLWhiteList;
+    private String publishableKey;
 
     /**
      * Create default configuration
@@ -28,7 +30,7 @@ public class CastleConfiguration {
      * Create configuration with builder
      */
     private CastleConfiguration(Builder builder) {
-        this.debugLoggingEnabled = builder.debugLoggingEnabled;
+        this.debugLoggingEnabled = builder.debugLoggingEnabled();
         this.flushLimit = builder.flushLimit();
         this.maxQueueLimit = builder.maxQueueLimit();
         this.publishableKey = builder.publishableKey();
@@ -99,10 +101,10 @@ public class CastleConfiguration {
          * Create builder with defaults
          */
         public Builder() {
-            debugLoggingEnabled = false;
-            flushLimit = 20;
-            maxQueueLimit = 1000;
-            screenTrackingEnabled = true;
+            debugLoggingEnabled = DEFAULT_DEBUG_LOGGING_ENABLED;
+            flushLimit = DEFAULT_FLUSH_LIMIT;
+            maxQueueLimit = DEFAULT_MAX_QUEUE_LIMIT;
+            screenTrackingEnabled = DEFAULT_SCREEN_TRACKING_ENABLED;
         }
 
         /**
