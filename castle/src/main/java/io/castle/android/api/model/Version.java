@@ -13,7 +13,7 @@ public abstract class Version {
     @SerializedName("name")
     protected String name;
 
-    protected Version(String name, String version) {
+    Version(String name, String version) {
         this.name = name;
         this.version = version;
     }
