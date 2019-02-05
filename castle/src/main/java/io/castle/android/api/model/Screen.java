@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api.model;
 
 import android.content.Context;
@@ -6,9 +10,8 @@ import android.view.WindowManager;
 
 import com.google.gson.annotations.SerializedName;
 
-
 /**
- * Copyright (c) 2017 Castle
+ * Model class for screen information, included in all events
  */
 public class Screen {
     @SerializedName("width")

@@ -1,9 +1,13 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api.model;
 
 import android.os.Build;
 
 /**
- * Copyright (c) 2017 Castle
+ * Model class for os version information, included in all events
  */
 class OS extends Version {
 

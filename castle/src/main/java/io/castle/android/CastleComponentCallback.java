@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android;
 
 import android.content.ComponentCallbacks2;
@@ -8,10 +12,7 @@ import android.content.res.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Copyright (c) 2017 Castle
- */
-public class CastleComponentCallback implements ComponentCallbacks2 {
+class CastleComponentCallback implements ComponentCallbacks2 {
     @Override
     public void onTrimMemory(int level) {
         if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api.model;
 
 import android.os.Build;
@@ -7,9 +11,8 @@ import com.google.gson.annotations.SerializedName;
 import io.castle.android.Castle;
 
 /**
- * Copyright (c) 2017 Castle
+ * Model class containing device information for a user. Included in all events
  */
-
 class Device {
     @SerializedName("id")
     private String id;

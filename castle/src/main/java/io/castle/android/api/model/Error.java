@@ -1,11 +1,14 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Copyright (c) 2017 Castle
+ * Model class for Castle API errors
  */
-
 public class Error {
     @SerializedName("message")
     String message;

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api.model;
 
 import com.google.gson.annotations.SerializedName;
@@ -5,12 +9,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import io.castle.android.Castle;
-
 /**
- * Copyright (c) 2017 Castle
+ * Model class containing context information for a user. Included in all events
  */
-
 public class Context {
     @SerializedName("device")
     Device device;

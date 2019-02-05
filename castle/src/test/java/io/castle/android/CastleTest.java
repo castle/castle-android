@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android;
 
 import android.Manifest;
@@ -24,9 +28,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * Copyright (c) 2017 Castle
- */
 @RunWith(AndroidJUnit4.class)
 public class CastleTest {
     @Rule

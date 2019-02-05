@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api;
 
 import io.castle.android.Utils;
@@ -11,12 +15,11 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 /**
- * Copyright (c) 2017 Castle
+ * API Service for Castle APIs, do not use directly, use suitable method in {@link io.castle.android.Castle}
  */
-
 public class CastleAPIService {
 
-    public static final String API_URL = "https://api.castle.io/v1/";
+    private static final String API_URL = "https://api.castle.io/v1/";
     private static CastleAPI instance;
 
     public interface CastleAPI {
@@ -24,6 +27,10 @@ public class CastleAPIService {
         public Call<Void> batch(@Body Batch batch);
     }
 
+    /**
+     * Get Instance of CastleAPI
+     * @return Instance of CastleAPI
+     */
     public static CastleAPI getInstance() {
         if (instance == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();

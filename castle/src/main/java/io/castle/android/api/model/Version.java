@@ -1,11 +1,13 @@
-package io.castle.android.api.model;
+/*
+ * Copyright (c) 2017 Castle
+ */
 
-import android.os.Build;
+package io.castle.android.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Copyright (c) 2017 Castle
+ * Model class for version information
  */
 public abstract class Version {
     @SerializedName("version")

@@ -1,9 +1,13 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.api.model;
 
 import io.castle.android.BuildConfig;
 
 /**
- * Copyright (c) 2017 Castle
+ * Model class for library version information, included in all events
  */
 class LibraryVersion extends Version {
 

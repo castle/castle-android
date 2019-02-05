@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017 Castle
+ */
+
 package io.castle.android.sample;
 
 import android.app.Application;
@@ -7,10 +11,6 @@ import java.util.List;
 
 import io.castle.android.Castle;
 import io.castle.android.CastleConfiguration;
-
-/**
- * Copyright (c) 2017 Castle
- */
 
 public class SampleApplication extends Application {
     @Override
