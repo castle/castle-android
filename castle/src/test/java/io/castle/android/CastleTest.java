@@ -79,6 +79,12 @@ public class CastleTest {
 
         // FlushIfNeeded returns true if url is whitelisted and flush() is called
         Assert.assertTrue(flushed);
+
+        // Make sure flush is NOT done for non whitelisted base url
+        flushed = Castle.flushIfNeeded("https://test.com");
+
+        // FlushIfNeeded returns fasle if url is not whitelisted
+        Assert.assertFalse(flushed);
     }
 
     @Test
