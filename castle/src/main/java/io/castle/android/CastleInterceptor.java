@@ -14,23 +14,24 @@ import okhttp3.Response;
 class CastleInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Request originalRequest = chain.request();
+        Request request = chain.request();
 
-        Request.Builder builder = originalRequest.newBuilder();
+        // Only add headers is url is whitelisted
+        if (Castle.isUrlWhiteListed(request.url().toString())) {
 
-        Map<String,String> headers = Castle.headers(chain.request().url().toString());
+            Request.Builder builder = request.newBuilder();
 
-        for (Map.Entry<String, String> entry : headers.entrySet()) {
-            builder.addHeader(entry.getKey(), entry.getValue());
-        }
+            Map<String,String> headers = Castle.headers(chain.request().url().toString());
 
-        Request newRequest = builder.build();
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                builder.addHeader(entry.getKey(), entry.getValue());
+            }
 
-        // Force a flush if request to whitelisted url
-        if (Castle.isUrlWhiteListed(originalRequest.url().toString())) {
+            request = builder.build();
+
             Castle.flush();
         }
 
-        return chain.proceed(newRequest);
+        return chain.proceed(request);
     }
 }
