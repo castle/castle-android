@@ -202,6 +202,15 @@ public class CastleTest {
         Assert.assertEquals(null, response.request().header(Castle.clientIdHeaderName));
     }
 
+    @Test
+    public void testSecureMode() {
+        String signature = "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52";
+
+        Castle.secure(signature);
+
+        Assert.assertTrue(Castle.secureModeEnabled());
+    }
+
     @After
     public void after() {
         Castle.destroy(application);
