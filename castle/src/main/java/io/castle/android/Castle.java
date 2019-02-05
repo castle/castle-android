@@ -219,7 +219,7 @@ public class Castle {
      * @param userId  user id
      */
     private static void userId(String userId) {
-        instance.storageHelper.setIdentity(userId);
+        instance.storageHelper.setUserId(userId);
     }
 
     /**
@@ -227,7 +227,7 @@ public class Castle {
      * @return user id
      */
     public static String userId() {
-        return instance.storageHelper.getIdentity();
+        return instance.storageHelper.getUserId();
     }
 
     /**

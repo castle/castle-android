@@ -44,11 +44,11 @@ class StorageHelper {
         getPreferencesEditor().putString(DEVICE_ID_KEY, deviceId).commit();
     }
 
-    String getIdentity() {
+    String getUserId() {
         return getPreferences().getString(USER_ID_KEY, null);
     }
 
-    void setIdentity(String userId) {
+    void setUserId(String userId) {
         getPreferencesEditor().putString(USER_ID_KEY, userId).commit();
     }
 
