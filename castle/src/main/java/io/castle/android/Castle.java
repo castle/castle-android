@@ -278,6 +278,14 @@ public class Castle {
     }
 
     /**
+     * Get debug logging enabled
+     * @return true of debug logging is enabled
+     */
+    public static boolean debugLoggingEnabled() {
+        return instance.configuration.debugLoggingEnabled();
+    }
+
+    /**
      * Get identifier if set, otherwise returns null
      * @return identifier
      */
