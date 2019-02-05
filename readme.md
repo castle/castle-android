@@ -2,8 +2,9 @@
 
 **[Castle](https://castle.io) adds real-time monitoring of your authentication stack, instantly notifying you and your users on potential account hijacks.**
 
-[![Download](https://api.bintray.com/packages/castleintelligence/castle-android/castle/images/download.svg) ](https://bintray.com/castleintelligence/castle-android/castle/_latestVersion)
-[![CircleCI](https://circleci.com/gh/castle/castle-android/tree/master.svg?style=svg)](https://circleci.com/gh/castle/castle-android/tree/master)
+[![Download](https://api.bintray.com/packages/castleintelligence/castle-android/castle/images/download.svg)](https://bintray.com/castleintelligence/castle-android/castle/_latestVersion)
+[![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](https://opensource.org/licenses/MIT)
+[![CircleCI](https://circleci.com/gh/castle/castle-android/tree/master.svg?style=shield)](https://circleci.com/gh/castle/castle-android/tree/master)
 [![codecov](https://codecov.io/gh/castle/castle-android/branch/master/graph/badge.svg)](https://codecov.io/gh/castle/castle-android)
 
 ## Requirements
