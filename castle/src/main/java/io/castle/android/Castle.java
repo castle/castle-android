@@ -199,7 +199,7 @@ public class Castle {
 
         // Log warning if identify is called without secure mode signature set.
         if (!Castle.secureModeEnabled()) {
-            Log.w("Castle SDK", "Identify called without secure mode signature set. If secure mode is enabled in Castle and identify is called before secure, the identify event will be discarded.");
+            CastleLogger.w("Identify called without secure mode signature set. If secure mode is enabled in Castle and identify is called before secure, the identify event will be discarded.");
         }
 
         Castle.userId(userId);
