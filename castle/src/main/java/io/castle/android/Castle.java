@@ -193,18 +193,7 @@ public class Castle {
      * @param userId user id
      */
     public static void identify(String userId) {
-        if (userId == null || userId.isEmpty()) {
-            return;
-        }
-
-        // Log warning if identify is called without secure mode signature set.
-        if (!Castle.secureModeEnabled()) {
-            CastleLogger.w("Identify called without secure mode signature set. If secure mode is enabled in Castle and identify is called before secure, the identify event will be discarded.");
-        }
-
-        Castle.userId(userId);
-        track(new IdentifyEvent(userId));
-        flush();
+        identify(userId, new HashMap<>());
     }
 
     /**
@@ -216,6 +205,12 @@ public class Castle {
         if (userId == null || userId.isEmpty() || traits == null) {
             return;
         }
+
+        // Log warning if identify is called without secure mode signature set.
+        if (!Castle.secureModeEnabled()) {
+            CastleLogger.w("Identify called without secure mode signature set. If secure mode is enabled in Castle and identify is called before secure, the identify event will be discarded.");
+        }
+
         Castle.userId(userId);
         track(new IdentifyEvent(userId, traits));
         flush();
