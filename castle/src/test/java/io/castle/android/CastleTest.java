@@ -203,6 +203,11 @@ public class CastleTest {
     }
 
     @Test
+    public void testWhiteList() {
+        Assert.assertFalse(Castle.isUrlWhiteListed("invalid url"));
+    }
+
+    @Test
     public void testSecureMode() {
 
         Castle.secure(null);
