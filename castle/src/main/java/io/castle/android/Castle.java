@@ -24,7 +24,7 @@ import io.castle.android.api.model.ScreenEvent;
 import io.castle.android.queue.EventQueue;
 
 /**
- * One stop shop for all Castle related things
+ * This class is the main entry point for using the Castle SDK and provides methods for tracking events, screen views, manual flushing of the event queue, whitelisting behaviour and resetting.
  */
 public class Castle {
     public static final String clientIdHeaderName = "X-Castle-Client-Id";
@@ -98,7 +98,7 @@ public class Castle {
     /**
      * Configure Castle using the provided configuration
      * @param application Application instance
-     * @param configuration CastleConfiguration instance
+     * @param configuration CastleConfiguration
      */
     public static void configure(Application application, CastleConfiguration configuration) {
         if (instance == null) {
@@ -157,7 +157,7 @@ public class Castle {
     }
 
     /**
-     * Track event
+     * Track event with a specified name and provided properties
      * @param event Event name
      * @param properties Event properties
      */
@@ -169,7 +169,7 @@ public class Castle {
     }
 
     /**
-     * Track event
+     * Track event with a specified name
      * @param event Event name
      */
     public static void track(String event) {
@@ -188,7 +188,7 @@ public class Castle {
     }
 
     /**
-     * Track identify event
+     * Track identify event with specified user identity. User identity will be persisted. A call to identify or reset will clear the stored user identity.
      * @param userId user id
      */
     public static void identify(String userId) {
@@ -201,7 +201,7 @@ public class Castle {
     }
 
     /**
-     * Track identify event
+     * Track identify event with specified user identity. User identity will be persisted. A call to identify or reset will clear the stored user identity. Provided user traits will be included in the identify event sent to the Castle API.
      * @param userId user id
      * @param traits user traits
      */
@@ -214,6 +214,10 @@ public class Castle {
         flush();
     }
 
+    /**
+     * Set user id
+     * @param userId  user id
+     */
     private static void userId(String userId) {
         instance.storageHelper.setIdentity(userId);
     }
@@ -227,7 +231,7 @@ public class Castle {
     }
 
     /**
-     * Reset user saved user information
+     * Reset any stored user information and flush the event queue
      */
     public static void reset() {
         Castle.flush();
@@ -235,7 +239,7 @@ public class Castle {
     }
 
     /**
-     * Track screen event
+     * Track screen event with a specified name and provided properties
      * @param name Event name
      * @param properties Event properties
      */
@@ -247,7 +251,7 @@ public class Castle {
     }
 
     /**
-     * Track screen event
+     * Track screen event with a specified name
      * @param name Event name
      */
     public static void screen(String name) {
@@ -290,7 +294,7 @@ public class Castle {
     }
 
     /**
-     * Force a flush of the batch event queue
+     * Force a flush of the batch event queue, even if the flush limit hasn’t been reached
      */
     public static void flush() {
         try {
@@ -333,8 +337,8 @@ public class Castle {
     }
 
     /**
-     * Checks if provided url is whitelisted
-     * @return true if whitelisted
+     * Determine if a given url is whitelisted
+     * @return url whitelist status
      */
     static boolean isUrlWhiteListed(String urlString) {
         try {
@@ -353,8 +357,8 @@ public class Castle {
     }
 
     /**
-     * Get current batch queue size
-     * @return current queue size
+     * Get the current size of the event queue
+     * @return The current size of the event queue
      */
     public static int queueSize() {
         return instance.eventQueue.size();
@@ -362,7 +366,7 @@ public class Castle {
 
     /**
      * Check if queue is being flushed
-     * @return true if flushing is in progress
+     * @return True if flushing is in progress
      */
     static boolean isFlushing() {
         return instance.eventQueue.isFlushing();
@@ -390,7 +394,7 @@ public class Castle {
 
     /**
      * Get current app versionName
-     * @return current build
+     * @return current version
      */
     static String getCurrentVersion() {
         return instance.storageHelper.getVersion();
