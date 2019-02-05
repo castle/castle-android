@@ -32,7 +32,6 @@ public class Castle {
     private static Castle instance;
     private Application application;
     private String identifier;
-    private String signature;
     private CastleConfiguration configuration;
     private EventQueue eventQueue;
     private StorageHelper storageHelper;
@@ -310,15 +309,15 @@ public class Castle {
      * @return signature
      */
     public static String signature() {
-        return instance.signature;
+        return instance.storageHelper.getSignature();
     }
 
     /**
      * Set the signature for secure mode
      * @param signature The signature to be used for secure mode
      */
-    public static String signature(String signature) {
-        return instance.signature = signature;
+    public static void signature(String signature) {
+        instance.storageHelper.setSignature(signature);
     }
 
     /**
