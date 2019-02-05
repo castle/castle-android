@@ -11,6 +11,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -195,6 +196,12 @@ public class Castle {
         if (userId == null || userId.isEmpty()) {
             return;
         }
+
+        // Log warning if identify is called without secure mode signature set.
+        if (!Castle.secureModeEnabled()) {
+            Log.w("Castle SDK", "Identify called without secure mode signature set. If secure mode is enabled in Castle and identify is called before secure, the identify event will be discarded.");
+        }
+
         Castle.userId(userId);
         track(new IdentifyEvent(userId));
         flush();
