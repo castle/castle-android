@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.identify)
     public void onIdentifyClick(Button button) {
+        // Set signature for secure mode
+        Castle.secure("944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52");
+
         // Identify user with a unique identifier including user traits
         Map<String, String> traits = new HashMap<>();
         traits.put("email", "sebastian@boldsie.com");
