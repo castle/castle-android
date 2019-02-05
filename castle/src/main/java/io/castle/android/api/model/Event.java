@@ -16,9 +16,9 @@ import io.castle.android.Utils;
  * Model class for events
  */
 public class Event {
-    public static String EVENT_TYPE_EVENT = "track";
-    public static String EVENT_TYPE_SCREEN = "screen";
-    public static String EVENT_TYPE_IDENTIFY = "identify";
+    public static final String EVENT_TYPE_EVENT = "track";
+    public static final String EVENT_TYPE_SCREEN = "screen";
+    public static final String EVENT_TYPE_IDENTIFY = "identify";
 
     @SerializedName("context")
     Context context;
@@ -32,6 +32,8 @@ public class Event {
     String type;
     @SerializedName("user_id")
     String userId;
+    @SerializedName("signature")
+    String signature;
 
     /**
      * Create new event with specified name
@@ -43,6 +45,7 @@ public class Event {
         this.timestamp = Utils.getTimestamp();
         this.type = EVENT_TYPE_EVENT;
         this.userId = Castle.userId();
+        this.signature = Castle.signature();
     }
 
     /**

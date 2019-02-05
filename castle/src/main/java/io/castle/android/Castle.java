@@ -32,6 +32,7 @@ public class Castle {
     private static Castle instance;
     private Application application;
     private String identifier;
+    private String signature;
     private CastleConfiguration configuration;
     private EventQueue eventQueue;
     private StorageHelper storageHelper;
@@ -270,6 +271,25 @@ public class Castle {
     }
 
     /**
+     * Set signature to use for Secure Mode
+     * @param signature Signature sent to Castle to verify secure mode
+     */
+    public static void secure(String signature) {
+        if (signature == null || signature.isEmpty()) {
+            return;
+        }
+        Castle.signature(signature);
+    }
+
+    /**
+     * Check if a signature is set and secure mode enabled
+     * @return True if signature is set
+     */
+    public static boolean secureModeEnabled() {
+        return Castle.signature() != null;
+    }
+
+    /**
      * Get configured publishable key
      * @return publishable key
      */
@@ -283,6 +303,22 @@ public class Castle {
      */
     public static String clientId() {
         return instance.identifier;
+    }
+
+    /**
+     * Get the signature if set, otherwise returns null
+     * @return signature
+     */
+    public static String signature() {
+        return instance.signature;
+    }
+
+    /**
+     * Set the signature for secure mode
+     * @param signature The signature to be used for secure mode
+     */
+    public static String signature(String signature) {
+        return instance.signature = signature;
     }
 
     /**
