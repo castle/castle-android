@@ -204,6 +204,15 @@ public class CastleTest {
 
     @Test
     public void testSecureMode() {
+
+        Castle.secure(null);
+
+        Assert.assertFalse(Castle.secureModeEnabled());
+
+        Castle.secure("");
+
+        Assert.assertFalse(Castle.secureModeEnabled());
+
         String signature = "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52";
 
         Castle.secure(signature);
