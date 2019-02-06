@@ -1,8 +1,13 @@
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
-version = VERSION_NAME
-group = GROUP
+version = '1.0.3'
+group = 'io.castle.android'
+
+def POM_ARTIFACT_ID = 'castle'
+def POM_DESCRIPTION = 'Android client library for Castle'
+def POM_URL = 'https://github.com/castle/castle-android'
+def POM_SCM_CONNECTION = 'scm:git:git://github.com/castle/castle-android.git'
 
 def getRepositoryUsername() {
     return hasProperty('BINTRAY_USER') ? BINTRAY_USER : ""
@@ -25,7 +30,7 @@ bintray {
         name = POM_ARTIFACT_ID
         desc = POM_DESCRIPTION
         websiteUrl = POM_URL
-        vcsUrl = VCS_URL
+        vcsUrl = POM_URL
         publish = true
         publicDownloadNumbers = true
         version {
@@ -42,33 +47,33 @@ bintray {
 install {
     repositories.mavenInstaller {
         pom.project {
-            name POM_NAME
+            name 'castle-android'
             description POM_DESCRIPTION
             url POM_URL
 
-            packaging POM_PACKAGING
-            groupId GROUP
+            packaging 'aar'
+            groupId group
             artifactId POM_ARTIFACT_ID
-            version VERSION_NAME
+            version version
 
             licenses {
                 license {
-                    name POM_LICENCE_NAME
-                    url POM_LICENCE_URL
-                    distribution POM_LICENCE_DIST
+                    name 'The MIT License'
+                    url 'https://opensource.org/licenses/MIT'
+                    distribution 'repo'
                 }
             }
 
             scm {
-                url POM_SCM_URL
+                url POM_URL
                 connection POM_SCM_CONNECTION
-                developerConnection POM_SCM_DEV_CONNECTION
+                developerConnection POM_SCM_CONNECTION
             }
 
             developers {
                 developer {
-                    id POM_DEVELOPER_ID
-                    name POM_DEVELOPER_NAME
+                    id 'castle'
+                    name 'Castle Intelligence, Inc.'
                 }
             }
         }
