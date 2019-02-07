@@ -32,8 +32,8 @@ public class Event {
     String type;
     @SerializedName("user_id")
     String userId;
-    @SerializedName("signature")
-    String signature;
+    @SerializedName("user_signature")
+    String userSignature;
 
     /**
      * Create new event with specified name
@@ -45,7 +45,7 @@ public class Event {
         this.timestamp = Utils.getTimestamp();
         this.type = EVENT_TYPE_EVENT;
         this.userId = Castle.userId();
-        this.signature = Castle.signature();
+        this.userSignature = Castle.userSignature();
     }
 
     /**

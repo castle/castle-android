@@ -278,7 +278,7 @@ public class Castle {
         if (signature == null || signature.isEmpty()) {
             return;
         }
-        Castle.signature(signature);
+        Castle.userSignature(signature);
     }
 
     /**
@@ -286,7 +286,7 @@ public class Castle {
      * @return True if signature is set
      */
     public static boolean secureModeEnabled() {
-        return Castle.signature() != null;
+        return Castle.userSignature() != null;
     }
 
     /**
@@ -306,19 +306,19 @@ public class Castle {
     }
 
     /**
-     * Get the signature if set, otherwise returns null
+     * Get the user signature if set, otherwise returns null
      * @return signature
      */
-    public static String signature() {
-        return instance.storageHelper.getSignature();
+    public static String userSignature() {
+        return instance.storageHelper.getUserSignature();
     }
 
     /**
-     * Set the signature for secure mode
+     * Set the user signature for secure mode
      * @param signature The signature to be used for secure mode
      */
-    public static void signature(String signature) {
-        instance.storageHelper.setSignature(signature);
+    public static void userSignature(String signature) {
+        instance.storageHelper.setUserSignature(signature);
     }
 
     /**
