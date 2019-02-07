@@ -1,9 +1,8 @@
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
-version = '1.0.3'
-group = 'io.castle.android'
-
+def POM_VERSION = '1.0.3'
+def POM_GROUP_ID = 'io.castle.android'
 def POM_ARTIFACT_ID = 'castle'
 def POM_DESCRIPTION = 'Android client library for Castle'
 def POM_URL = 'https://github.com/castle/castle-android'
@@ -20,6 +19,9 @@ def getRepositoryApiKey() {
 def getRepositoryPassword() {
     return hasProperty('BINTRAY_GPG_PASSWORD') ? BINTRAY_GPG_PASSWORD : ""
 }
+
+version = POM_VERSION
+group = POM_GROUP_ID
 
 bintray {
     user = getRepositoryUsername()
@@ -52,9 +54,9 @@ install {
             url POM_URL
 
             packaging 'aar'
-            groupId group
+            groupId POM_GROUP_ID
             artifactId POM_ARTIFACT_ID
-            version version
+            version POM_VERSION
 
             licenses {
                 license {
