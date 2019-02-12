@@ -150,7 +150,7 @@ public class EventQueue implements Callback<Void> {
             CastleLogger.e(response.code() + " " + response.message());
             try {
                 CastleLogger.e("Batch request error:" + response.errorBody().string());
-            } catch (IOException e) {
+            } catch (Exception e) {
                 CastleLogger.e("Batch request error", e);
             }
         }
