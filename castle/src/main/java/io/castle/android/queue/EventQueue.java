@@ -24,6 +24,7 @@ import retrofit2.Response;
 
 public class EventQueue implements Callback<Void> {
     private static final String QUEUE_FILENAME = "castle-queue";
+    private static final int MAX_BATCH_SIZE = 100;
 
     private ObjectQueue<Event> eventObjectQueue;
 
@@ -82,7 +83,7 @@ public class EventQueue implements Callback<Void> {
         if (!isFlushing() && (!eventObjectQueue.isEmpty())) {
             trim();
 
-            List<Event> events = eventObjectQueue.peek(Castle.configuration().flushLimit());
+            List<Event> events = eventObjectQueue.peek(MAX_BATCH_SIZE);
 
             Batch batch = new Batch();
             batch.addEvents(events);
@@ -125,6 +126,11 @@ public class EventQueue implements Callback<Void> {
                 CastleLogger.d("Removed " + flushCount + " events from EventQueue");
             } catch (IOException e) {
                 CastleLogger.e("Failed to remove events from queue", e);
+            }
+
+            // Check if queue size still exceed the flush limit and if it does, flush.
+            if (needsFlush()) {
+                Castle.flush();
             }
         } else {
             CastleLogger.e(response.code() + " " + response.message());
