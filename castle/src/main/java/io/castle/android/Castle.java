@@ -237,6 +237,7 @@ public class Castle {
     public static void reset() {
         Castle.flush();
         Castle.userId(null);
+        Castle.userSignature(null);
     }
 
     /**
