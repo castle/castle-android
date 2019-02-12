@@ -27,6 +27,7 @@ import retrofit2.Response;
 
 public class EventQueue implements Callback<Void> {
     private static final String QUEUE_FILENAME = "castle-queue";
+    private static final int MAX_BATCH_SIZE = 100;
 
     private ObjectQueue<Event> eventObjectQueue;
 
@@ -84,8 +85,6 @@ public class EventQueue implements Callback<Void> {
         CastleLogger.d("EventQueue size " + eventObjectQueue.size());
         if (!isFlushing() && (!eventObjectQueue.isEmpty())) {
             trim();
-
-            List<Event> events = eventObjectQueue.peek(Castle.configuration().flushLimit());
 
             int end = Math.min(MAX_BATCH_SIZE, eventObjectQueue.size());
             List<Event> subList = new ArrayList<>(end);
