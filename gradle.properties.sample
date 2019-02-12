@@ -1,0 +1,5 @@
+android.enableUnitTestBinaryResources=true
+
+BINTRAY_USER=user
+BINTRAY_API_KEY=apikey
+BINTRAY_GPG_PASSWORD=password

@@ -79,6 +79,12 @@ public class CastleTest {
 
         // FlushIfNeeded returns true if url is whitelisted and flush() is called
         Assert.assertTrue(flushed);
+
+        // Make sure flush is NOT done for non whitelisted base url
+        flushed = Castle.flushIfNeeded("https://test.com");
+
+        // FlushIfNeeded returns fasle if url is not whitelisted
+        Assert.assertFalse(flushed);
     }
 
     @Test
@@ -200,6 +206,29 @@ public class CastleTest {
 
         response = client.newCall(request).execute();
         Assert.assertEquals(null, response.request().header(Castle.clientIdHeaderName));
+    }
+
+    @Test
+    public void testWhiteList() {
+        Assert.assertFalse(Castle.isUrlWhiteListed("invalid url"));
+    }
+
+    @Test
+    public void testSecureMode() {
+
+        Castle.secure(null);
+
+        Assert.assertFalse(Castle.secureModeEnabled());
+
+        Castle.secure("");
+
+        Assert.assertFalse(Castle.secureModeEnabled());
+
+        String signature = "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52";
+
+        Castle.secure(signature);
+
+        Assert.assertTrue(Castle.secureModeEnabled());
     }
 
     @After

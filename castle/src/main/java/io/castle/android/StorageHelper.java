@@ -15,6 +15,7 @@ class StorageHelper {
     private static final String VERSION_KEY = "version_key";
     private static final String USER_ID_KEY = "user_id_key";
     private static final String DEVICE_ID_KEY = "device_id_key";
+    private static final String USER_SIGNATURE_KEY = "user_signature_key";
 
     private SharedPreferences preferences;
 
@@ -43,11 +44,11 @@ class StorageHelper {
         getPreferencesEditor().putString(DEVICE_ID_KEY, deviceId).commit();
     }
 
-    String getIdentity() {
+    String getUserId() {
         return getPreferences().getString(USER_ID_KEY, null);
     }
 
-    void setIdentity(String userId) {
+    void setUserId(String userId) {
         getPreferencesEditor().putString(USER_ID_KEY, userId).commit();
     }
 
@@ -65,5 +66,13 @@ class StorageHelper {
 
     void setVersion(String version) {
         getPreferencesEditor().putString(VERSION_KEY, version).commit();
+    }
+
+    String getUserSignature() {
+        return getPreferences().getString(USER_SIGNATURE_KEY, null);
+    }
+
+    void setUserSignature(String signature) {
+        getPreferencesEditor().putString(USER_SIGNATURE_KEY, signature).commit();
     }
 }

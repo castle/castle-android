@@ -97,6 +97,18 @@ public class CastleConfigurationTest {
         new StorageHelper(application).setBuild(0);
 
         Castle.configure(application);
+
+        // Destroy current instance
+        Castle.destroy(application);
+
+        // Try and set up SDK with new configuration while already configured
+        configuration = new CastleConfiguration.Builder()
+                .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
+                .build();
+
+        Castle.configure(application, "pk_123", configuration);
+
+        Assert.assertEquals("pk_123", Castle.publishableKey());
     }
 
     @After

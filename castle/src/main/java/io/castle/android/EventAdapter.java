@@ -2,8 +2,7 @@
  * Copyright (c) 2017 Castle
  */
 
-package io.castle.android.api;
-
+package io.castle.android;
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -19,12 +18,13 @@ import io.castle.android.api.model.Event;
 import io.castle.android.api.model.IdentifyEvent;
 import io.castle.android.api.model.ScreenEvent;
 
-public class EventAdapter implements JsonSerializer<Event>, JsonDeserializer<Event> {
-    Gson gson = new Gson();
+class EventAdapter implements JsonSerializer<Event>, JsonDeserializer<Event> {
+
+    private static final Gson gson = new Gson();
 
     @Override
     public JsonElement serialize(Event src, Type typeOfSrc, JsonSerializationContext context) {
-        JsonObject jsonObject = (JsonObject) new Gson().toJsonTree(src, typeOfSrc);
+        JsonObject jsonObject = (JsonObject) gson.toJsonTree(src, typeOfSrc);
 
         // XXXAus: We should do this a better way.
         if (src instanceof IdentifyEvent) {
@@ -40,12 +40,19 @@ public class EventAdapter implements JsonSerializer<Event>, JsonDeserializer<Eve
 
     @Override
     public Event deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        JsonObject jsonObject = json.getAsJsonObject();
-        if (jsonObject.get("type").getAsString().equals(Event.EVENT_TYPE_IDENTIFY)) {
-            typeOfT = IdentifyEvent.class;
-        } else if (jsonObject.get("type").getAsString().equals(Event.EVENT_TYPE_SCREEN)) {
-            typeOfT = ScreenEvent.class;
+        if (typeOfT.equals(Event.class)) {
+            String type = json.getAsJsonObject().get("type").getAsString();
+
+            switch (type) {
+                case Event.EVENT_TYPE_IDENTIFY:
+                    typeOfT = IdentifyEvent.class;
+                    break;
+                case Event.EVENT_TYPE_SCREEN:
+                    typeOfT = ScreenEvent.class;
+                    break;
+            }
         }
+
         return gson.fromJson(json, typeOfT);
     }
 }

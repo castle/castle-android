@@ -30,6 +30,14 @@ public class CastleLogger {
     }
 
     /**
+     * Send an warning log message
+     * @param message Message to be logged
+     */
+    public static void w(String message) {
+        Log.e(TAG, message);
+    }
+
+    /**
      * Send an debug log message
      * @param message Message to be logged
      */

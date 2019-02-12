@@ -192,12 +192,7 @@ public class Castle {
      * @param userId user id
      */
     public static void identify(String userId) {
-        if (userId == null || userId.isEmpty()) {
-            return;
-        }
-        Castle.userId(userId);
-        track(new IdentifyEvent(userId));
-        flush();
+        identify(userId, new HashMap<>());
     }
 
     /**
@@ -209,6 +204,12 @@ public class Castle {
         if (userId == null || userId.isEmpty() || traits == null) {
             return;
         }
+
+        // Log warning if identify is called without secure mode signature set.
+        if (!Castle.secureModeEnabled()) {
+            CastleLogger.w("Identify called without secure mode signature set. If secure mode is enabled in Castle and identify is called before secure, the identify event will be discarded.");
+        }
+
         Castle.userId(userId);
         track(new IdentifyEvent(userId, traits));
         flush();
@@ -219,7 +220,7 @@ public class Castle {
      * @param userId  user id
      */
     private static void userId(String userId) {
-        instance.storageHelper.setIdentity(userId);
+        instance.storageHelper.setUserId(userId);
     }
 
     /**
@@ -227,7 +228,7 @@ public class Castle {
      * @return user id
      */
     public static String userId() {
-        return instance.storageHelper.getIdentity();
+        return instance.storageHelper.getUserId();
     }
 
     /**
@@ -236,6 +237,7 @@ public class Castle {
     public static void reset() {
         Castle.flush();
         Castle.userId(null);
+        Castle.userSignature(null);
     }
 
     /**
@@ -270,6 +272,25 @@ public class Castle {
     }
 
     /**
+     * Set signature to use for Secure Mode
+     * @param signature Signature sent to Castle to verify secure mode
+     */
+    public static void secure(String signature) {
+        if (signature == null || signature.isEmpty()) {
+            return;
+        }
+        Castle.userSignature(signature);
+    }
+
+    /**
+     * Check if a signature is set and secure mode enabled
+     * @return True if signature is set
+     */
+    public static boolean secureModeEnabled() {
+        return Castle.userSignature() != null;
+    }
+
+    /**
      * Get configured publishable key
      * @return publishable key
      */
@@ -291,6 +312,22 @@ public class Castle {
      */
     public static String clientId() {
         return instance.identifier;
+    }
+
+    /**
+     * Get the user signature if set, otherwise returns null
+     * @return signature
+     */
+    public static String userSignature() {
+        return instance.storageHelper.getUserSignature();
+    }
+
+    /**
+     * Set the user signature for secure mode
+     * @param signature The signature to be used for secure mode
+     */
+    public static void userSignature(String signature) {
+        instance.storageHelper.setUserSignature(signature);
     }
 
     /**

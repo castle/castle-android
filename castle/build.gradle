@@ -1,12 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'jacoco'
 
-ext {
-    PUBLISH_GROUP_ID = 'io.castle.android'
-    PUBLISH_ARTIFACT_ID = 'castle'
-    PUBLISH_VERSION = '1.0.3'
-}
-
 jacoco {
     toolVersion = '0.8.3'
 }
@@ -23,7 +17,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0.3"
+        versionName '1.0.3'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -83,9 +77,6 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestUtil 'androidx.test:orchestrator:1.1.1'
 }
-
-// or use the remote copy to keep update with latest changes
-apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
 
 if (!ciBuild) {
     apply from: 'bintray.gradle'
