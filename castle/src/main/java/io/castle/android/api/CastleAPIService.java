@@ -4,6 +4,7 @@
 
 package io.castle.android.api;
 
+import io.castle.android.Castle;
 import io.castle.android.Utils;
 import io.castle.android.api.model.Batch;
 import okhttp3.OkHttpClient;
@@ -33,14 +34,16 @@ public class CastleAPIService {
      */
     public static CastleAPI getInstance() {
         if (instance == null) {
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                                .addInterceptor(new CastleAuthenticationInterceptor());
 
-            OkHttpClient okHttpClient =
-                new OkHttpClient.Builder()
-                                .addInterceptor(new CastleAuthenticationInterceptor())
-                                .addInterceptor(logging)
-                                .build();
+            if (Castle.debugLoggingEnabled()) {
+                HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+                loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                builder.addInterceptor(loggingInterceptor);
+            }
+
+            OkHttpClient okHttpClient = builder.build();
 
             Retrofit retrofit =
                 new Retrofit.Builder()
