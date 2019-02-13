@@ -27,7 +27,7 @@ public class Utils {
 
     private static String formatDate(Date date) {
         if (formatter == null) {
-            formatter = new SimpleDateFormat(pattern, Locale.US);
+            formatter = new SimpleDateFormat(pattern, new Locale("en", "US", "POSIX"));
             formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         }
         return formatter.format(date);
