@@ -11,6 +11,9 @@ import com.squareup.tape2.QueueFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import io.castle.android.Castle;
@@ -24,6 +27,7 @@ import retrofit2.Response;
 
 public class EventQueue implements Callback<Void> {
     private static final String QUEUE_FILENAME = "castle-queue";
+    private static final int MAX_BATCH_SIZE = 100;
 
     private ObjectQueue<Event> eventObjectQueue;
 
@@ -82,16 +86,31 @@ public class EventQueue implements Callback<Void> {
         if (!isFlushing() && (!eventObjectQueue.isEmpty())) {
             trim();
 
-            List<Event> events = eventObjectQueue.peek(Castle.configuration().flushLimit());
+            int end = Math.min(MAX_BATCH_SIZE, eventObjectQueue.size());
+            List<Event> subList = new ArrayList<>(end);
+            Iterator<Event> iterator = eventObjectQueue.iterator();
+            for (int i = 0; i < end; i++) {
+                Event event = iterator.next();
+                if (event == null) {
+                    iterator.remove();
+                } else {
+                    subList.add(event);
+                }
+            }
+            List<Event> events = Collections.unmodifiableList(subList);
 
-            Batch batch = new Batch();
-            batch.addEvents(events);
+            if (!events.isEmpty()) {
+                Batch batch = new Batch();
+                batch.addEvents(events);
 
-            CastleLogger.d("Flushing EventQueue " + events.size());
+                CastleLogger.d("Flushing EventQueue " + events.size());
 
-            flushCount = events.size();
-            flushCall = CastleAPIService.getInstance().batch(batch);
-            flushCall.enqueue(this);
+                flushCount = events.size();
+                flushCall = CastleAPIService.getInstance().batch(batch);
+                flushCall.enqueue(this);
+            } else {
+                CastleLogger.d("Did not flush EventQueue ");
+            }
         }
     }
 
@@ -130,7 +149,7 @@ public class EventQueue implements Callback<Void> {
             CastleLogger.e(response.code() + " " + response.message());
             try {
                 CastleLogger.e("Batch request error:" + response.errorBody().string());
-            } catch (IOException e) {
+            } catch (Exception e) {
                 CastleLogger.e("Batch request error", e);
             }
         }

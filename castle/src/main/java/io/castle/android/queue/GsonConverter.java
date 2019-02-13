@@ -24,8 +24,13 @@ class GsonConverter<T> implements ObjectQueue.Converter<T> {
     }
 
     @Override public T from(byte[] bytes) {
-        Reader reader = new InputStreamReader(new ByteArrayInputStream(bytes));
-        return Utils.getGsonInstance().fromJson(reader, type);
+        try {
+            Reader reader = new InputStreamReader(new ByteArrayInputStream(bytes));
+            return Utils.getGsonInstance().fromJson(reader, type);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override public void toStream(T object, OutputStream bytes) throws IOException {
