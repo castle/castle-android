@@ -145,6 +145,11 @@ public class EventQueue implements Callback<Void> {
             } catch (IOException e) {
                 CastleLogger.e("Failed to remove events from queue", e);
             }
+
+            // Check if queue size still exceed the flush limit and if it does, flush.
+            if (needsFlush()) {
+                Castle.flush();
+            }
         } else {
             CastleLogger.e(response.code() + " " + response.message());
             try {
