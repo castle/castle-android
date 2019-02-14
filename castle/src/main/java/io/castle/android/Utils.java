@@ -5,6 +5,7 @@
 package io.castle.android;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
@@ -57,5 +58,26 @@ public class Utils {
         } catch (PackageManager.NameNotFoundException e) {
             throw new AssertionError("Package not found: " + context.getPackageName());
         }
+    }
+
+    static ApplicationInfo getApplicationInfo(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            return packageManager.getApplicationInfo(context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new AssertionError("Package not found: " + context.getPackageName());
+        }
+    }
+
+    public static String getApplicationName(Context context) {
+        return (String) context.getPackageManager().getApplicationLabel(getApplicationInfo(context));
+    }
+
+    public static String getApplicationVersion(Context context) {
+        return getPackageInfo(context).versionName;
+    }
+
+    public static int getApplicationVersionCode(Context context) {
+        return getPackageInfo(context).versionCode;
     }
 }

@@ -8,14 +8,15 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import io.castle.android.api.model.Event;
@@ -59,9 +60,8 @@ public class Castle {
         application.registerComponentCallbacks(componentCallbacks);
 
         // Get the current version.
-        PackageInfo packageInfo = Utils.getPackageInfo(application);
-        String currentVersion = packageInfo.versionName;
-        int currentBuild = packageInfo.versionCode;
+        String currentVersion = Utils.getApplicationVersion(application);
+        int currentBuild = Utils.getApplicationVersionCode(application);
 
         // Get the previous recorded version.
         String previousVersion = storageHelper.getVersion();
@@ -435,6 +435,15 @@ public class Castle {
      */
     static int getCurrentBuild() {
         return instance.storageHelper.getBuild();
+    }
+
+
+    /**
+     * Get custom user agent used for requests sent to Castle API
+     * @return User agent string in format application name/version (versionCode) (Device name; Android version; Castle library version)
+     */
+    public static String userAgent() {
+        return String.format(Locale.US, "%s/%s (%d) (%s %s; Android %s; Castle %s)", Utils.getApplicationName(instance.application), Utils.getApplicationVersion(instance.application), Utils.getApplicationVersionCode(instance.application), Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME);
     }
 
     /**
