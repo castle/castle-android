@@ -7,9 +7,7 @@ package io.castle.android;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import java.io.IOException;
@@ -59,9 +57,8 @@ public class Castle {
         application.registerComponentCallbacks(componentCallbacks);
 
         // Get the current version.
-        PackageInfo packageInfo = Utils.getPackageInfo(application);
-        String currentVersion = packageInfo.versionName;
-        int currentBuild = packageInfo.versionCode;
+        String currentVersion = Utils.getApplicationVersion(application);
+        int currentBuild = Utils.getApplicationVersionCode(application);
 
         // Get the previous recorded version.
         String previousVersion = storageHelper.getVersion();
