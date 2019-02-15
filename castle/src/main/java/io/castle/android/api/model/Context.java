@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import io.castle.android.Castle;
+
 /**
  * Model class containing context information for a user. Included in all events
  */
@@ -27,6 +29,8 @@ public class Context {
     Screen screen;
     @SerializedName("network")
     Network network;
+    @SerializedName("user_agent")
+    String userAgent;
 
     private Context(android.content.Context context) {
         this.device = Device.create();
@@ -36,6 +40,7 @@ public class Context {
         this.screen = Screen.create(context);
         this.library = LibraryVersion.create();
         this.network = Network.create(context);
+        this.userAgent = Castle.userAgent();
     }
 
     public static Context create(android.content.Context context) {
