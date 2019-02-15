@@ -51,7 +51,7 @@ public class Utils {
         return gson;
     }
 
-    static PackageInfo getPackageInfo(Context context) {
+    private static PackageInfo getPackageInfo(Context context) {
         PackageManager packageManager = context.getPackageManager();
         try {
             return packageManager.getPackageInfo(context.getPackageName(), 0);
@@ -60,7 +60,7 @@ public class Utils {
         }
     }
 
-    static ApplicationInfo getApplicationInfo(Context context) {
+    private static ApplicationInfo getApplicationInfo(Context context) {
         PackageManager packageManager = context.getPackageManager();
         try {
             return packageManager.getApplicationInfo(context.getPackageName(), 0);
@@ -69,15 +69,15 @@ public class Utils {
         }
     }
 
-    public static String getApplicationName(Context context) {
+    static String getApplicationName(Context context) {
         return (String) context.getPackageManager().getApplicationLabel(getApplicationInfo(context));
     }
 
-    public static String getApplicationVersion(Context context) {
+    static String getApplicationVersion(Context context) {
         return getPackageInfo(context).versionName;
     }
 
-    public static int getApplicationVersionCode(Context context) {
+    static int getApplicationVersionCode(Context context) {
         return getPackageInfo(context).versionCode;
     }
 }
