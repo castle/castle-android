@@ -4,6 +4,8 @@
 
 package io.castle.android.api;
 
+import java.util.concurrent.TimeUnit;
+
 import io.castle.android.Castle;
 import io.castle.android.Utils;
 import io.castle.android.api.model.Batch;
@@ -21,6 +23,7 @@ import retrofit2.http.POST;
 public class CastleAPIService {
 
     private static final String API_URL = "https://api.castle.io/v1/";
+    private static final int CONNTECTION_TIMEOUT = 10;
     private static CastleAPI instance;
 
     public interface CastleAPI {
@@ -35,7 +38,8 @@ public class CastleAPIService {
     public static CastleAPI getInstance() {
         if (instance == null) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                                .addInterceptor(new CastleAuthenticationInterceptor());
+                                .addInterceptor(new CastleAuthenticationInterceptor())
+                    .connectTimeout(CONNTECTION_TIMEOUT, TimeUnit.SECONDS);
 
             if (Castle.debugLoggingEnabled()) {
                 HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
