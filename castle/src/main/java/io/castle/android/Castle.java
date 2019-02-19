@@ -39,6 +39,10 @@ public class Castle {
     private CastleActivityLifecycleCallbacks activityLifecycleCallbacks;
     private CastleComponentCallback componentCallbacks;
 
+    private String appVersion;
+    private int appBuild;
+    private String appName;
+
     private Castle(Application application, CastleConfiguration castleConfiguration) {
         setup(application, castleConfiguration);
     }
@@ -60,8 +64,9 @@ public class Castle {
         application.registerComponentCallbacks(componentCallbacks);
 
         // Get the current version.
-        String currentVersion = Utils.getApplicationVersion(application);
-        int currentBuild = Utils.getApplicationVersionCode(application);
+        appVersion = Utils.getApplicationVersion(application);
+        appBuild = Utils.getApplicationVersionCode(application);
+        appName = Utils.getApplicationName(application);
 
         // Get the previous recorded version.
         String previousVersion = storageHelper.getVersion();
@@ -70,13 +75,13 @@ public class Castle {
         // Check and track Application Installed or Application Updated.
         if (previousBuild == -1) {
             Map<String, String> properties = new HashMap<>();
-            properties.put("version", currentVersion);
-            properties.put("build", "" + currentBuild);
+            properties.put("version", appVersion);
+            properties.put("build", "" + appBuild);
             track("Application Installed", properties);
-        } else if (currentBuild != previousBuild) {
+        } else if (appBuild != previousBuild) {
             Map<String, String> properties = new HashMap<>();
-            properties.put("version", currentVersion);
-            properties.put("build", "" + currentBuild);
+            properties.put("version", appVersion);
+            properties.put("build", "" + appBuild);
             properties.put("previous_version", previousVersion);
             properties.put("previous_build", "" + previousBuild);
             track("Application Updated", properties);
@@ -84,15 +89,15 @@ public class Castle {
 
         // Track Application Opened.
         Map<String, String> properties = new HashMap<>();
-        properties.put("version", currentVersion);
-        properties.put("build", "" + currentBuild);
+        properties.put("version", appVersion);
+        properties.put("build", "" + appBuild);
         track("Application Opened", properties);
 
         flush();
 
         // Update the recorded version.
-        storageHelper.setVersion(currentVersion);
-        storageHelper.setBuild(currentBuild);
+        storageHelper.setVersion(appVersion);
+        storageHelper.setBuild(appBuild);
     }
 
     /**
@@ -434,7 +439,7 @@ public class Castle {
      * @return current build
      */
     static int getCurrentBuild() {
-        return instance.storageHelper.getBuild();
+        return instance.appBuild;
     }
 
 
@@ -443,7 +448,7 @@ public class Castle {
      * @return User agent string in format application name/version (versionCode) (Device name; Android version; Castle library version)
      */
     public static String userAgent() {
-        return String.format(Locale.US, "%s/%s (%d) (%s %s; Android %s; Castle %s)", Utils.getApplicationName(instance.application), Utils.getApplicationVersion(instance.application), Utils.getApplicationVersionCode(instance.application), Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME);
+        return String.format(Locale.US, "%s/%s (%d) (%s %s; Android %s; Castle %s)", instance.appName, instance.appVersion, instance.appBuild, Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME);
     }
 
     /**
@@ -451,7 +456,7 @@ public class Castle {
      * @return current version
      */
     static String getCurrentVersion() {
-        return instance.storageHelper.getVersion();
+        return instance.appVersion;
     }
 
     private void unregisterLifeCycleCallbacks(Application application) {

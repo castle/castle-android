@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import io.castle.android.Castle;
+
 /**
  * Model class containing context information for a user. Included in all events
  */
