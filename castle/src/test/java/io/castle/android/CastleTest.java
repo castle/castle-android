@@ -13,11 +13,14 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -229,6 +232,18 @@ public class CastleTest {
         Castle.secure(signature);
 
         Assert.assertTrue(Castle.secureModeEnabled());
+    }
+
+    @Test
+    @Config(manifest = "AndroidManifest.xml")
+    public void testUserAgent() {
+        String regex = "[a-zA-Z0-9\\s._-]+/[0-9]+\\.[0-9]+\\.?[0-9]* \\([a-zA-Z0-9-_.]+\\) \\([a-zA-Z0-9\\s]+; Android [0-9]+\\.?[0-9]*; Castle [0-9]+\\.[0-9]+\\.?[0-9]*\\)";
+
+        Pattern pattern = Pattern.compile(regex);
+
+        Matcher matcher = pattern.matcher(Castle.userAgent());
+
+        Assert.assertTrue(matcher.matches());
     }
 
     @After
