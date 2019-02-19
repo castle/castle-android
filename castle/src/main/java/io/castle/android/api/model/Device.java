@@ -20,8 +20,6 @@ class Device {
     private String manufacturer;
     @SerializedName("model")
     private String model;
-    @SerializedName("name")
-    private String name;
     @SerializedName("type")
     private String type;
 
@@ -31,7 +29,6 @@ class Device {
         device.id = Castle.clientId();
         device.manufacturer = Build.MANUFACTURER;
         device.model = Build.MODEL;
-        device.name = Build.MODEL;
         device.type = Build.DEVICE;
 
         return device;
