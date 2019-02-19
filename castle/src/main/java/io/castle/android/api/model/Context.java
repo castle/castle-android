@@ -29,8 +29,6 @@ public class Context {
     Screen screen;
     @SerializedName("network")
     Network network;
-    @SerializedName("user_agent")
-    String userAgent;
 
     private Context(android.content.Context context) {
         this.device = Device.create();
@@ -40,7 +38,6 @@ public class Context {
         this.screen = Screen.create(context);
         this.library = LibraryVersion.create();
         this.network = Network.create(context);
-        this.userAgent = Castle.userAgent();
     }
 
     public static Context create(android.content.Context context) {
