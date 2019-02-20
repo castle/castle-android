@@ -1,5 +1,19 @@
 # Change Log
 
+## 1.1.0 (2019-02-20)
+
+- Improvement: [#19](https://github.com/castle/castle-android/pull/19) Add release documentation
+- Improvement: [#18](https://github.com/castle/castle-android/pull/18) Remove device name from event payload
+- Improvement: [#17](https://github.com/castle/castle-android/pull/17) Set custom timeout to all API requests
+- Improvement: [#16](https://github.com/castle/castle-android/pull/16) Include user agent in event context
+- Improvement: [#15](https://github.com/castle/castle-android/pull/15) Use a custom User Agent for all requests to the Castle API
+- Fix: [#14](https://github.com/castle/castle-android/pull/14) Fix timestamp format
+- Fix: [#13](https://github.com/castle/castle-android/pull/13) Add internal `MAX_BATCH_SIZE`
+- Fix: [#12](https://github.com/castle/castle-android/pull/12) Fix queue deserialize issue
+- Fix: [#11](https://github.com/castle/castle-android/pull/11) Check debug logging configuration for http logging
+- Feature: [#10](https://github.com/castle/castle-android/pull/10) Add support for secure mode
+- Improvement: [#8](https://github.com/castle/castle-android/pull/8) Add javadoc documentation for public SDK classes
+
 ## 1.0.2 (2018-10-03)
 - Fix: Remove unnecessary maniest values from library
 
