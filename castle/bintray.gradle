@@ -35,6 +35,7 @@ bintray {
         vcsUrl = POM_URL
         publish = true
         publicDownloadNumbers = true
+        userOrg = 'castleintelligence'
         version {
             desc = POM_DESCRIPTION
             released  = new Date()
