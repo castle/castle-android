@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.1.1 (2019-02-27)
+- Fix: [#20](https://github.com/castle/castle-android/pull/20) Do not remove item from queue when iterating
+
 ## 1.1.0 (2019-02-20)
 
 - Improvement: [#19](https://github.com/castle/castle-android/pull/19) Add release documentation

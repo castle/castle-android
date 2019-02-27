@@ -1,7 +1,7 @@
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
-def POM_VERSION = '1.1.0'
+def POM_VERSION = '1.1.1'
 def POM_GROUP_ID = 'io.castle.android'
 def POM_ARTIFACT_ID = 'castle'
 def POM_DESCRIPTION = 'Android client library for Castle'
