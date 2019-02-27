@@ -91,9 +91,7 @@ public class EventQueue implements Callback<Void> {
             Iterator<Event> iterator = eventObjectQueue.iterator();
             for (int i = 0; i < end; i++) {
                 Event event = iterator.next();
-                if (event == null) {
-                    iterator.remove();
-                } else {
+                if (event != null) {
                     subList.add(event);
                 }
             }
@@ -103,9 +101,9 @@ public class EventQueue implements Callback<Void> {
                 Batch batch = new Batch();
                 batch.addEvents(events);
 
-                CastleLogger.d("Flushing EventQueue " + events.size());
+                CastleLogger.d("Flushing EventQueue " + end);
 
-                flushCount = events.size();
+                flushCount = end;
                 flushCall = CastleAPIService.getInstance().batch(batch);
                 flushCall.enqueue(this);
             } else {
