@@ -90,9 +90,14 @@ public class EventQueue implements Callback<Void> {
             List<Event> subList = new ArrayList<>(end);
             Iterator<Event> iterator = eventObjectQueue.iterator();
             for (int i = 0; i < end; i++) {
-                Event event = iterator.next();
-                if (event != null) {
-                    subList.add(event);
+                try {
+                    Event event = iterator.next();
+
+                    if (event != null) {
+                        subList.add(event);
+                    }
+                } catch (Exception exception) {
+                    CastleLogger.e("Unable to read from queue", exception);
                 }
             }
             List<Event> events = Collections.unmodifiableList(subList);
