@@ -8,7 +8,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v4.content.PermissionChecker;
 import android.telephony.TelephonyManager;
 
 import com.google.gson.annotations.SerializedName;
@@ -16,10 +15,10 @@ import com.google.gson.annotations.SerializedName;
 import static android.Manifest.permission.ACCESS_NETWORK_STATE;
 import static android.content.Context.CONNECTIVITY_SERVICE;
 import static android.content.Context.TELEPHONY_SERVICE;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.net.ConnectivityManager.TYPE_BLUETOOTH;
 import static android.net.ConnectivityManager.TYPE_MOBILE;
 import static android.net.ConnectivityManager.TYPE_WIFI;
-import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
 
 /**
  * Model class for network status, included in all events
@@ -36,7 +35,7 @@ public class Network {
 
     @SuppressLint("MissingPermission")
     private Network(Context context) {
-        if (PermissionChecker.checkCallingOrSelfPermission(context, ACCESS_NETWORK_STATE) == PERMISSION_GRANTED) {
+        if (context.checkCallingOrSelfPermission(ACCESS_NETWORK_STATE) == PERMISSION_GRANTED) {
             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
             if (connectivityManager != null) {
                 NetworkInfo wifiInfo = connectivityManager.getNetworkInfo(TYPE_WIFI);
