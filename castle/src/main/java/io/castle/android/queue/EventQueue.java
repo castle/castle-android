@@ -74,7 +74,7 @@ public class EventQueue implements Callback<Void> {
     private synchronized void trim() throws IOException {
         if (!isFlushing() && this.size() > Castle.configuration().maxQueueLimit()) {
             int eventsToTrim = this.size() - Castle.configuration().maxQueueLimit();
-            eventObjectQueue.remove(eventsToTrim);
+            remove(eventsToTrim);
             CastleLogger.d("Trimmed " + eventsToTrim + " events from queue");
         }
     }
@@ -137,28 +137,31 @@ public class EventQueue implements Callback<Void> {
         return eventObjectQueue.size();
     }
 
+    private synchronized void remove(int count) {
+        try {
+            eventObjectQueue.remove(count);
+
+            CastleLogger.d("Removed " + count + " events from EventQueue");
+        } catch (Exception e) {
+            CastleLogger.e("Failed to remove events from queue", e);
+
+            try {
+                CastleLogger.d("Clearing EventQueue");
+                eventObjectQueue.clear();
+            } catch (Exception e1) {
+                CastleLogger.d("Unable to clear EventQueue");
+                e1.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public synchronized void onResponse(Call<Void> call, Response<Void> response) {
         if (response.isSuccessful()) {
             CastleLogger.i(response.code() + " " + response.message());
             CastleLogger.i("Batch request successful");
 
-            try {
-                synchronized (eventObjectQueue) {
-                    eventObjectQueue.remove(flushCount);
-                }
-                CastleLogger.d("Removed " + flushCount + " events from EventQueue");
-            } catch (IOException e) {
-                CastleLogger.e("Failed to remove events from queue", e);
-
-                try {
-                    CastleLogger.d("Clearing EventQueue");
-                    eventObjectQueue.clear();
-                } catch (IOException e1) {
-                    CastleLogger.d("Unable to clear EventQueue");
-                    e1.printStackTrace();
-                }
-            }
+            remove(flushCount);
 
             // Check if queue size still exceed the flush limit and if it does, flush.
             if (needsFlush()) {
