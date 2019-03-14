@@ -52,22 +52,20 @@ public class EventQueue implements Callback<Void> {
         }
     }
 
-    private File getFile(Context context) {
+    private synchronized File getFile(Context context) {
         return new File(context.getApplicationContext().getFilesDir().getAbsoluteFile(),
                         QUEUE_FILENAME);
     }
 
-    private void init(Context context) throws IOException {
+    private synchronized void init(Context context) throws IOException {
         File file = getFile(context);
         QueueFile queueFile = new QueueFile.Builder(file).build();
         eventObjectQueue = ObjectQueue.create(queueFile, new GsonConverter<>(Event.class));
     }
 
-    public void add(Event event) {
+    public synchronized void add(Event event) {
         try {
-            synchronized (eventObjectQueue) {
-                eventObjectQueue.add(event);
-            }
+            eventObjectQueue.add(event);
         } catch (IOException e) {
             CastleLogger.e("Add to queue failed", e);
         }
@@ -140,7 +138,7 @@ public class EventQueue implements Callback<Void> {
     }
 
     @Override
-    public void onResponse(Call<Void> call, Response<Void> response) {
+    public synchronized void onResponse(Call<Void> call, Response<Void> response) {
         if (response.isSuccessful()) {
             CastleLogger.i(response.code() + " " + response.message());
             CastleLogger.i("Batch request successful");
@@ -184,7 +182,7 @@ public class EventQueue implements Callback<Void> {
         flushed();
     }
 
-    public void destroy() {
+    public synchronized void destroy() {
         if (flushCall != null) {
             flushCall.cancel();
         }
