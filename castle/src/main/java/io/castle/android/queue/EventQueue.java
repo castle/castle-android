@@ -96,6 +96,8 @@ public class EventQueue implements Callback<Void> {
                     }
                 } catch (Exception exception) {
                     CastleLogger.e("Unable to read from queue", exception);
+                } catch (Error error) {
+                    CastleLogger.e("Unable to read from queue", error);
                 }
             }
             List<Event> events = Collections.unmodifiableList(subList);
