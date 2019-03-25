@@ -237,7 +237,7 @@ public class CastleTest {
     @Test
     @Config(manifest = "AndroidManifest.xml")
     public void testUserAgent() {
-        String regex = "[a-zA-Z0-9\\s._-]+/[0-9]+\\.[0-9]+\\.?[0-9]* \\([a-zA-Z0-9-_.]+\\) \\([a-zA-Z0-9\\s]+; Android [0-9]+\\.?[0-9]*; Castle [0-9]+\\.[0-9]+\\.?[0-9]*(-SNAPSHOT)*\\)";
+        String regex = "[a-zA-Z0-9\\s._-]+/[0-9]+\\.[0-9]+\\.?[0-9]* \\([a-zA-Z0-9-_.]+\\) \\([a-zA-Z0-9\\s]+; Android [0-9]+\\.?[0-9]*; Castle [0-9]+\\.[0-9]+\\.?[0-9]*[a-zA-Z-]*\\)";
 
         Pattern pattern = Pattern.compile(regex);
 
