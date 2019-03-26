@@ -112,11 +112,12 @@ public class EventQueue implements Callback<Void> {
                 flushCall = CastleAPIService.getInstance().batch(batch);
                 flushCall.enqueue(this);
             } else {
-                CastleLogger.d("Did not flush EventQueue ");
+                CastleLogger.d("Did not flush EventQueue");
 
                 // If events is empty and end is greater than zero, we just have unreadable data in the queue
                 if (end > 0) {
                     eventObjectQueue.clear();
+                    CastleLogger.d("Clearing EventQueue because of unreadable data");
                 }
             }
         }
