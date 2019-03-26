@@ -237,11 +237,19 @@ public class CastleTest {
     @Test
     @Config(manifest = "AndroidManifest.xml")
     public void testUserAgent() {
-        String regex = "[a-zA-Z0-9\\s._-]+/[0-9]+\\.[0-9]+\\.?[0-9]* \\([a-zA-Z0-9-_.]+\\) \\([a-zA-Z0-9\\s]+; Android [0-9]+\\.?[0-9]*; Castle [0-9]+\\.[0-9]+\\.?[0-9]*\\)";
+        String regex = "[a-zA-Z0-9\\s._-]+/[0-9]+\\.[0-9]+\\.?[0-9]*(-[a-zA-Z0-9]*)? \\([a-zA-Z0-9-_.]+\\) \\([a-zA-Z0-9\\s]+; Android [0-9]+\\.?[0-9]*; Castle [0-9]+\\.[0-9]+\\.?[0-9]*(-[a-zA-Z0-9]*)?\\)";
 
         Pattern pattern = Pattern.compile(regex);
 
         Matcher matcher = pattern.matcher(Castle.userAgent());
+
+        Assert.assertTrue(matcher.matches());
+
+        matcher = pattern.matcher("io.castle.android.test/1.0 (1) (Google Nexus 5x; Android 9.0; Castle 1.1.1)");
+
+        Assert.assertTrue(matcher.matches());
+
+        matcher = pattern.matcher("io.castle.android.test/1.0-SNAPSHOT (1) (Google Nexus 5x; Android 9.0; Castle 1.1.1-SNAPSHOT)");
 
         Assert.assertTrue(matcher.matches());
     }

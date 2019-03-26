@@ -52,22 +52,20 @@ public class EventQueue implements Callback<Void> {
         }
     }
 
-    private File getFile(Context context) {
+    private synchronized File getFile(Context context) {
         return new File(context.getApplicationContext().getFilesDir().getAbsoluteFile(),
                         QUEUE_FILENAME);
     }
 
-    private void init(Context context) throws IOException {
+    private synchronized void init(Context context) throws IOException {
         File file = getFile(context);
         QueueFile queueFile = new QueueFile.Builder(file).build();
         eventObjectQueue = ObjectQueue.create(queueFile, new GsonConverter<>(Event.class));
     }
 
-    public void add(Event event) {
+    public synchronized void add(Event event) {
         try {
-            synchronized (eventObjectQueue) {
-                eventObjectQueue.add(event);
-            }
+            eventObjectQueue.add(event);
         } catch (IOException e) {
             CastleLogger.e("Add to queue failed", e);
         }
@@ -76,7 +74,7 @@ public class EventQueue implements Callback<Void> {
     private synchronized void trim() throws IOException {
         if (!isFlushing() && this.size() > Castle.configuration().maxQueueLimit()) {
             int eventsToTrim = this.size() - Castle.configuration().maxQueueLimit();
-            eventObjectQueue.remove(eventsToTrim);
+            remove(eventsToTrim);
             CastleLogger.d("Trimmed " + eventsToTrim + " events from queue");
         }
     }
@@ -90,9 +88,16 @@ public class EventQueue implements Callback<Void> {
             List<Event> subList = new ArrayList<>(end);
             Iterator<Event> iterator = eventObjectQueue.iterator();
             for (int i = 0; i < end; i++) {
-                Event event = iterator.next();
-                if (event != null) {
-                    subList.add(event);
+                try {
+                    Event event = iterator.next();
+
+                    if (event != null) {
+                        subList.add(event);
+                    }
+                } catch (Exception exception) {
+                    CastleLogger.e("Unable to read from queue", exception);
+                } catch (Error error) {
+                    CastleLogger.e("Unable to read from queue", error);
                 }
             }
             List<Event> events = Collections.unmodifiableList(subList);
@@ -107,7 +112,13 @@ public class EventQueue implements Callback<Void> {
                 flushCall = CastleAPIService.getInstance().batch(batch);
                 flushCall.enqueue(this);
             } else {
-                CastleLogger.d("Did not flush EventQueue ");
+                CastleLogger.d("Did not flush EventQueue");
+
+                // If events is empty and end is greater than zero, we just have unreadable data in the queue
+                if (end > 0) {
+                    eventObjectQueue.clear();
+                    CastleLogger.d("Clearing EventQueue because of unreadable data");
+                }
             }
         }
     }
@@ -129,20 +140,31 @@ public class EventQueue implements Callback<Void> {
         return eventObjectQueue.size();
     }
 
+    private synchronized void remove(int count) {
+        try {
+            eventObjectQueue.remove(count);
+
+            CastleLogger.d("Removed " + count + " events from EventQueue");
+        } catch (Exception e) {
+            CastleLogger.e("Failed to remove events from queue", e);
+
+            try {
+                CastleLogger.d("Clearing EventQueue");
+                eventObjectQueue.clear();
+            } catch (Exception e1) {
+                CastleLogger.d("Unable to clear EventQueue");
+                e1.printStackTrace();
+            }
+        }
+    }
+
     @Override
-    public void onResponse(Call<Void> call, Response<Void> response) {
+    public synchronized void onResponse(Call<Void> call, Response<Void> response) {
         if (response.isSuccessful()) {
             CastleLogger.i(response.code() + " " + response.message());
             CastleLogger.i("Batch request successful");
 
-            try {
-                synchronized (eventObjectQueue) {
-                    eventObjectQueue.remove(flushCount);
-                }
-                CastleLogger.d("Removed " + flushCount + " events from EventQueue");
-            } catch (IOException e) {
-                CastleLogger.e("Failed to remove events from queue", e);
-            }
+            remove(flushCount);
 
             // Check if queue size still exceed the flush limit and if it does, flush.
             if (needsFlush()) {
@@ -166,7 +188,7 @@ public class EventQueue implements Callback<Void> {
         flushed();
     }
 
-    public void destroy() {
+    public synchronized void destroy() {
         if (flushCall != null) {
             flushCall.cancel();
         }
