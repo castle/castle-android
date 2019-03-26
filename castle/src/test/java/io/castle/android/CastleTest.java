@@ -245,7 +245,13 @@ public class CastleTest {
 
         Assert.assertTrue(matcher.matches());
 
-        
+        matcher = pattern.matcher("io.castle.android.test/1.0 (1) (Google Nexus 5x; Android 9.0; Castle 1.1.1)");
+
+        Assert.assertTrue(matcher.matches());
+
+        matcher = pattern.matcher("io.castle.android.test/1.0-SNAPSHOT (1) (Google Nexus 5x; Android 9.0; Castle 1.1.1-SNAPSHOT)");
+
+        Assert.assertTrue(matcher.matches());
     }
 
     @After
