@@ -1,4 +1,7 @@
 # Change Log
+## 1.1.2 (2019-03-26)
+- Fix: [#22](https://github.com/castle/castle-android/pull/22) Add improved error handling when queue gets corrupted.
+- Fix: [#21](https://github.com/castle/castle-android/pull/21) Remove support-core-utils to make avoid any support library dependency issues when including the Castle SDK.
 
 ## 1.1.1 (2019-02-27)
 - Fix: [#20](https://github.com/castle/castle-android/pull/20) Do not remove item from queue when iterating
