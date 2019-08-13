@@ -111,6 +111,14 @@ tasks.create("depsize-all-configurations") {
     }
 }
 
+tasks.create("depsize") {
+    doLast {
+        listConfigurationDependencies(configurations.getByName('releaseRuntimeClasspath'))
+    }
+}
+
+task('size', dependsOn: ['clean', 'assembleRelease', 'countReleaseDexMethods', 'depsize'])
+
 def listConfigurationDependencies(Configuration configuration) {
     def formatStr = "%,10.2f"
 
