@@ -27,10 +27,7 @@ class EventAdapter implements JsonSerializer<Event>, JsonDeserializer<Event> {
         JsonObject jsonObject = (JsonObject) gson.toJsonTree(src, typeOfSrc);
 
         // XXXAus: We should do this a better way.
-        if (src instanceof IdentifyEvent) {
-            jsonObject.add("traits", jsonObject.get("properties"));
-            jsonObject.remove("properties");
-        } else if (src instanceof ScreenEvent) {
+        if (src instanceof ScreenEvent) {
             jsonObject.add("name", jsonObject.get("event"));
             jsonObject.remove("event");
         }

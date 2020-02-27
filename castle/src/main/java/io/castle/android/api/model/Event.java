@@ -24,8 +24,6 @@ public class Event {
     Context context;
     @SerializedName(value="event", alternate={"name"})
     String event;
-    @SerializedName(value="properties", alternate={"traits"})
-    Map<String, String> properties;
     @SerializedName("timestamp")
     String timestamp;
     @SerializedName("type")
@@ -46,16 +44,6 @@ public class Event {
         this.type = EVENT_TYPE_EVENT;
         this.userId = Castle.userId();
         this.userSignature = Castle.userSignature();
-    }
-
-    /**
-     * Create new event with specified name and traits
-     * @param event Event name
-     * @param traits Event traits
-     */
-    public Event(String event, Map<String,String> traits) {
-        this(event);
-        this.properties = new HashMap<>(traits);
     }
 
     /**

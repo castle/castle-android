@@ -29,14 +29,4 @@ public class ScreenEvent extends Event {
     public ScreenEvent(Activity activity) {
         this(activity.getTitle().toString());
     }
-
-    /**
-     * Create new screen event with provided name and properties
-     * @param name user id
-     * @param properties traits
-     */
-    public ScreenEvent(String name, Map<String, String> properties) {
-        super(name, properties);
-        this.type = EVENT_TYPE_SCREEN;
-    }
 }
