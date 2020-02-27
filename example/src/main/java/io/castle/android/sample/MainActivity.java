@@ -45,14 +45,6 @@ public class MainActivity extends AppCompatActivity {
         Castle.screen("Menu", properties);
     }
 
-    @OnClick(R.id.track_event)
-    public void onTrackEventClick(Button button) {
-        // Track an event and include some properties
-        Map<String, String> properties = new HashMap<>();
-        properties.put("type", "clothing");
-        Castle.track("ordered item", properties);
-    }
-
     @OnClick(R.id.flush)
     public void onFlushClick(Button button) {
         Castle.flush();
