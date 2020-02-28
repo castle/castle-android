@@ -39,18 +39,14 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.track_screen)
     public void onTrackScreenClick(Button button) {
-        // Track a screen view and include some properties
-        Map<String, String> properties = new HashMap<>();
-        properties.put("deviceOrientation", "horizontal");
-        Castle.screen("Menu", properties);
+        // Track a screen view
+        Castle.screen("Menu");
     }
 
     @OnClick(R.id.track_event)
     public void onTrackEventClick(Button button) {
-        // Track an event and include some properties
-        Map<String, String> properties = new HashMap<>();
-        properties.put("type", "clothing");
-        Castle.track("ordered item", properties);
+        // Track an event
+        Castle.track("ordered item");
     }
 
     @OnClick(R.id.flush)

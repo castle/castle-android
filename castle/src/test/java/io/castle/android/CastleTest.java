@@ -111,25 +111,9 @@ public class CastleTest {
         newCount = Castle.queueSize();
         Assert.assertEquals(count + 1, newCount);
 
-        count = Castle.queueSize();
-        Castle.track("Event", new HashMap<String, String>());
-        newCount = Castle.queueSize();
-        Assert.assertEquals(count + 1, newCount);
-
-        count = Castle.queueSize();
-        Castle.track("Event", null);
-        newCount = Castle.queueSize();
-        Assert.assertEquals(count, newCount);
-
         // This should lead to no event being tracked since empty string isn't a valid name
         count = Castle.queueSize();
         Castle.screen("");
-        newCount = Castle.queueSize();
-        Assert.assertEquals(count, newCount);
-
-        // This should lead to no event being tracked properties can't be nil
-        count = Castle.queueSize();
-        Castle.screen("Screen", null);
         newCount = Castle.queueSize();
         Assert.assertEquals(count, newCount);
 
@@ -151,11 +135,6 @@ public class CastleTest {
 
         count = Castle.queueSize();
         Castle.screen("Main");
-        newCount = Castle.queueSize();
-        Assert.assertEquals(count + 1, newCount);
-
-        count = Castle.queueSize();
-        Castle.screen("Main", new HashMap<String, String>());
         newCount = Castle.queueSize();
         Assert.assertEquals(count + 1, newCount);
 
