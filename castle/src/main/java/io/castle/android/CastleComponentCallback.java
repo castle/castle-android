@@ -17,10 +17,7 @@ class CastleComponentCallback implements ComponentCallbacks2 {
     public void onTrimMemory(int level) {
         if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
             // We're in the Background
-            Map<String, String> properties = new HashMap<>();
-            properties.put("version", Castle.getCurrentVersion());
-            properties.put("build", "" + Castle.getCurrentBuild());
-            Castle.track("Application Closed", properties);
+            Castle.track("Application Closed");
             Castle.flush();
         }
     }

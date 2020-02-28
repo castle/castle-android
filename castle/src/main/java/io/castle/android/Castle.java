@@ -74,24 +74,13 @@ public class Castle {
 
         // Check and track Application Installed or Application Updated.
         if (previousBuild == -1) {
-            Map<String, String> properties = new HashMap<>();
-            properties.put("version", appVersion);
-            properties.put("build", "" + appBuild);
-            track("Application Installed", properties);
+            track("Application Installed");
         } else if (appBuild != previousBuild) {
-            Map<String, String> properties = new HashMap<>();
-            properties.put("version", appVersion);
-            properties.put("build", "" + appBuild);
-            properties.put("previous_version", previousVersion);
-            properties.put("previous_build", "" + previousBuild);
-            track("Application Updated", properties);
+            track("Application Updated");
         }
 
         // Track Application Opened.
-        Map<String, String> properties = new HashMap<>();
-        properties.put("version", appVersion);
-        properties.put("build", "" + appBuild);
-        track("Application Opened", properties);
+        track("Application Opened");
 
         flush();
 
@@ -159,18 +148,6 @@ public class Castle {
         } catch (NullPointerException e) {
             CastleLogger.e("Failed to load meta-data, NullPointer: " + e.getMessage());
         }
-    }
-
-    /**
-     * Track event with a specified name and provided properties
-     * @param event Event name
-     * @param properties Event properties
-     */
-    protected static void track(String event, Map<String, String> properties) {
-        if (event == null || event.isEmpty() || properties == null) {
-            return;
-        }
-        track(new Event(event, properties));
     }
 
     /**
@@ -243,18 +220,6 @@ public class Castle {
         Castle.flush();
         Castle.userId(null);
         Castle.userSignature(null);
-    }
-
-    /**
-     * Track screen event with a specified name and provided properties
-     * @param name Event name
-     * @param properties Event properties
-     */
-    public static void screen(String name, Map<String, String> properties) {
-        if (name == null || name.isEmpty() || properties == null) {
-            return;
-        }
-        track(new ScreenEvent(name, properties));
     }
 
     /**

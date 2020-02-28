@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'jacoco'
+apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'com.vanniktech.android.apk.size'
 
 jacoco {
     toolVersion = '0.8.3'
@@ -14,7 +16,7 @@ android {
     buildToolsVersion '28.0.3'
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName '1.1.2'
@@ -67,14 +69,14 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation 'com.squareup.tape2:tape:2.0.0-beta1'
     testImplementation 'junit:junit:4.12'
-    testImplementation 'androidx.test:core:1.1.0'
-    testImplementation 'androidx.test:rules:1.1.1'
-    testImplementation 'androidx.test.ext:junit:1.1.0'
-    testImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    testImplementation 'androidx.test:core:1.2.0'
+    testImplementation 'androidx.test:rules:1.2.0'
+    testImplementation 'androidx.test.ext:junit:1.1.1'
+    testImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     testImplementation 'org.robolectric:robolectric:4.1'
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.9.0'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestUtil 'androidx.test:orchestrator:1.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestUtil 'androidx.test:orchestrator:1.2.0'
 }
 
 if (!ciBuild) {
@@ -97,4 +99,44 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     executionData = fileTree(dir: project.buildDir, includes: [
             'jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/*coverage.ec'
     ])
+}
+
+tasks.create("depsize-all-configurations") {
+    doLast {
+        configurations.each {
+            if (it.isCanBeResolved()) {
+                listConfigurationDependencies(it)
+            }
+        }
+    }
+}
+
+tasks.create("depsize") {
+    doLast {
+        listConfigurationDependencies(configurations.getByName('releaseRuntimeClasspath'))
+    }
+}
+
+task('size', dependsOn: ['clean', 'assembleRelease', 'countReleaseDexMethods', 'depsize'])
+
+def listConfigurationDependencies(Configuration configuration) {
+    def formatStr = "%,10.2f"
+
+    def size = configuration.collect { it.length() / (1024 * 1024) }.sum()
+
+    def out = new StringBuffer()
+    out << "\nConfiguration name: \"${configuration.name}\"\n"
+    if (size) {
+        out << 'Total dependencies size:'.padRight(65)
+        out << "${String.format(formatStr, size)} Mb\n\n"
+
+        configuration.sort { -it.length() }
+                .each {
+            out << "${it.name}".padRight(65)
+            out << "${String.format(formatStr, (it.length() / 1024))} kb\n"
+        }
+    } else {
+        out << 'No dependencies found'
+    }
+    println(out)
 }

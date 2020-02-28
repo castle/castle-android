@@ -39,10 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.track_screen)
     public void onTrackScreenClick(Button button) {
-        // Track a screen view and include some properties
-        Map<String, String> properties = new HashMap<>();
-        properties.put("deviceOrientation", "horizontal");
-        Castle.screen("Menu", properties);
+        // Track a screen view
+        Castle.screen("Menu");
     }
 
     @OnClick(R.id.flush)
