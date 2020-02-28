@@ -43,12 +43,6 @@ public class MainActivity extends AppCompatActivity {
         Castle.screen("Menu");
     }
 
-    @OnClick(R.id.track_event)
-    public void onTrackEventClick(Button button) {
-        // Track an event
-        Castle.track("ordered item");
-    }
-
     @OnClick(R.id.flush)
     public void onFlushClick(Button button) {
         Castle.flush();

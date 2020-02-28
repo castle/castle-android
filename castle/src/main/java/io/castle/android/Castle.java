@@ -154,14 +154,14 @@ public class Castle {
      * Track event with a specified name
      * @param event Event name
      */
-    public static void track(String event) {
+    protected static void track(String event) {
         if (event == null || event.isEmpty()) {
             return;
         }
         track(new Event(event));
     }
 
-    private static void track(Event event) {
+    protected static void track(Event event) {
         CastleLogger.d("Tracking event " + Utils.getGsonInstance().toJson(event));
         instance.eventQueue.add(event);
         if (instance.eventQueue.needsFlush()) {
