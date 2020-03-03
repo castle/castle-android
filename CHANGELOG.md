@@ -1,4 +1,9 @@
 # Change Log
+## 1.1.3 (2020-03-03)
+- Improvement: [#25](https://github.com/castle/castle-android/pull/25) Add library size information
+- Improvement: [#24](https://github.com/castle/castle-android/pull/24) Remove ability to add custom properties on events
+- Improvement: [#23](https://github.com/castle/castle-android/pull/23) Remove ability to track custom events
+
 ## 1.1.2 (2019-03-26)
 - Fix: [#22](https://github.com/castle/castle-android/pull/22) Add improved error handling when queue gets corrupted.
 - Fix: [#21](https://github.com/castle/castle-android/pull/21) Remove support-core-utils to make avoid any support library dependency issues when including the Castle SDK.
