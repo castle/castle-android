@@ -46,6 +46,8 @@ public class CastleTest {
     public void setup() {
         application = rule.getActivity().getApplication();
 
+        rule.getActivity().setTitle("TestActivityTitle");
+
         ArrayList<String> baseUrlWhiteList = new ArrayList<>();
         baseUrlWhiteList.add("https://google.com/");
 
@@ -131,6 +133,17 @@ public class CastleTest {
 
         ScreenEvent screenEvent = new ScreenEvent("Main");
         Assert.assertEquals(screenEvent.getEvent(), "Main");
+        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
+
+        screenEvent = new ScreenEvent(rule.getActivity());
+        Assert.assertEquals(screenEvent.getEvent(), "TestActivityTitle");
+        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
+
+        // Test null activity title
+        rule.getActivity().setTitle(null);
+
+        screenEvent = new ScreenEvent(rule.getActivity());
+        Assert.assertEquals(screenEvent.getEvent(), "TestActivity");
         Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
 
         count = Castle.queueSize();

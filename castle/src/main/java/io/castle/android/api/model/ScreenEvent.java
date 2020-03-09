@@ -27,6 +27,6 @@ public class ScreenEvent extends Event {
      * @param activity Activity
      */
     public ScreenEvent(Activity activity) {
-        this(activity.getTitle().toString());
+        this(activity.getTitle() != null ? activity.getTitle().toString() : activity.getClass().getSimpleName());
     }
 }
