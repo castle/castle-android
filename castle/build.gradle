@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'jacoco'
-apply plugin: 'com.getkeepsafe.dexcount'
-apply plugin: 'com.vanniktech.android.apk.size'
 
 jacoco {
     toolVersion = '0.8.3'
@@ -81,6 +79,7 @@ dependencies {
 
 if (!ciBuild) {
     apply from: 'bintray.gradle'
+    apply from: 'size.gradle'
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
@@ -91,52 +90,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/compileDebugJavaWithJavac/classes", excludes: fileFilter)
+    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
     def mainSrc = "$project.projectDir/src/main/java"
 
     sourceDirectories = files([mainSrc])
     classDirectories = files([debugTree])
     executionData = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/*coverage.ec'
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
     ])
-}
-
-tasks.create("depsize-all-configurations") {
-    doLast {
-        configurations.each {
-            if (it.isCanBeResolved()) {
-                listConfigurationDependencies(it)
-            }
-        }
-    }
-}
-
-tasks.create("depsize") {
-    doLast {
-        listConfigurationDependencies(configurations.getByName('releaseRuntimeClasspath'))
-    }
-}
-
-task('size', dependsOn: ['clean', 'assembleRelease', 'countReleaseDexMethods', 'depsize'])
-
-def listConfigurationDependencies(Configuration configuration) {
-    def formatStr = "%,10.2f"
-
-    def size = configuration.collect { it.length() / (1024 * 1024) }.sum()
-
-    def out = new StringBuffer()
-    out << "\nConfiguration name: \"${configuration.name}\"\n"
-    if (size) {
-        out << 'Total dependencies size:'.padRight(65)
-        out << "${String.format(formatStr, size)} Mb\n\n"
-
-        configuration.sort { -it.length() }
-                .each {
-            out << "${it.name}".padRight(65)
-            out << "${String.format(formatStr, (it.length() / 1024))} kb\n"
-        }
-    } else {
-        out << 'No dependencies found'
-    }
-    println(out)
 }
