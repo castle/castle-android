@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
-apply plugin: 'jacoco'
+apply plugin: 'jacoco-android'
 
 jacoco {
-    toolVersion = '0.8.3'
+    toolVersion = "0.8.4"
 }
 
 tasks.withType(Test) {
@@ -80,22 +80,4 @@ dependencies {
 if (!ciBuild) {
     apply from: 'bintray.gradle'
     apply from: 'size.gradle'
-}
-
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
-    def mainSrc = "$project.projectDir/src/main/java"
-
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ])
 }
