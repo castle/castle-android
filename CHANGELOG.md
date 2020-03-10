@@ -1,4 +1,8 @@
 # Change Log
+## 1.1.4 (2020-03-10)
+- Fix: [#28](https://github.com/castle/castle-android/pull/28) Fix code coverage issue
+- Fix: [#27](https://github.com/castle/castle-android/pull/27) Handle activity with no title set in screen tracking
+
 ## 1.1.3 (2020-03-03)
 - Improvement: [#25](https://github.com/castle/castle-android/pull/25) Add library size information
 - Improvement: [#24](https://github.com/castle/castle-android/pull/24) Remove ability to add custom properties on events
