@@ -80,4 +80,15 @@ public class Utils {
     static int getApplicationVersionCode(Context context) {
         return getPackageInfo(context).versionCode;
     }
+
+    static String sanitizeHeader(String string) {
+        StringBuilder stringBuilder = new StringBuilder(string.length());
+        for (int i = 0, length = string.length(); i < length; i++) {
+            char c = string.charAt(i);
+            if (c == '\t' || (c > '\u001f' && c < '\u007f')) {
+                stringBuilder.append(c);
+            }
+        }
+        return stringBuilder.toString();
+    }
 }
