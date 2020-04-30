@@ -244,6 +244,11 @@ public class CastleTest {
         matcher = pattern.matcher("io.castle.android.test/1.0-SNAPSHOT (1) (Google Nexus 5x; Android 9.0; Castle 1.1.1-SNAPSHOT)");
 
         Assert.assertTrue(matcher.matches());
+
+        // Test user agent sanitization
+        String result = Utils.sanitizeHeader("[Ţŕéļļö one two]/2020.5.13837-production (13837) (motorola Moto G (4); Android 7.0; Castle 1.1.2)");
+
+        Assert.assertEquals("[ one two]/2020.5.13837-production (13837) (motorola Moto G (4); Android 7.0; Castle 1.1.2)", result);
     }
 
     @After
