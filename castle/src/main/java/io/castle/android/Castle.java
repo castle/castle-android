@@ -413,7 +413,7 @@ public class Castle {
      * @return User agent string in format application name/version (versionCode) (Device name; Android version; Castle library version)
      */
     public static String userAgent() {
-        return String.format(Locale.US, "%s/%s (%d) (%s %s; Android %s; Castle %s)", instance.appName, instance.appVersion, instance.appBuild, Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME);
+        return Utils.sanitizeHeader(String.format(Locale.US, "%s/%s (%d) (%s %s; Android %s; Castle %s)", instance.appName, instance.appVersion, instance.appBuild, Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME));
     }
 
     /**
