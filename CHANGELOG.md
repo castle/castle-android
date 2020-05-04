@@ -1,4 +1,7 @@
 # Change Log
+## 1.1.5 (2020-05-04)
+- Fix: [#30](https://github.com/castle/castle-android/pull/30) Remove non supported unicode characters from user agent string
+
 ## 1.1.4 (2020-03-10)
 - Fix: [#28](https://github.com/castle/castle-android/pull/28) Fix code coverage issue
 - Fix: [#27](https://github.com/castle/castle-android/pull/27) Handle activity with no title set in screen tracking

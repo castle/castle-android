@@ -5,7 +5,7 @@ This document describes the tasks to perform for tagging and releasing a new ver
 ## Prepare for release
 
  1. Update the version in `bintray.gradle` and `build.gradle`.
- 2. Update documentation by running `javadoc -public -splitindex -d docs -Xdoclint:none -sourcepath castle/src/main/java/  -subpackages . -bootclasspath /path/to/android/sdk/platforms/android-28/android.jar` in the project root.
+ 2. Update documentation by running `javadoc -public -splitindex -d docs -Xdoclint:none -sourcepath castle/src/main/java/  -subpackages . -bootclasspath ~/Library/Android/sdk/platforms/android-28/android.jar` in the project root.
  3. Update the `CHANGELOG.md` for the impending release.
  4. `git commit -m "Prepare for release X.Y.Z."` (where X.Y.Z is the new version).
  5. `git tag -a X.Y.Z -m "Version X.Y.Z"` (where X.Y.Z is the new version).
