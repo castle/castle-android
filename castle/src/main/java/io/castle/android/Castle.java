@@ -277,6 +277,14 @@ public class Castle {
     }
 
     /**
+     * Get base url
+     * @return Base url
+     */
+    public static String baseUrl() {
+        return instance.configuration.baseUrl();
+    }
+
+    /**
      * Get identifier if set, otherwise returns null
      * @return identifier
      */
