@@ -26,8 +26,8 @@ public class Screen {
         WindowManager windowmanager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
 
-        width = displayMetrics.widthPixels;
-        height = displayMetrics.heightPixels;
+        width = (int) (displayMetrics.widthPixels / displayMetrics.density);
+        height = (int) (displayMetrics.heightPixels / displayMetrics.density);
         density = displayMetrics.density;
     }
 
