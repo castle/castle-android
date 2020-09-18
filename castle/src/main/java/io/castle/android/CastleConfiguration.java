@@ -268,10 +268,32 @@ public class CastleConfiguration {
         }
 
         /**
+         * Set use cloudflare app enabled
+         * @param enabled
+         * @return Builder
+         */
+        public Builder useCloudflareApp(boolean enabled) {
+            this.useCloudflareApp = enabled;
+
+            return this;
+        }
+
+        /**
          * Get use cloudflare app enabled
          * @return Use Cloudflare app enabled
          */
         public boolean useCloudflareApp() { return useCloudflareApp; }
+
+        /**
+         * Set apiDomain
+         * @param apiDomain
+         * @return Builder
+         */
+        public Builder apiDomain(String apiDomain) {
+            this.apiDomain = apiDomain;
+
+            return this;
+        }
 
         /**
          * Get API domain
