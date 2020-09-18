@@ -45,6 +45,10 @@ public class CastleConfiguration {
         this.baseURLWhiteList = builder.baseURLWhiteList();
         this.useCloudflareApp = builder.useCloudflareApp();
         this.apiDomain = builder.apiDomain();
+
+        if (useCloudflareApp && apiDomain.equals(DEFAULT_API_DOMAIN)) {
+            throw new RuntimeException("You must set a API domain if useCloudflare app is enabled.");
+        }
     }
 
     /**
