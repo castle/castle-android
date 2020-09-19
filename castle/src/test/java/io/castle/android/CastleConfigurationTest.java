@@ -50,6 +50,8 @@ public class CastleConfigurationTest {
         Assert.assertEquals(1, configuration.baseURLWhiteList().size());
         Assert.assertEquals("https://google.com/", configuration.baseURLWhiteList().get(0));
         Assert.assertEquals(100, configuration.maxQueueLimit());
+        Assert.assertFalse(configuration.useCloudflareApp());
+        Assert.assertEquals("https://api.castle.io/v1/", configuration.baseUrl());
 
         // Setup Castle SDK with provided configuration
         Castle.configure(application, configuration);
@@ -109,6 +111,47 @@ public class CastleConfigurationTest {
         Castle.configure(application, "pk_123", configuration);
 
         Assert.assertEquals("pk_123", Castle.publishableKey());
+
+        // Destroy current instance
+        Castle.destroy(application);
+
+        // Test cloudflare logic
+        try {
+            configuration = new CastleConfiguration.Builder()
+                    .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
+                    .useCloudflareApp(true)
+                    .build();
+            Assert.fail("Should have thrown RuntimeException exception");
+        } catch (RuntimeException e) {
+            // Success
+        }
+
+        configuration = new CastleConfiguration.Builder()
+                .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
+                .useCloudflareApp(true)
+                .apiDomain("example.com")
+                .build();
+
+        Assert.assertTrue(configuration.useCloudflareApp());
+        Assert.assertEquals("example.com", configuration.apiDomain());
+        Assert.assertEquals("https://example.com/v1/c/mobile/", configuration.baseUrl());
+
+        Castle.configure(application, configuration);
+
+        Assert.assertEquals("https://example.com/v1/c/mobile/", Castle.baseUrl());
+
+        configuration = new CastleConfiguration.Builder()
+                .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
+                .useCloudflareApp(true)
+                .apiDomain("example.com")
+                .apiPath("v1/test/")
+                .build();
+
+        Assert.assertTrue(configuration.useCloudflareApp());
+        Assert.assertEquals("example.com", configuration.apiDomain());
+        Assert.assertEquals("https://example.com/v1/test/", configuration.baseUrl());
+
+
     }
 
     @After

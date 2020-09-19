@@ -22,7 +22,6 @@ import retrofit2.http.POST;
  */
 public class CastleAPIService {
 
-    private static final String API_URL = "https://api.castle.io/v1/";
     private static final int CONNTECTION_TIMEOUT = 10;
     private static CastleAPI instance;
 
@@ -51,7 +50,7 @@ public class CastleAPIService {
 
             Retrofit retrofit =
                 new Retrofit.Builder()
-                            .baseUrl(API_URL)
+                            .baseUrl(Castle.baseUrl())
                             .addConverterFactory(GsonConverterFactory.create(Utils.getGsonInstance()))
                             .client(okHttpClient)
                             .build();

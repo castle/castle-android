@@ -7,10 +7,15 @@ package io.castle.android;
 import java.util.List;
 
 public class CastleConfiguration {
+
     private static final boolean DEFAULT_DEBUG_LOGGING_ENABLED = false;
     private static final int DEFAULT_FLUSH_LIMIT = 20;
     private static final int DEFAULT_MAX_QUEUE_LIMIT = 1000;
     private static final boolean DEFAULT_SCREEN_TRACKING_ENABLED = true;
+    private static final boolean DEFAULT_USE_CLOUDFLARE_APP = false;
+    private static final String DEFAULT_API_DOMAIN = "api.castle.io";
+    private static final String CASTLE_API_PATH = "v1/";
+    private static final String CLOUDFLARE_API_PATH = "v1/c/mobile/";
 
     private boolean debugLoggingEnabled;
     private int flushLimit;
@@ -18,6 +23,9 @@ public class CastleConfiguration {
     private boolean screenTrackingEnabled;
     private List<String> baseURLWhiteList;
     private String publishableKey;
+    private boolean useCloudflareApp;
+    private String apiDomain;
+    private String apiPath;
 
     /**
      * Create default configuration
@@ -36,6 +44,13 @@ public class CastleConfiguration {
         this.publishableKey = builder.publishableKey();
         this.screenTrackingEnabled = builder.screenTrackingEnabled();
         this.baseURLWhiteList = builder.baseURLWhiteList();
+        this.useCloudflareApp = builder.useCloudflareApp();
+        this.apiDomain = builder.apiDomain();
+        this.apiPath = builder.apiPath();
+
+        if (useCloudflareApp && apiDomain.equals(DEFAULT_API_DOMAIN)) {
+            throw new RuntimeException("You must set a API domain if useCloudflare app is enabled.");
+        }
     }
 
     /**
@@ -87,6 +102,40 @@ public class CastleConfiguration {
     }
 
     /**
+     * Get use cloudflare app enabled
+     * @return Use Cloudflare app enabled
+     */
+    public boolean useCloudflareApp() { return useCloudflareApp; }
+
+    /**
+     * Get API domain
+     * @return API domain
+     */
+    public String apiDomain() { return apiDomain; }
+
+    /**
+     * Get API path
+     * @return API path
+     */
+    public String apiPath() {
+        if (useCloudflareApp) {
+            if (apiPath != null) {
+                return apiPath;
+            } else {
+                return CLOUDFLARE_API_PATH;
+            }
+        }
+        return CASTLE_API_PATH;
+    }
+
+    public String baseUrl() {
+        if (useCloudflareApp) {
+            return String.format("https://%s/%s", apiDomain(), apiPath());
+        }
+        return String.format("https://%s/%s", DEFAULT_API_DOMAIN, apiPath());
+    }
+
+    /**
      * Builder used for creating a configuration
      */
     public static final class Builder {
@@ -96,6 +145,9 @@ public class CastleConfiguration {
         private String publishableKey;
         private boolean screenTrackingEnabled;
         private List<String> baseURLWhiteList;
+        private boolean useCloudflareApp;
+        private String apiDomain;
+        private String apiPath;
 
         /**
          * Create builder with defaults
@@ -105,6 +157,9 @@ public class CastleConfiguration {
             flushLimit = DEFAULT_FLUSH_LIMIT;
             maxQueueLimit = DEFAULT_MAX_QUEUE_LIMIT;
             screenTrackingEnabled = DEFAULT_SCREEN_TRACKING_ENABLED;
+            useCloudflareApp = DEFAULT_USE_CLOUDFLARE_APP;
+            apiDomain = DEFAULT_API_DOMAIN;
+            apiPath = null;
         }
 
         /**
@@ -117,6 +172,9 @@ public class CastleConfiguration {
             publishableKey = configuration.publishableKey();
             screenTrackingEnabled = configuration.screenTrackingEnabled();
             baseURLWhiteList = configuration.baseURLWhiteList();
+            useCloudflareApp = configuration.useCloudflareApp();
+            apiDomain = configuration.apiDomain();
+            apiPath = configuration.apiPath();
         }
 
         /**
@@ -232,6 +290,57 @@ public class CastleConfiguration {
         public boolean screenTrackingEnabled() {
             return screenTrackingEnabled;
         }
+
+        /**
+         * Set use cloudflare app enabled
+         * @param enabled
+         * @return Builder
+         */
+        public Builder useCloudflareApp(boolean enabled) {
+            this.useCloudflareApp = enabled;
+
+            return this;
+        }
+
+        /**
+         * Get use cloudflare app enabled
+         * @return Use Cloudflare app enabled
+         */
+        public boolean useCloudflareApp() { return useCloudflareApp; }
+
+        /**
+         * Set apiDomain
+         * @param apiDomain
+         * @return Builder
+         */
+        public Builder apiDomain(String apiDomain) {
+            this.apiDomain = apiDomain;
+
+            return this;
+        }
+
+        /**
+         * Get API path
+         * @return API path
+         */
+        public String apiPath() { return apiPath; }
+
+        /**
+         * Set apiPath
+         * @param apiPath
+         * @return Builder
+         */
+        public Builder apiPath(String apiPath) {
+            this.apiPath = apiPath;
+
+            return this;
+        }
+
+        /**
+         * Get API domain
+         * @return API domain
+         */
+        public String apiDomain() { return apiDomain; }
 
         /**
          * Build configuration from builder
