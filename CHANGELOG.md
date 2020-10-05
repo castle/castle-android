@@ -1,4 +1,9 @@
 # Change Log
+
+## 1.2.0 (2020-10-05)
+- Feature: [#32](https://github.com/castle/castle-android/pull/31) Add ability to enable cloudflare app proxy usage
+- Fix: [#31](https://github.com/castle/castle-android/pull/31) Use scaled pixels instead of real pixels when reporting screen size
+
 ## 1.1.5 (2020-05-04)
 - Fix: [#30](https://github.com/castle/castle-android/pull/30) Remove non supported unicode characters from user agent string
 
