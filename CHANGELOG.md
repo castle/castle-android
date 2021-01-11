@@ -1,4 +1,6 @@
 # Change Log
+## 1.2.1 (2021-01-11)
+- Fix: [#33](https://github.com/castle/castle-android/pull/33) Change format of generated user agent to make sure that parts are parsed correctly
 
 ## 1.2.0 (2020-10-05)
 - Feature: [#32](https://github.com/castle/castle-android/pull/31) Add ability to enable cloudflare app proxy usage
