@@ -418,10 +418,10 @@ public class Castle {
 
     /**
      * Get custom user agent used for requests sent to Castle API
-     * @return User agent string in format application name/version (versionCode) (Device name; Android version; Castle library version)
+     * @return User agent string in format application name/version (versionCode) (Castle library version; Android version; Device name)
      */
     public static String userAgent() {
-        return Utils.sanitizeHeader(String.format(Locale.US, "%s/%s (%d) (%s %s; Android %s; Castle %s)", instance.appName, instance.appVersion, instance.appBuild, Build.MANUFACTURER, Build.MODEL, Build.VERSION.RELEASE, BuildConfig.VERSION_NAME));
+        return Utils.sanitizeHeader(String.format(Locale.US, "%s/%s (%d) (Castle %s; Android %s; %s %s)", instance.appName, instance.appVersion, instance.appBuild, BuildConfig.VERSION_NAME, Build.VERSION.RELEASE, Build.MANUFACTURER, Build.MODEL));
     }
 
     /**
