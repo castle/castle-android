@@ -1,2 +1,4 @@
 io.castle.android
-io.castle.android.sample
+io.castle.android.api
+io.castle.android.api.model
+io.castle.android.queue
