@@ -48,13 +48,13 @@ public class CastleTest {
 
         rule.getActivity().setTitle("TestActivityTitle");
 
-        ArrayList<String> baseUrlWhiteList = new ArrayList<>();
-        baseUrlWhiteList.add("https://google.com/");
+        ArrayList<String> baseUrlAllowlist = new ArrayList<>();
+        baseUrlAllowlist.add("https://google.com/");
 
         Castle.configure(application, new CastleConfiguration.Builder()
                 .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZy")
                 .screenTrackingEnabled(true)
-                .baseURLWhiteList(baseUrlWhiteList)
+                .baseUrlAllowlist(baseUrlAllowlist)
                 .build());
 
         client = new OkHttpClient.Builder()
@@ -79,16 +79,16 @@ public class CastleTest {
 
     @Test
     public void testflushIfNeeded() {
-        // Make sure flush is done for whitelisted base url
+        // Make sure flush is done for allowlisted base url
         boolean flushed = Castle.flushIfNeeded("https://google.com/");
 
-        // FlushIfNeeded returns true if url is whitelisted and flush() is called
+        // FlushIfNeeded returns true if url is allowlisted and flush() is called
         Assert.assertTrue(flushed);
 
-        // Make sure flush is NOT done for non whitelisted base url
+        // Make sure flush is NOT done for non allowlisted base url
         flushed = Castle.flushIfNeeded("https://test.com");
 
-        // FlushIfNeeded returns fasle if url is not whitelisted
+        // FlushIfNeeded returns fasle if url is not allowlisted
         Assert.assertFalse(flushed);
     }
 
@@ -204,8 +204,8 @@ public class CastleTest {
     }
 
     @Test
-    public void testWhiteList() {
-        Assert.assertFalse(Castle.isUrlWhiteListed("invalid url"));
+    public void testAllowlist() {
+        Assert.assertFalse(Castle.isUrlAllowlisted("invalid url"));
     }
 
     @Test

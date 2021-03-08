@@ -17,14 +17,14 @@ public class SampleApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        List<String> baseURLWhiteList = Arrays.asList(new String[] { "https://api.castle.io/" });
+        List<String> baseUrlAllowlist = Arrays.asList(new String[] { "https://api.castle.io/" });
 
         // Create configuration object
         CastleConfiguration configuration = new CastleConfiguration.Builder()
                 .publishableKey("pk_btApAXqt1jpJtEARf1stsnvyov6czPmn")
                 .screenTrackingEnabled(true)
                 .debugLoggingEnabled(true)
-                .baseURLWhiteList(baseURLWhiteList)
+                .baseUrlAllowlist(baseUrlAllowlist)
                 .build();
 
         // Setup Castle SDK with provided configuration

@@ -16,8 +16,8 @@ class CastleInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
 
-        // Only add headers is url is whitelisted
-        if (Castle.isUrlWhiteListed(request.url().toString())) {
+        // Only add headers is url is allowlisted
+        if (Castle.isUrlAllowlisted(request.url().toString())) {
 
             Request.Builder builder = request.newBuilder();
 

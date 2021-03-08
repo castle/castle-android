@@ -25,7 +25,7 @@ import io.castle.android.api.model.ScreenEvent;
 import io.castle.android.queue.EventQueue;
 
 /**
- * This class is the main entry point for using the Castle SDK and provides methods for tracking events, screen views, manual flushing of the event queue, whitelisting behaviour and resetting.
+ * This class is the main entry point for using the Castle SDK and provides methods for tracking events, screen views, manual flushing of the event queue, allowlisting behaviour and resetting.
  */
 public class Castle {
     public static final String clientIdHeaderName = "X-Castle-Client-Id";
@@ -328,11 +328,11 @@ public class Castle {
     }
 
     /**
-     * Force a flush if needed for a specific url, flushes if url is whitelisted
+     * Force a flush if needed for a specific url, flushes if url is allowlisted
      */
     public static boolean flushIfNeeded(String url) {
-        // Flush if request to whitelisted url
-        if (isUrlWhiteListed(url)) {
+        // Flush if request to allowlisted url
+        if (isUrlAllowlisted(url)) {
             flush();
             return true;
         }
@@ -340,12 +340,12 @@ public class Castle {
     }
 
     /**
-     * Get Castle headers for a specific url, returns non-empty when url is whitelisted
+     * Get Castle headers for a specific url, returns non-empty when url is allowlisted
      */
     public static Map<String, String> headers(String url) {
         Map<String, String> headers = new HashMap<>();
 
-        if (isUrlWhiteListed(url)) {
+        if (isUrlAllowlisted(url)) {
             headers.put(clientIdHeaderName, Castle.clientId());
         }
 
@@ -360,16 +360,16 @@ public class Castle {
     }
 
     /**
-     * Determine if a given url is whitelisted
-     * @return url whitelist status
+     * Determine if a given url is allowlisted
+     * @return url allowlist status
      */
-    static boolean isUrlWhiteListed(String urlString) {
+    static boolean isUrlAllowlisted(String urlString) {
         try {
             URL url = new URL(urlString);
             String baseUrl = url.getProtocol() + "://" + url.getHost() + "/";
 
-            if (Castle.configuration().baseURLWhiteList() != null && !Castle.configuration().baseURLWhiteList().isEmpty()) {
-                if (Castle.configuration().baseURLWhiteList().contains(baseUrl)) {
+            if (Castle.configuration().baseUrlAllowlist() != null && !Castle.configuration().baseUrlAllowlist().isEmpty()) {
+                if (Castle.configuration().baseUrlAllowlist().contains(baseUrl)) {
                     return true;
                 }
             }

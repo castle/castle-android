@@ -21,7 +21,7 @@ public class CastleConfiguration {
     private int flushLimit;
     private int maxQueueLimit;
     private boolean screenTrackingEnabled;
-    private List<String> baseURLWhiteList;
+    private List<String> baseUrlAllowlist;
     private String publishableKey;
     private boolean useCloudflareApp;
     private String apiDomain;
@@ -43,7 +43,7 @@ public class CastleConfiguration {
         this.maxQueueLimit = builder.maxQueueLimit();
         this.publishableKey = builder.publishableKey();
         this.screenTrackingEnabled = builder.screenTrackingEnabled();
-        this.baseURLWhiteList = builder.baseURLWhiteList();
+        this.baseUrlAllowlist = builder.baseUrlAllowlist();
         this.useCloudflareApp = builder.useCloudflareApp();
         this.apiDomain = builder.apiDomain();
         this.apiPath = builder.apiPath();
@@ -54,11 +54,11 @@ public class CastleConfiguration {
     }
 
     /**
-     * Get list of whitelisted urls
-     * @return List of whitelisted urls
+     * Get list of allowlisted urls
+     * @return List of allowlisted urls
      */
-    public List<String> baseURLWhiteList() {
-        return baseURLWhiteList;
+    public List<String> baseUrlAllowlist() {
+        return baseUrlAllowlist;
     }
 
     /**
@@ -144,7 +144,7 @@ public class CastleConfiguration {
         private int maxQueueLimit;
         private String publishableKey;
         private boolean screenTrackingEnabled;
-        private List<String> baseURLWhiteList;
+        private List<String> baseUrlAllowlist;
         private boolean useCloudflareApp;
         private String apiDomain;
         private String apiPath;
@@ -171,29 +171,29 @@ public class CastleConfiguration {
             maxQueueLimit = configuration.maxQueueLimit();
             publishableKey = configuration.publishableKey();
             screenTrackingEnabled = configuration.screenTrackingEnabled();
-            baseURLWhiteList = configuration.baseURLWhiteList();
+            baseUrlAllowlist = configuration.baseUrlAllowlist();
             useCloudflareApp = configuration.useCloudflareApp();
             apiDomain = configuration.apiDomain();
             apiPath = configuration.apiPath();
         }
 
         /**
-         * Set whitelist
-         * @param baseURLWhiteList
+         * Set allowlist
+         * @param baseUrlAllowlist
          * @return Builder
          */
-        public Builder baseURLWhiteList(List<String> baseURLWhiteList) {
-            this.baseURLWhiteList = baseURLWhiteList;
+        public Builder baseUrlAllowlist(List<String> baseUrlAllowlist) {
+            this.baseUrlAllowlist = baseUrlAllowlist;
 
             return this;
         }
 
         /**
-         * Get whitelist
-         * @return Whitelist
+         * Get allowlist
+         * @return allowlist
          */
-        public List<String> baseURLWhiteList() {
-            return baseURLWhiteList;
+        public List<String> baseUrlAllowlist() {
+            return baseUrlAllowlist;
         }
 
         /**
