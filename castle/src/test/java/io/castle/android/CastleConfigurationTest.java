@@ -32,23 +32,23 @@ public class CastleConfigurationTest {
 
     @Test
     public void testConfiguration() {
-        ArrayList<String> baseUrlAllowlist = new ArrayList<>();
-        baseUrlAllowlist.add("https://google.com/");
+        ArrayList<String> baseURLAllowlist = new ArrayList<>();
+        baseURLAllowlist.add("https://google.com/");
 
         CastleConfiguration configuration = new CastleConfiguration.Builder()
                 .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
                 .screenTrackingEnabled(true)
                 .debugLoggingEnabled(true)
                 .flushLimit(2)
-                .baseUrlAllowlist(baseUrlAllowlist)
+                .baseURLAllowlist(baseURLAllowlist)
                 .maxQueueLimit(100)
                 .build();
 
         Assert.assertTrue(configuration.screenTrackingEnabled());
         Assert.assertTrue(configuration.debugLoggingEnabled());
         Assert.assertEquals(2, configuration.flushLimit());
-        Assert.assertEquals(1, configuration.baseUrlAllowlist().size());
-        Assert.assertEquals("https://google.com/", configuration.baseUrlAllowlist().get(0));
+        Assert.assertEquals(1, configuration.baseURLAllowlist().size());
+        Assert.assertEquals("https://google.com/", configuration.baseURLAllowlist().get(0));
         Assert.assertEquals(100, configuration.maxQueueLimit());
         Assert.assertFalse(configuration.useCloudflareApp());
         Assert.assertEquals("https://api.castle.io/v1/", configuration.baseUrl());
@@ -57,8 +57,8 @@ public class CastleConfigurationTest {
         Castle.configure(application, configuration);
 
         Assert.assertEquals(2, Castle.configuration().flushLimit());
-        Assert.assertEquals(1, Castle.configuration().baseUrlAllowlist().size());
-        Assert.assertEquals("https://google.com/", Castle.configuration().baseUrlAllowlist().get(0));
+        Assert.assertEquals(1, Castle.configuration().baseURLAllowlist().size());
+        Assert.assertEquals("https://google.com/", Castle.configuration().baseURLAllowlist().get(0));
         Assert.assertEquals(100, Castle.configuration().maxQueueLimit());
 
         Assert.assertEquals(1, Castle.headers("https://google.com/test").size());
