@@ -48,13 +48,13 @@ public class CastleTest {
 
         rule.getActivity().setTitle("TestActivityTitle");
 
-        ArrayList<String> baseURLAllowlist = new ArrayList<>();
-        baseURLAllowlist.add("https://google.com/");
+        ArrayList<String> baseURLAllowList = new ArrayList<>();
+        baseURLAllowList.add("https://google.com/");
 
         Castle.configure(application, new CastleConfiguration.Builder()
                 .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZy")
                 .screenTrackingEnabled(true)
-                .baseURLAllowlist(baseURLAllowlist)
+                .baseURLAllowList(baseURLAllowList)
                 .build());
 
         client = new OkHttpClient.Builder()
