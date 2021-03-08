@@ -21,7 +21,7 @@ public class CastleConfiguration {
     private int flushLimit;
     private int maxQueueLimit;
     private boolean screenTrackingEnabled;
-    private List<String> baseUrlAllowlist;
+    private List<String> baseURLAllowlist;
     private String publishableKey;
     private boolean useCloudflareApp;
     private String apiDomain;
@@ -43,7 +43,7 @@ public class CastleConfiguration {
         this.maxQueueLimit = builder.maxQueueLimit();
         this.publishableKey = builder.publishableKey();
         this.screenTrackingEnabled = builder.screenTrackingEnabled();
-        this.baseUrlAllowlist = builder.baseUrlAllowlist();
+        this.baseURLAllowlist = builder.baseURLAllowlist();
         this.useCloudflareApp = builder.useCloudflareApp();
         this.apiDomain = builder.apiDomain();
         this.apiPath = builder.apiPath();
@@ -57,8 +57,8 @@ public class CastleConfiguration {
      * Get list of allowlisted urls
      * @return List of allowlisted urls
      */
-    public List<String> baseUrlAllowlist() {
-        return baseUrlAllowlist;
+    public List<String> baseURLAllowlist() {
+        return baseURLAllowlist;
     }
 
     /**
@@ -144,7 +144,7 @@ public class CastleConfiguration {
         private int maxQueueLimit;
         private String publishableKey;
         private boolean screenTrackingEnabled;
-        private List<String> baseUrlAllowlist;
+        private List<String> baseURLAllowlist;
         private boolean useCloudflareApp;
         private String apiDomain;
         private String apiPath;
@@ -171,7 +171,7 @@ public class CastleConfiguration {
             maxQueueLimit = configuration.maxQueueLimit();
             publishableKey = configuration.publishableKey();
             screenTrackingEnabled = configuration.screenTrackingEnabled();
-            baseUrlAllowlist = configuration.baseUrlAllowlist();
+            baseURLAllowlist = configuration.baseURLAllowlist();
             useCloudflareApp = configuration.useCloudflareApp();
             apiDomain = configuration.apiDomain();
             apiPath = configuration.apiPath();
@@ -179,11 +179,11 @@ public class CastleConfiguration {
 
         /**
          * Set allowlist
-         * @param baseUrlAllowlist
+         * @param baseURLAllowlist
          * @return Builder
          */
-        public Builder baseUrlAllowlist(List<String> baseUrlAllowlist) {
-            this.baseUrlAllowlist = baseUrlAllowlist;
+        public Builder baseURLAllowlist(List<String> baseURLAllowlist) {
+            this.baseURLAllowlist = baseURLAllowlist;
 
             return this;
         }
@@ -192,8 +192,8 @@ public class CastleConfiguration {
          * Get allowlist
          * @return allowlist
          */
-        public List<String> baseUrlAllowlist() {
-            return baseUrlAllowlist;
+        public List<String> baseURLAllowlist() {
+            return baseURLAllowlist;
         }
 
         /**

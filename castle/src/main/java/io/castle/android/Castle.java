@@ -368,8 +368,8 @@ public class Castle {
             URL url = new URL(urlString);
             String baseUrl = url.getProtocol() + "://" + url.getHost() + "/";
 
-            if (Castle.configuration().baseUrlAllowlist() != null && !Castle.configuration().baseUrlAllowlist().isEmpty()) {
-                if (Castle.configuration().baseUrlAllowlist().contains(baseUrl)) {
+            if (Castle.configuration().baseURLAllowlist() != null && !Castle.configuration().baseURLAllowlist().isEmpty()) {
+                if (Castle.configuration().baseURLAllowlist().contains(baseUrl)) {
                     return true;
                 }
             }
