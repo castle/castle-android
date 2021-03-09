@@ -13,6 +13,14 @@ This document describes the tasks to perform for tagging and releasing a new ver
  
 ## Publish to Sonatype
 
+Add sonatype credentials to your global `gradle.properties` file
+
+```
+signing.keyId=1234567
+signing.password=password
+signing.secretKeyRingFile=/path/to/user/.gnupg/keyring.gpg
+```
+
 In order to publish a new version to Sonatype OSS run the following command from the project root: `./gradlew castle:publish`. Make sure you've executed all the steps in the "Prepare for release" section before publishing.
  
 ## Create a new release on Github
