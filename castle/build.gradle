@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.vanniktech.maven.publish'
 
 android {
     compileSdkVersion 28
@@ -71,6 +72,5 @@ dependencies {
 }
 
 if (!ciBuild) {
-    apply from: 'bintray.gradle'
     apply from: 'size.gradle'
 }
