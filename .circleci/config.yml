@@ -28,11 +28,11 @@ jobs:
           command: ./gradlew lint test
       - run:
           name: Run Code Coverage
-          command: ./gradlew castle:jacocoTestReport
+          command: ./gradlew castle:jacocoTestReportDebug
       - store_artifacts:
           path: castle/build/reports
           destination: reports
       - store_test_results:
           path: castle/build/test-results
       - codecov/upload:
-          file: castle/build/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml
+          file: castle/build/reports/jacoco/debug/jacoco.xmlv
