@@ -1,4 +1,7 @@
 # Change Log
+## 1.2.2 (2021-03-09)
+- Fix: [#34](https://github.com/castle/castle-android/pull/34) Rename whitelist to allowList
+
 ## 1.2.1 (2021-01-11)
 - Fix: [#33](https://github.com/castle/castle-android/pull/33) Change format of generated user agent to make sure that parts are parsed correctly
 
