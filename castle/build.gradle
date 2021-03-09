@@ -23,7 +23,6 @@ android {
 
     libraryVariants.all { variant ->
         task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
-            delete project.file('../docs').absolutePath
             description "Generates Javadoc for $variant.name."
             source = variant.javaCompile.source
             classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
