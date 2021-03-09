@@ -12,12 +12,14 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
+@Config(sdk = 21)
 @RunWith(AndroidJUnit4.class)
 public class CastleConfigurationTest {
     @Rule

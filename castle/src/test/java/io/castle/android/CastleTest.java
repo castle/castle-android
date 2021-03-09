@@ -31,6 +31,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+@Config(sdk = 21)
 @RunWith(AndroidJUnit4.class)
 public class CastleTest {
     @Rule
