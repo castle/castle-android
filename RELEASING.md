@@ -19,9 +19,14 @@ Add sonatype credentials to your global `gradle.properties` file
 signing.keyId=1234567
 signing.password=password
 signing.secretKeyRingFile=/path/to/user/.gnupg/keyring.gpg
+
+mavenCentralRepositoryUsername=
+mavenCentralRepositoryPassword=
 ```
 
-In order to publish a new version to Sonatype OSS run the following command from the project root: `./gradlew castle:publish`. Make sure you've executed all the steps in the "Prepare for release" section before publishing.
+In order to upload a new version to Sonatype OSS staging run the following command from the project root: `./gradlew castle:publish`. Make sure you've executed all the steps in the "Prepare for release" section before publishing.
+
+To release the uploaded version run `./gradlew castle:closeAndReleaseRepository`
  
 ## Create a new release on Github
 1. Create a new Github release at https://github.com/castle/castle-android/releases
