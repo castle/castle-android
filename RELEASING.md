@@ -4,7 +4,7 @@ This document describes the tasks to perform for tagging and releasing a new ver
 
 ## Prepare for release
 
- 1. Update the version in `castle/gradle.properties` and `build.gradle`.
+ 1. Update the version in `castle/gradle.properties`.
  2. Update documentation by running `./gradlew generateDebugJavadoc` in the project root.
  3. Update the `CHANGELOG.md` for the impending release.
  4. `git commit -m "Prepare for release X.Y.Z."` (where X.Y.Z is the new version).
