@@ -24,7 +24,7 @@ api 'io.castle.android:castle:latest-version'
 
 ## Usage
 
-Please see the [Mobile Integration Guide](https://castle.io/docs/mobile).
+Please see the [Mobile Integration Guide](https://docs.castle.io).
 
 ## Library size and method count
 |   | Size |
