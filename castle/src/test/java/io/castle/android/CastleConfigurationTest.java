@@ -1,10 +1,11 @@
 /*
- * Copyright (c) 2017 Castle
+ * Copyright (c) 2020 Castle
  */
 
 package io.castle.android;
 
 import android.app.Application;
+import android.os.Build;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -19,8 +20,8 @@ import java.util.ArrayList;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-@Config(sdk = 21)
 @RunWith(AndroidJUnit4.class)
+@Config(sdk = {Build.VERSION_CODES.O_MR1})
 public class CastleConfigurationTest {
     @Rule
     public ActivityTestRule<TestActivity> rule  = new ActivityTestRule<>(TestActivity.class);

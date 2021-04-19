@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
+        <meta-data android:name="castle_publishable_key"
+            android:value="pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ"/>
+
         <activity android:name=".TestActivity"/>
     </application>
 
