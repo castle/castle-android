@@ -1,11 +1,12 @@
 /*
- * Copyright (c) 2017 Castle
+ * Copyright (c) 2020 Castle
  */
 
 package io.castle.android;
 
 import android.Manifest;
 import android.app.Application;
+import android.os.Build;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -31,8 +32,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-@Config(sdk = 21)
 @RunWith(AndroidJUnit4.class)
+@Config(sdk = {Build.VERSION_CODES.O_MR1})
 public class CastleTest {
     @Rule
     public ActivityTestRule<TestActivity> rule  = new ActivityTestRule<>(TestActivity.class);
@@ -184,7 +185,6 @@ public class CastleTest {
         Assert.assertNotNull(headers);
         Assert.assertTrue(!headers.isEmpty());
         Assert.assertTrue(headers.containsKey(Castle.clientIdHeaderName));
-        Assert.assertEquals(headers.get(Castle.clientIdHeaderName), Castle.clientId());
     }
 
     @Test
@@ -194,7 +194,7 @@ public class CastleTest {
                 .build();
 
         Response response = client.newCall(request).execute();
-        Assert.assertEquals(Castle.clientId(), response.request().header(Castle.clientIdHeaderName));
+        Assert.assertNotNull(response.request().header(Castle.clientIdHeaderName));
 
         request = new Request.Builder()
                 .url("https://example.com/test")

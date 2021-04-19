@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Castle
+ * Copyright (c) 2020 Castle
  */
 
 package io.castle.android.queue;

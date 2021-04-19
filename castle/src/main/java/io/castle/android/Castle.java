@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Castle
+ * Copyright (c) 2020 Castle
  */
 
 package io.castle.android;
@@ -22,6 +22,7 @@ import java.util.Map;
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.IdentifyEvent;
 import io.castle.android.api.model.ScreenEvent;
+import io.castle.android.highwind.Highwind;
 import io.castle.android.queue.EventQueue;
 
 /**
@@ -32,12 +33,12 @@ public class Castle {
 
     private static Castle instance;
     private Application application;
-    private String identifier;
     private CastleConfiguration configuration;
     private EventQueue eventQueue;
     private StorageHelper storageHelper;
     private CastleActivityLifecycleCallbacks activityLifecycleCallbacks;
     private CastleComponentCallback componentCallbacks;
+    private Highwind highwind;
 
     private String appVersion;
     private int appBuild;
@@ -49,11 +50,17 @@ public class Castle {
 
     private void setup(Application application, CastleConfiguration configuration) {
         Context context = application.getApplicationContext();
+
+        // Get the current version.
+        appVersion = Utils.getApplicationVersion(application);
+        appBuild = Utils.getApplicationVersionCode(application);
+        appName = Utils.getApplicationName(application);
+
         this.storageHelper = new StorageHelper(context);
         this.configuration = configuration;
-        this.identifier = storageHelper.getDeviceId();
         this.eventQueue = new EventQueue(context);
         this.application = application;
+        this.highwind = new Highwind(context, BuildConfig.VERSION_NAME, storageHelper.getDeviceId(), buildUserAgent());
     }
 
     private void registerLifeCycleCallbacks(Application application) {
@@ -62,11 +69,6 @@ public class Castle {
 
         componentCallbacks = new CastleComponentCallback();
         application.registerComponentCallbacks(componentCallbacks);
-
-        // Get the current version.
-        appVersion = Utils.getApplicationVersion(application);
-        appBuild = Utils.getApplicationVersionCode(application);
-        appName = Utils.getApplicationName(application);
 
         // Get the previous recorded version.
         String previousVersion = storageHelper.getVersion();
@@ -87,6 +89,10 @@ public class Castle {
         // Update the recorded version.
         storageHelper.setVersion(appVersion);
         storageHelper.setBuild(appBuild);
+    }
+
+    private String id() {
+        return highwind.token();
     }
 
     /**
@@ -285,11 +291,11 @@ public class Castle {
     }
 
     /**
-     * Get identifier if set, otherwise returns null
+     * Get identifier
      * @return identifier
      */
     public static String clientId() {
-        return instance.identifier;
+        return instance.id();
     }
 
     /**
@@ -421,7 +427,11 @@ public class Castle {
      * @return User agent string in format application name/version (versionCode) (Castle library version; Android version; Device name)
      */
     public static String userAgent() {
-        return Utils.sanitizeHeader(String.format(Locale.US, "%s/%s (%d) (Castle %s; Android %s; %s %s)", instance.appName, instance.appVersion, instance.appBuild, BuildConfig.VERSION_NAME, Build.VERSION.RELEASE, Build.MANUFACTURER, Build.MODEL));
+        return instance.buildUserAgent();
+    }
+
+    private String buildUserAgent() {
+        return Utils.sanitizeHeader(String.format(Locale.US, "%s/%s (%d) (Castle %s; Android %s; %s %s)", appName, appVersion, appBuild, BuildConfig.VERSION_NAME, Build.VERSION.RELEASE, Build.MANUFACTURER, Build.MODEL));
     }
 
     /**
@@ -445,6 +455,6 @@ public class Castle {
      * @return Context with current device information
      */
     public static io.castle.android.api.model.Context createContext() {
-        return io.castle.android.api.model.Context.create(instance.application.getApplicationContext());
+        return io.castle.android.api.model.Context.create();
     }
 }
