@@ -1,9 +1,9 @@
 # Change Log
 ## 2.0.1 (2021-04-21)
-- Feature: [#39](https://github.com/castle/castle-android/pull/39) Fix highwind build
+- Feature: [#39](https://github.com/castle/castle-android/pull/39) Fix build issue
 
 ## 2.0.0 (2021-04-20)
-- Feature: [#38](https://github.com/castle/castle-android/pull/38) Add Highwind
+- Feature: [#38](https://github.com/castle/castle-android/pull/38) Extended and improved device parameter collection
 
 ## 1.2.2 (2021-03-09)
 - Fix: [#34](https://github.com/castle/castle-android/pull/34) Rename whitelist to allowList
