@@ -1,4 +1,7 @@
 # Change Log
+## 2.0.2 (2021-05-03)
+- Fix: [#41](https://github.com/castle/castle-android/pull/41) Fix Android 11 crash when getting screen size
+
 ## 2.0.1 (2021-04-21)
 - Feature: [#39](https://github.com/castle/castle-android/pull/39) Fix build issue
 
