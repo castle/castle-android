@@ -109,7 +109,13 @@ public class EventQueue implements Callback<Void> {
                 CastleLogger.d("Flushing EventQueue " + end);
 
                 flushCount = end;
-                flushCall = CastleAPIService.getInstance().batch(batch);
+                try {
+                    flushCall = CastleAPIService.getInstance().batch(batch);
+                } catch (NullPointerException npe) {
+                    // Band aid for https://github.com/castle/castle-android/issues/37
+                    CastleLogger.d("Did not flush EventQueue because NPE, clearing EventQueue");
+                    eventObjectQueue.clear();
+                }
                 flushCall.enqueue(this);
             } else {
                 CastleLogger.d("Did not flush EventQueue");
