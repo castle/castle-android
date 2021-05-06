@@ -1,4 +1,8 @@
 # Change Log
+## 2.0.3 (2021-05-06)
+- Fix: [#42](https://github.com/castle/castle-android/pull/42) Add try catch for NPE being thrown when deserializing queue
+- Fix: Do not use standard R8 renamed packages prevent class collision
+
 ## 2.0.2 (2021-05-03)
 - Fix: [#41](https://github.com/castle/castle-android/pull/41) Fix Android 11 crash when getting screen size
 
