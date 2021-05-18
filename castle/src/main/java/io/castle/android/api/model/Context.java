@@ -22,7 +22,7 @@ public class Context {
     }
 
     private void init() {
-        this.clientId = Castle.clientId();
+        this.clientId = Castle.createRequestToken();
     }
 
     public static Context create() {
