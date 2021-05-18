@@ -184,7 +184,7 @@ public class CastleTest {
         Map<String, String> headers = Castle.headers("https://google.com/test");
         Assert.assertNotNull(headers);
         Assert.assertTrue(!headers.isEmpty());
-        Assert.assertTrue(headers.containsKey(Castle.requestTokenHeaderName));
+        Assert.assertTrue(headers.containsKey(Castle.clientIdHeaderName));
     }
 
     @Test
@@ -194,14 +194,14 @@ public class CastleTest {
                 .build();
 
         Response response = client.newCall(request).execute();
-        Assert.assertNotNull(response.request().header(Castle.requestTokenHeaderName));
+        Assert.assertNotNull(response.request().header(Castle.clientIdHeaderName));
 
         request = new Request.Builder()
                 .url("https://example.com/test")
                 .build();
 
         response = client.newCall(request).execute();
-        Assert.assertEquals(null, response.request().header(Castle.requestTokenHeaderName));
+        Assert.assertEquals(null, response.request().header(Castle.clientIdHeaderName));
     }
 
     @Test
