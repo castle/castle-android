@@ -1,4 +1,7 @@
 # Change Log
+## 2.1.0 (2021-06-03)
+- [#43](https://github.com/castle/castle-android/pull/43) Rename clientId to requestToken
+
 ## 2.0.4 (2021-05-06)
 - Fix build issue that resulted in larger than needed release.
 
