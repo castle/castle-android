@@ -169,11 +169,7 @@ public class Castle {
     }
 
     protected static void track(Event event) {
-        CastleLogger.d("Tracking event " + Utils.getGsonInstance().toJson(event));
         instance.eventQueue.add(event);
-        if (instance.eventQueue.needsFlush()) {
-            flush();
-        }
     }
 
     /**
@@ -338,11 +334,7 @@ public class Castle {
      * Force a flush of the batch event queue, even if the flush limit hasn’t been reached
      */
     public static void flush() {
-        try {
-            instance.eventQueue.flush();
-        } catch (IOException exception) {
-            CastleLogger.e("Unable to flush queue", exception);
-        }
+        instance.eventQueue.flush();
     }
 
     /**
