@@ -4,6 +4,8 @@
 
 package io.castle.android;
 
+import static org.awaitility.Awaitility.await;
+
 import android.Manifest;
 import android.app.Application;
 import android.os.Build;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -112,6 +115,10 @@ public class CastleTest {
 
         count = Castle.queueSize();
         Castle.track("Event");
+
+        // Wait until event is added in background thread
+        await().until(eventIsAdded(count));
+
         newCount = Castle.queueSize();
         Assert.assertEquals(count + 1, newCount);
 
@@ -150,25 +157,45 @@ public class CastleTest {
 
         count = Castle.queueSize();
         Castle.screen("Main");
+
+        // Wait until event is added in background thread
+        await().until(eventIsAdded(count));
+
         newCount = Castle.queueSize();
         Assert.assertEquals(count + 1, newCount);
 
         count = Castle.queueSize();
         Castle.screen(rule.getActivity());
+
+        // Wait until event is added in background thread
+        await().until(eventIsAdded(count));
+
         newCount = Castle.queueSize();
         Assert.assertEquals(count + 1, newCount);
 
         count = Castle.queueSize();
         Castle.identify("testuser1");
+
+        // Wait until event is added in background thread
+        await().until(eventIsAdded(count));
+
         newCount = Castle.queueSize();
         Assert.assertEquals(count + 1, newCount);
 
         count = Castle.queueSize();
         Castle.identify("testuser1", new HashMap<String, String>());
+
+        // Wait until event is added in background thread
+        await().until(eventIsAdded(count));
+
         newCount = Castle.queueSize();
         Assert.assertEquals(count + 1, newCount);
 
         Castle.flush();
+    }
+
+    private Callable<Boolean> eventIsAdded(int size) {
+        return () -> Castle.queueSize() == size + 1;
     }
 
     @Test
