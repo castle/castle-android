@@ -6,6 +6,8 @@ package io.castle.android;
 
 import static org.awaitility.Awaitility.await;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import android.Manifest;
 import android.app.Application;
 import android.os.Build;
@@ -38,6 +40,8 @@ import okhttp3.Response;
 @RunWith(AndroidJUnit4.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1})
 public class CastleTest {
+    private static final long AWAIT_TIMEOUT = 30;
+
     @Rule
     public ActivityTestRule<TestActivity> rule  = new ActivityTestRule<>(TestActivity.class);
 
@@ -117,7 +121,7 @@ public class CastleTest {
         Castle.track("Event");
 
         // Wait until event is added in background thread
-        await().until(eventIsAdded(count));
+        await().atMost(AWAIT_TIMEOUT, SECONDS).until(eventIsAdded(count));
 
         newCount = Castle.queueSize();
         Assert.assertEquals(count + 1, newCount);
@@ -159,7 +163,7 @@ public class CastleTest {
         Castle.screen("Main");
 
         // Wait until event is added in background thread
-        await().until(eventIsAdded(count));
+        await().atMost(AWAIT_TIMEOUT, SECONDS).until(eventIsAdded(count));
 
         newCount = Castle.queueSize();
         Assert.assertEquals(count + 1, newCount);
@@ -168,7 +172,7 @@ public class CastleTest {
         Castle.screen(rule.getActivity());
 
         // Wait until event is added in background thread
-        await().until(eventIsAdded(count));
+        await().atMost(AWAIT_TIMEOUT, SECONDS).until(eventIsAdded(count));
 
         newCount = Castle.queueSize();
         Assert.assertEquals(count + 1, newCount);
@@ -177,7 +181,7 @@ public class CastleTest {
         Castle.identify("testuser1");
 
         // Wait until event is added in background thread
-        await().until(eventIsAdded(count));
+        await().atMost(AWAIT_TIMEOUT, SECONDS).until(eventIsAdded(count));
 
         newCount = Castle.queueSize();
         Assert.assertEquals(count + 1, newCount);
@@ -186,7 +190,7 @@ public class CastleTest {
         Castle.identify("testuser1", new HashMap<String, String>());
 
         // Wait until event is added in background thread
-        await().until(eventIsAdded(count));
+        await().atMost(AWAIT_TIMEOUT, SECONDS).until(eventIsAdded(count));
 
         newCount = Castle.queueSize();
         Assert.assertEquals(count + 1, newCount);
