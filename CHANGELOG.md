@@ -1,4 +1,8 @@
 # Change Log
+## 2.1.1 (2021-08-17)
+- [#45](https://github.com/castle/castle-android/pull/45) Make add and flush operations async in a single thread executor
+- Fixed requestToken encoding issue
+
 ## 2.1.0 (2021-06-03)
 - [#43](https://github.com/castle/castle-android/pull/43) Rename clientId to requestToken
 
