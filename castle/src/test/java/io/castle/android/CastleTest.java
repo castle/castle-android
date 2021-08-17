@@ -40,7 +40,7 @@ import okhttp3.Response;
 @RunWith(AndroidJUnit4.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1})
 public class CastleTest {
-    private static final long AWAIT_TIMEOUT = 30;
+    private static final long AWAIT_TIMEOUT = 5 * 60;
 
     @Rule
     public ActivityTestRule<TestActivity> rule  = new ActivityTestRule<>(TestActivity.class);
