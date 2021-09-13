@@ -24,8 +24,15 @@ android {
     libraryVariants.all { variant ->
         task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
             description "Generates Javadoc for $variant.name."
-            source = variant.javaCompile.source
-            classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
+
+            /* add the excluded packages */
+            exclude "**/R**"
+            exclude "**/BuildConfig*"
+
+            classpath = variant.javaCompiler.classpath + files(android.getBootClasspath()) + files("$buildDir/intermediates/classes/$variant.name")
+
+            source = android.sourceSets.main.java.sourceFiles
+            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
             destinationDir = project.file('../docs')
         }
     }
