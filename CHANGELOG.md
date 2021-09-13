@@ -1,4 +1,8 @@
 # Change Log
+## 2.1.2 (2021-09-13)
+- Fixed requestToken encoding issue
+- Fixed R8/Proguard obfuscation isse
+
 ## 2.1.1 (2021-08-17)
 - [#45](https://github.com/castle/castle-android/pull/45) Make add and flush operations async in a single thread executor
 - Fixed requestToken encoding issue
