@@ -3,13 +3,19 @@
  */
 package io.castle.android.sample
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import io.castle.android.Castle
 import io.castle.android.sample.databinding.MainBinding
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    private val LOCATION_PERMISSION_REQUESST_CODE: Int = 1001
     private lateinit var binding: MainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +29,20 @@ class MainActivity : AppCompatActivity() {
         binding.trackScreen.setOnClickListener { onTrackScreenClick() }
         binding.flush.setOnClickListener { onFlushClick() }
         binding.reset.setOnClickListener { onResetClick() }
+        binding.location.setOnClickListener { onLocationClick() }
+    }
+
+    private fun onLocationClick() {
+        requestLocationAccess()
+    }
+
+    private fun requestLocationAccess() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUESST_CODE)
+        } else {
+            Toast.makeText(this,"Permission already granted", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun onIdentifyClick() {
