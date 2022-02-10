@@ -22,7 +22,7 @@ import java.util.Map;
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.IdentifyEvent;
 import io.castle.android.api.model.ScreenEvent;
-import io.castle.android.highwind.Highwind;
+import io.castle.highwind.android.Highwind;
 import io.castle.android.queue.EventQueue;
 
 /**
@@ -61,7 +61,7 @@ public class Castle {
         this.configuration = configuration;
         this.eventQueue = new EventQueue(context);
         this.application = application;
-        this.highwind = new Highwind(context, BuildConfig.VERSION_NAME, storageHelper.getDeviceId(), buildUserAgent());
+        this.highwind = new Highwind(context, BuildConfig.VERSION_NAME, storageHelper.getDeviceId(), buildUserAgent(), configuration.publishableKey());
     }
 
     private void registerLifeCycleCallbacks(Application application) {
@@ -103,7 +103,7 @@ public class Castle {
      */
     public static void configure(Application application, CastleConfiguration configuration) {
         if (instance == null) {
-            if (configuration.publishableKey() == null || !configuration.publishableKey().startsWith("pk_")) {
+            if (configuration.publishableKey() == null || !configuration.publishableKey().startsWith("pk_") || configuration.publishableKey().length() != 35) {
                 throw new RuntimeException("You must provide a valid Castle publishable key when initializing the SDK.");
             }
             instance = new Castle(application, configuration);

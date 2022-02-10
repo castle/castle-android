@@ -111,9 +111,9 @@ public class CastleConfigurationTest {
                 .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
                 .build();
 
-        Castle.configure(application, "pk_123", configuration);
+        Castle.configure(application, "pk_SE5aTeotKZpDEn8kurzBYquRZyy22222", configuration);
 
-        Assert.assertEquals("pk_123", Castle.publishableKey());
+        Assert.assertEquals("pk_SE5aTeotKZpDEn8kurzBYquRZyy22222", Castle.publishableKey());
 
         // Destroy current instance
         Castle.destroy(application);

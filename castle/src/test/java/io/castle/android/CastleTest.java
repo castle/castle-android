@@ -61,7 +61,7 @@ public class CastleTest {
         baseURLAllowList.add("https://google.com/");
 
         Castle.configure(application, new CastleConfiguration.Builder()
-                .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZy")
+                .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
                 .screenTrackingEnabled(true)
                 .baseURLAllowList(baseURLAllowList)
                 .build());
