@@ -47,9 +47,6 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
 
     dexOptions {
         // Skip pre-dexing when running on CI or when disabled via -Dpre-dex=false.
@@ -67,6 +64,9 @@ android {
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
+    }
+    lint {
+        abortOnError false
     }
 }
 
