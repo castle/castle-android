@@ -1,6 +1,6 @@
 # Change Log
 ## 2.1.3 (2022-02-09)
-- Improved device fingerprinting.
+- Fixes a rare bug where the request token would occasionally get encoded incorrectly and consequently rejected by the API
 
 ## 2.1.2 (2021-09-13)
 - Fixed requestToken encoding issue
