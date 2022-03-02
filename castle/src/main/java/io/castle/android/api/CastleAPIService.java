@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.castle.android.Castle;
 import io.castle.android.Utils;
-import io.castle.android.api.model.Batch;
+import io.castle.android.api.model.Monitor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -26,8 +26,8 @@ public class CastleAPIService {
     private static CastleAPI instance;
 
     public interface CastleAPI {
-        @POST("batch")
-        public Call<Void> batch(@Body Batch batch);
+        @POST("monitor")
+        public Call<Void> monitor(@Body Monitor monitor);
     }
 
     /**

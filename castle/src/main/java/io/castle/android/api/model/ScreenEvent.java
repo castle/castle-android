@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Model class for screen events
  */
-public class ScreenEvent extends Event {
+public class ScreenEvent extends Model {
 
     /**
      * Create new screen event with provided name

@@ -11,11 +11,11 @@ import java.util.*
 class SampleApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        val baseURLAllowList = listOf("https://api.castle.io/")
+        val baseURLAllowList = listOf("https://m.castle.io/")
 
         // Create configuration object
         val configuration = CastleConfiguration.Builder()
-                .publishableKey("pk_btApAXqt1jpJtEARf1stsnvyov6czPmn")
+                .publishableKey("pk_CTsfAeRTqxGgA7HHxqpEESvjfPp4QAKA")
                 .screenTrackingEnabled(true)
                 .debugLoggingEnabled(true)
                 .baseURLAllowList(baseURLAllowList)

@@ -7,13 +7,18 @@ package io.castle.android;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
 import java.util.UUID;
+
+import io.castle.android.api.model.User;
 
 class StorageHelper {
     private static final String STORAGE_PREFERENCE = "castle_storage";
     private static final String BUILD_KEY = "build_key";
     private static final String VERSION_KEY = "version_key";
-    private static final String USER_ID_KEY = "user_id_key";
+    private static final String USER_KEY = "user_key";
     private static final String DEVICE_ID_KEY = "device_id_key";
     private static final String USER_SIGNATURE_KEY = "user_signature_key";
 
@@ -44,12 +49,18 @@ class StorageHelper {
         getPreferencesEditor().putString(DEVICE_ID_KEY, deviceId).commit();
     }
 
-    String getUserId() {
-        return getPreferences().getString(USER_ID_KEY, null);
+    User getUser() {
+        String userJson = getPreferences().getString(USER_KEY, null);
+        try {
+            return Utils.getGsonInstance().fromJson(userJson, User.class);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    void setUserId(String userId) {
-        getPreferencesEditor().putString(USER_ID_KEY, userId).commit();
+    void setUser(User user) {
+        getPreferencesEditor().putString(USER_KEY, Utils.getGsonInstance().toJson(user)).commit();
     }
 
     private SharedPreferences getPreferences() {

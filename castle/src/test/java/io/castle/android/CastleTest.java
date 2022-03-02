@@ -22,6 +22,7 @@ import org.robolectric.annotation.Config;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -31,8 +32,9 @@ import java.util.regex.Pattern;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
-import io.castle.android.api.model.Event;
+import io.castle.android.api.model.Model;
 import io.castle.android.api.model.ScreenEvent;
+import io.castle.android.api.model.User;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -80,10 +82,11 @@ public class CastleTest {
     @Test
     public void testUserIdPersistance() {
         // Make sure the user id is persisted correctly after identify
-        Castle.identify("thisisatestuser");
+        Castle.identify("thisisatestuser", "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52");
 
         // Check that the stored identity is the same as the identity we tracked
-        Assert.assertEquals(Castle.userId(), "thisisatestuser");
+        User user = User.userWithId("thisisatestuser", "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52", Collections.emptyMap());
+        Assert.assertEquals(Castle.user(), user);
     }
 
     @Test
@@ -106,7 +109,7 @@ public class CastleTest {
         Castle.reset();
 
         // Check to see if the user identity was cleared on reset
-        Assert.assertNull(Castle.userId());
+        Assert.assertNull(Castle.user());
     }
 
     @Test
@@ -116,6 +119,8 @@ public class CastleTest {
         Castle.track("");
         int newCount = Castle.queueSize();
         Assert.assertEquals(count, newCount);
+
+        Castle.identify("testuser1", "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52");
 
         count = Castle.queueSize();
         Castle.track("Event");
@@ -134,7 +139,7 @@ public class CastleTest {
 
         // This should lead to no event being tracked since identity can't be an empty string
         count = Castle.queueSize();
-        Castle.identify("");
+        Castle.identify("", "");
         newCount = Castle.queueSize();
         Assert.assertEquals(count, newCount);
 
@@ -145,19 +150,19 @@ public class CastleTest {
         Assert.assertEquals(count, newCount);
 
         ScreenEvent screenEvent = new ScreenEvent("Main");
-        Assert.assertEquals(screenEvent.getEvent(), "Main");
-        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
+        Assert.assertEquals(screenEvent.getName(), "Main");
+        Assert.assertEquals(screenEvent.getType(), Model.EVENT_TYPE_SCREEN);
 
         screenEvent = new ScreenEvent(rule.getActivity());
-        Assert.assertEquals(screenEvent.getEvent(), "TestActivityTitle");
-        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
+        Assert.assertEquals(screenEvent.getName(), "TestActivityTitle");
+        Assert.assertEquals(screenEvent.getType(), Model.EVENT_TYPE_SCREEN);
 
         // Test null activity title
         rule.getActivity().setTitle(null);
 
         screenEvent = new ScreenEvent(rule.getActivity());
-        Assert.assertEquals(screenEvent.getEvent(), "TestActivity");
-        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
+        Assert.assertEquals(screenEvent.getName(), "TestActivity");
+        Assert.assertEquals(screenEvent.getType(), Model.EVENT_TYPE_SCREEN);
 
         count = Castle.queueSize();
         Castle.screen("Main");
@@ -170,24 +175,6 @@ public class CastleTest {
 
         count = Castle.queueSize();
         Castle.screen(rule.getActivity());
-
-        // Wait until event is added in background thread
-        await().atMost(AWAIT_TIMEOUT, SECONDS).until(eventIsAdded(count));
-
-        newCount = Castle.queueSize();
-        Assert.assertEquals(count + 1, newCount);
-
-        count = Castle.queueSize();
-        Castle.identify("testuser1");
-
-        // Wait until event is added in background thread
-        await().atMost(AWAIT_TIMEOUT, SECONDS).until(eventIsAdded(count));
-
-        newCount = Castle.queueSize();
-        Assert.assertEquals(count + 1, newCount);
-
-        count = Castle.queueSize();
-        Castle.identify("testuser1", new HashMap<String, String>());
 
         // Wait until event is added in background thread
         await().atMost(AWAIT_TIMEOUT, SECONDS).until(eventIsAdded(count));
@@ -238,24 +225,6 @@ public class CastleTest {
     @Test
     public void testAllowlist() {
         Assert.assertFalse(Castle.isUrlAllowlisted("invalid url"));
-    }
-
-    @Test
-    public void testSecureMode() {
-
-        Castle.secure(null);
-
-        Assert.assertFalse(Castle.secureModeEnabled());
-
-        Castle.secure("");
-
-        Assert.assertFalse(Castle.secureModeEnabled());
-
-        String signature = "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52";
-
-        Castle.secure(signature);
-
-        Assert.assertTrue(Castle.secureModeEnabled());
     }
 
     @Test

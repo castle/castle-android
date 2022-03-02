@@ -17,17 +17,17 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import io.castle.android.api.model.Event;
-import io.castle.android.api.model.IdentifyEvent;
+import io.castle.android.api.model.Custom;
+import io.castle.android.api.model.Model;
 import io.castle.android.api.model.ScreenEvent;
 
 public class Utils {
-    private static String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     private static SimpleDateFormat formatter = null;
     private static Gson gson;
 
     private static String formatDate(Date date) {
         if (formatter == null) {
+            String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
             formatter = new SimpleDateFormat(pattern, new Locale("en", "US", "POSIX"));
             formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         }
@@ -42,8 +42,8 @@ public class Utils {
         if (gson == null) {
             GsonBuilder gsonBuilder = new GsonBuilder();
             EventAdapter eventAdapter = new EventAdapter();
-            gsonBuilder.registerTypeAdapter(Event.class, eventAdapter);
-            gsonBuilder.registerTypeAdapter(IdentifyEvent.class, eventAdapter);
+            gsonBuilder.registerTypeAdapter(Model.class, eventAdapter);
+            gsonBuilder.registerTypeAdapter(Custom.class, eventAdapter);
             gsonBuilder.registerTypeAdapter(ScreenEvent.class, eventAdapter);
 
             gson = gsonBuilder.create();

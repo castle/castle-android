@@ -46,13 +46,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onIdentifyClick() {
-        // Set signature for secure mode
-        Castle.secure("944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52")
-
-        // Identify user with a unique identifier including user traits
-        val traits: MutableMap<String, String> = HashMap()
-        traits["email"] = "sebastiasimson@castle.io"
-        Castle.identify("sebastiansimson", traits)
+        // Identify user with a unique identifier including user properties
+        val properties: MutableMap<String, Any> = HashMap()
+        properties["email"] = "sebastiasimson@castle.io"
+        Castle.identify("sebastiansimson", "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52", properties)
     }
 
     private fun onTrackScreenClick() {

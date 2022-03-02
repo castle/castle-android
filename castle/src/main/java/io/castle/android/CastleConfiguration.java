@@ -13,7 +13,7 @@ public class CastleConfiguration {
     private static final int DEFAULT_MAX_QUEUE_LIMIT = 1000;
     private static final boolean DEFAULT_SCREEN_TRACKING_ENABLED = false;
     private static final boolean DEFAULT_USE_CLOUDFLARE_APP = false;
-    private static final String DEFAULT_API_DOMAIN = "api.castle.io";
+    private static final String DEFAULT_API_DOMAIN = "m.castle.io";
     private static final String CASTLE_API_PATH = "v1/";
     private static final String CLOUDFLARE_API_PATH = "v1/c/mobile/";
 

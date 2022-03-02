@@ -54,7 +54,7 @@ public class CastleConfigurationTest {
         Assert.assertEquals("https://google.com/", configuration.baseURLAllowList().get(0));
         Assert.assertEquals(100, configuration.maxQueueLimit());
         Assert.assertFalse(configuration.useCloudflareApp());
-        Assert.assertEquals("https://api.castle.io/v1/", configuration.baseUrl());
+        Assert.assertEquals("https://m.castle.io/v1/", configuration.baseUrl());
 
         // Setup Castle SDK with provided configuration
         Castle.configure(application, configuration);
@@ -153,8 +153,6 @@ public class CastleConfigurationTest {
         Assert.assertTrue(configuration.useCloudflareApp());
         Assert.assertEquals("example.com", configuration.apiDomain());
         Assert.assertEquals("https://example.com/v1/test/", configuration.baseUrl());
-
-
     }
 
     @After

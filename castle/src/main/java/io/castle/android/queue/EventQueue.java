@@ -22,18 +22,19 @@ import io.castle.android.Castle;
 import io.castle.android.CastleLogger;
 import io.castle.android.Utils;
 import io.castle.android.api.CastleAPIService;
-import io.castle.android.api.model.Batch;
-import io.castle.android.api.model.Event;
+import io.castle.android.api.model.Model;
+import io.castle.android.api.model.Monitor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EventQueue implements Callback<Void> {
 
-    private static final String QUEUE_FILENAME = "castle-queue";
+    private static final String BATCH_QUEUE_FILENAME = "castle-queue";
+    private static final String QUEUE_FILENAME = "castle-monitor-queue";
     private static final int MAX_BATCH_SIZE = 100;
 
-    private ObjectQueue<Event> eventObjectQueue;
+    private ObjectQueue<Model> eventObjectQueue;
 
     private Call<Void> flushCall;
     private int flushCount;
@@ -59,22 +60,34 @@ public class EventQueue implements Callback<Void> {
     }
 
     private synchronized File getFile(Context context) {
+        return getFile(context, QUEUE_FILENAME);
+    }
+    private synchronized File getFile(Context context, String filename) {
         return new File(context.getApplicationContext().getFilesDir().getAbsoluteFile(),
-                        QUEUE_FILENAME);
+                filename);
     }
 
     private synchronized void init(Context context) throws IOException {
         executor = Executors.newSingleThreadExecutor();
 
+        // Delete old queue file
+        try {
+            getFile(context, BATCH_QUEUE_FILENAME).delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         File file = getFile(context);
         QueueFile queueFile = new QueueFile.Builder(file).build();
-        eventObjectQueue = ObjectQueue.create(queueFile, new GsonConverter<>(Event.class));
+        eventObjectQueue = ObjectQueue.create(queueFile, new GsonConverter<>(Model.class));
     }
 
-    public synchronized void add(Event event) {
+    public synchronized void add(Model event) {
         executor.execute(() -> {
             try {
-                CastleLogger.d("Tracking event " + Utils.getGsonInstance().toJson(event));
+                if (Castle.configuration().debugLoggingEnabled()) {
+                    CastleLogger.d("Tracking event " + Utils.getGsonInstance().toJson(event));
+                }
 
                 eventObjectQueue.add(event);
 
@@ -103,11 +116,11 @@ public class EventQueue implements Callback<Void> {
                     trim();
 
                     int end = Math.min(MAX_BATCH_SIZE, eventObjectQueue.size());
-                    List<Event> subList = new ArrayList<>(end);
-                    Iterator<Event> iterator = eventObjectQueue.iterator();
+                    List<Model> subList = new ArrayList<>(end);
+                    Iterator<Model> iterator = eventObjectQueue.iterator();
                     for (int i = 0; i < end; i++) {
                         try {
-                            Event event = iterator.next();
+                            Model event = iterator.next();
 
                             if (event != null) {
                                 subList.add(event);
@@ -118,17 +131,15 @@ public class EventQueue implements Callback<Void> {
                             CastleLogger.e("Unable to read from queue", error);
                         }
                     }
-                    List<Event> events = Collections.unmodifiableList(subList);
+                    List<Model> events = Collections.unmodifiableList(subList);
+                    Monitor monitor = Monitor.monitorWithEvents(events);
 
-                    if (!events.isEmpty()) {
-                        Batch batch = new Batch();
-                        batch.addEvents(events);
-
+                    if (monitor != null) {
                         CastleLogger.d("Flushing EventQueue " + end);
 
                         flushCount = end;
                         try {
-                            flushCall = CastleAPIService.getInstance().batch(batch);
+                            flushCall = CastleAPIService.getInstance().monitor(monitor);
                         } catch (NullPointerException npe) {
                             // Band aid for https://github.com/castle/castle-android/issues/37
                             CastleLogger.d("Did not flush EventQueue because NPE, clearing EventQueue");
@@ -190,7 +201,7 @@ public class EventQueue implements Callback<Void> {
     public synchronized void onResponse(Call<Void> call, Response<Void> response) {
         if (response.isSuccessful()) {
             CastleLogger.i(response.code() + " " + response.message());
-            CastleLogger.i("Batch request successful");
+            CastleLogger.i("Monitor request successful");
 
             executor.execute(() -> {
                 remove(flushCount);
