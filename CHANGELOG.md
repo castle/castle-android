@@ -1,4 +1,7 @@
 # Change Log
+## 2.1.4 (2022-03-03)
+- Fixes a rare bug that resulted in incorrectly encoded request tokens.
+
 ## 2.1.3 (2022-02-09)
 - Fixes a rare bug where the request token would occasionally get encoded incorrectly and consequently rejected by the API
 
