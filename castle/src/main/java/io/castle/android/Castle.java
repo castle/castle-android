@@ -366,6 +366,15 @@ public class Castle {
     }
 
     /**
+     * Get current app versionCode
+     * @return current build
+     */
+    static int getCurrentBuild() {
+        return instance.appBuild;
+    }
+
+
+    /**
      * Get custom user agent used for requests sent to Castle API
      * @return User agent string in format application name/version (versionCode) (Castle library version; Android version; Device name)
      */
@@ -375,6 +384,14 @@ public class Castle {
 
     private String buildUserAgent() {
         return Utils.sanitizeHeader(String.format(Locale.US, "%s/%s (%d) (Castle %s; Android %s; %s %s)", appName, appVersion, appBuild, BuildConfig.VERSION_NAME, Build.VERSION.RELEASE, Build.MANUFACTURER, Build.MODEL));
+    }
+
+    /**
+     * Get current app versionName
+     * @return current version
+     */
+    static String getCurrentVersion() {
+        return instance.appVersion;
     }
 
     private void unregisterLifeCycleCallbacks(Application application) {
