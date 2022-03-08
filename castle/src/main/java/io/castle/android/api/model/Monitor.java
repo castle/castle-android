@@ -32,9 +32,9 @@ public class Monitor {
             return null;
         }
 
-        User user = Castle.user();
-        if(user == null) {
-            CastleLogger.e("No user id set, won't flush events.");
+        String userJwt = Castle.userJwt();
+        if(userJwt == null) {
+            CastleLogger.e("No user jwt set, won't flush events.");
             return null;
         }
 
@@ -45,7 +45,7 @@ public class Monitor {
             encodedEvents.add(event.encode());
         }
 
-        monitor.data = Castle.encodePayload(user.encode(), encodedEvents);
+        monitor.data = Castle.encodePayload(Castle.encodeUser(userJwt), encodedEvents);
 
         return monitor;
     }

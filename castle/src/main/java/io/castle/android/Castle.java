@@ -22,7 +22,6 @@ import java.util.Map;
 import io.castle.android.api.model.Custom;
 import io.castle.android.api.model.Model;
 import io.castle.android.api.model.ScreenEvent;
-import io.castle.android.api.model.User;
 import io.castle.android.api.model.UserJwt;
 import io.castle.highwind.android.Highwind;
 import io.castle.android.queue.EventQueue;
@@ -51,17 +50,13 @@ public class Castle {
 
     public static String encodeEvent(Model event) {
         if (event instanceof ScreenEvent) {
-            return instance.highwind.encodeScreenEvent(event.getToken(), Utils.getGsonInstance().toJson(event), false);
+            return instance.highwind.encodeScreenEvent(event.getToken(), Utils.getGsonInstance().toJson(event));
         }
-        return instance.highwind.encodeCustomEvent(event.getToken(), Utils.getGsonInstance().toJson(event), false);
-    }
-
-    public static String encodeUser(User user) {
-        return instance.highwind.encodeUserPayloadSet(Utils.getGsonInstance().toJson(user), false);
+        return instance.highwind.encodeCustomEvent(event.getToken(), Utils.getGsonInstance().toJson(event));
     }
 
     public static String encodeUser(String userJwt) {
-        return instance.highwind.encodeUserPayloadSet(Utils.getGsonInstance().toJson(new UserJwt(userJwt)), false);
+        return instance.highwind.encodeUserJwtPayloadSet(Utils.getGsonInstance().toJson(new UserJwt(userJwt)));
     }
 
     public static String encodePayload(String userPayload, List<String> eventPayloads) {
@@ -191,47 +186,29 @@ public class Castle {
     }
 
     /**
-     * Track identify event with specified user identity. User identity will be persisted. A call to identify or reset will clear the stored user identity.
-     * @param userId user id
+     * Track identify event with specified user identity. User jwt will be persisted. A call to identify or reset will clear the stored user identity. Provided user properties will be included in the identify event sent to the Castle API.
+     * @param userJwt encoded user jwt
      */
-    public static void identify(String userId, String signature) {
-        identify(userId, signature, new HashMap<>());
-    }
+    public static void identify(String userJwt) {
+        // TODO: Validate user jwt
 
-    /**
-     * Track identify event with specified user identity. User identity will be persisted. A call to identify or reset will clear the stored user identity. Provided user properties will be included in the identify event sent to the Castle API.
-     * @param identifier user identifier
-     * @param properties user properties
-     */
-    public static void identify(String identifier, String signature, Map<String, Object> properties) {
-        if (identifier == null || identifier.isEmpty() || properties == null) {
-            CastleLogger.e("No user id provided. Will cancel identify operation.");
-            return;
-        }
-
-        // Log warning if identify is called without secure mode signature.
-        if (signature == null || signature.isEmpty()) {
-            CastleLogger.w("Identify called without secure mode signature set. Will cancel identify operation");
-        }
-
-        User user = User.userWithId(identifier, signature, properties);
-        Castle.user(user);
+        Castle.userJwt(userJwt);
     }
 
     /**
      * Set user id
-     * @param user  user
+     * @param userJwt  user encoded as jwt
      */
-    private static void user(User user) {
-        instance.storageHelper.setUser(user);
+    private static void userJwt(String userJwt) {
+        instance.storageHelper.setUserJwt(userJwt);
     }
 
     /**
      * Get user id from last identify call, returns null if not set
      * @return user id
      */
-    public static User user() {
-        return instance.storageHelper.getUser();
+    public static String userJwt() {
+        return instance.storageHelper.getUserJwt();
     }
 
     /**
@@ -239,7 +216,7 @@ public class Castle {
      */
     public static void reset() {
         Castle.flush();
-        Castle.user(null);
+        Castle.userJwt(null);
     }
 
     /**
