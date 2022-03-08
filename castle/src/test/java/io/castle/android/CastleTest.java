@@ -80,11 +80,11 @@ public class CastleTest {
     @Test
     public void testUserIdPersistance() {
         // Make sure the user id is persisted correctly after identify
-        Castle.identify("thisisatestuser", "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52");
+        Castle.identify("944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52");
 
         // Check that the stored identity is the same as the identity we tracked
-        User user = User.userWithId("thisisatestuser", "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52", Collections.emptyMap());
-        Assert.assertEquals(Castle.user(), user);
+        String userJwt = "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52";
+        Assert.assertEquals(Castle.userJwt(), userJwt);
     }
 
     @Test
@@ -107,7 +107,7 @@ public class CastleTest {
         Castle.reset();
 
         // Check to see if the user identity was cleared on reset
-        Assert.assertNull(Castle.user());
+        Assert.assertNull(Castle.userJwt());
     }
 
     @Test
@@ -118,7 +118,7 @@ public class CastleTest {
         int newCount = Castle.queueSize();
         Assert.assertEquals(count, newCount);
 
-        Castle.identify("testuser1", "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52");
+        Castle.identify("944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52");
 
         count = Castle.queueSize();
         Castle.track("Event");
@@ -137,13 +137,13 @@ public class CastleTest {
 
         // This should lead to no event being tracked since identity can't be an empty string
         count = Castle.queueSize();
-        Castle.identify("", "");
+        Castle.identify("");
         newCount = Castle.queueSize();
         Assert.assertEquals(count, newCount);
 
         // This should lead to no event being tracked properties can't be nil
         count = Castle.queueSize();
-        Castle.identify("testuser1", null);
+        Castle.identify("testuser1");
         newCount = Castle.queueSize();
         Assert.assertEquals(count, newCount);
 
