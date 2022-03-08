@@ -15,7 +15,7 @@ import io.castle.android.Utils;
 /**
  * Model class for events
  */
-public abstract class Model {
+public abstract class Event {
     public static final String EVENT_TYPE_CUSTOM = "custom";
     public static final String EVENT_TYPE_SCREEN = "screen";
 
@@ -32,7 +32,7 @@ public abstract class Model {
      * Create new event with specified name
      * @param name Event name
      */
-    public Model(String name) {
+    public Event(String name) {
         this.name = name;
         this.timestamp = Utils.getTimestamp();
         this.token = Castle.createRequestToken();
@@ -68,7 +68,7 @@ public abstract class Model {
                     Map<String, Object> map = (Map<String, Object>) value;
 
                     // If the contents aren't valid we can return without continuing any futher
-                    boolean valid = Model.propertiesContainValidData(map);
+                    boolean valid = Event.propertiesContainValidData(map);
                     if (!valid) {
                         return false;
                     }

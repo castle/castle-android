@@ -22,7 +22,7 @@ import io.castle.android.Castle;
 import io.castle.android.CastleLogger;
 import io.castle.android.Utils;
 import io.castle.android.api.CastleAPIService;
-import io.castle.android.api.model.Model;
+import io.castle.android.api.model.Event;
 import io.castle.android.api.model.Monitor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +34,7 @@ public class EventQueue implements Callback<Void> {
     private static final String QUEUE_FILENAME = "castle-monitor-queue";
     private static final int MAX_BATCH_SIZE = 100;
 
-    private ObjectQueue<Model> eventObjectQueue;
+    private ObjectQueue<Event> eventObjectQueue;
 
     private Call<Void> flushCall;
     private int flushCount;
@@ -79,10 +79,10 @@ public class EventQueue implements Callback<Void> {
 
         File file = getFile(context);
         QueueFile queueFile = new QueueFile.Builder(file).build();
-        eventObjectQueue = ObjectQueue.create(queueFile, new GsonConverter<>(Model.class));
+        eventObjectQueue = ObjectQueue.create(queueFile, new GsonConverter<>(Event.class));
     }
 
-    public synchronized void add(Model event) {
+    public synchronized void add(Event event) {
         executor.execute(() -> {
             try {
                 if (Castle.configuration().debugLoggingEnabled()) {
@@ -116,11 +116,11 @@ public class EventQueue implements Callback<Void> {
                     trim();
 
                     int end = Math.min(MAX_BATCH_SIZE, eventObjectQueue.size());
-                    List<Model> subList = new ArrayList<>(end);
-                    Iterator<Model> iterator = eventObjectQueue.iterator();
+                    List<Event> subList = new ArrayList<>(end);
+                    Iterator<Event> iterator = eventObjectQueue.iterator();
                     for (int i = 0; i < end; i++) {
                         try {
-                            Model event = iterator.next();
+                            Event event = iterator.next();
 
                             if (event != null) {
                                 subList.add(event);
@@ -131,7 +131,7 @@ public class EventQueue implements Callback<Void> {
                             CastleLogger.e("Unable to read from queue", error);
                         }
                     }
-                    List<Model> events = Collections.unmodifiableList(subList);
+                    List<Event> events = Collections.unmodifiableList(subList);
                     Monitor monitor = Monitor.monitorWithEvents(events);
 
                     if (monitor != null) {

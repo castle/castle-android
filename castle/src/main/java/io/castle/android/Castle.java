@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import io.castle.android.api.model.Custom;
-import io.castle.android.api.model.Model;
+import io.castle.android.api.model.Event;
 import io.castle.android.api.model.ScreenEvent;
 import io.castle.android.api.model.UserJwt;
 import io.castle.highwind.android.Highwind;
@@ -48,7 +48,7 @@ public class Castle {
         setup(application, castleConfiguration);
     }
 
-    public static String encodeEvent(Model event) {
+    public static String encodeEvent(Event event) {
         if (event instanceof ScreenEvent) {
             return instance.highwind.encodeScreenEvent(event.getToken(), Utils.getGsonInstance().toJson(event));
         }
@@ -181,7 +181,7 @@ public class Castle {
         track(new Custom(event));
     }
 
-    private static void track(Model event) {
+    private static void track(Event event) {
         instance.eventQueue.add(event);
     }
 

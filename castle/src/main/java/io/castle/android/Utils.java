@@ -18,7 +18,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import io.castle.android.api.model.Custom;
-import io.castle.android.api.model.Model;
+import io.castle.android.api.model.Event;
 import io.castle.android.api.model.ScreenEvent;
 
 public class Utils {
@@ -42,7 +42,7 @@ public class Utils {
         if (gson == null) {
             GsonBuilder gsonBuilder = new GsonBuilder();
             EventAdapter eventAdapter = new EventAdapter();
-            gsonBuilder.registerTypeAdapter(Model.class, eventAdapter);
+            gsonBuilder.registerTypeAdapter(Event.class, eventAdapter);
             gsonBuilder.registerTypeAdapter(Custom.class, eventAdapter);
             gsonBuilder.registerTypeAdapter(ScreenEvent.class, eventAdapter);
 

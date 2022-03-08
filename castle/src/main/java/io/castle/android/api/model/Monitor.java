@@ -11,8 +11,6 @@ import java.util.List;
 
 import io.castle.android.Castle;
 import io.castle.android.CastleLogger;
-import io.castle.android.Utils;
-import io.castle.highwind.android.Highwind;
 
 /**
  * Model class used as payload when sending a batch of events to the Castle API
@@ -21,7 +19,7 @@ public class Monitor {
     @SerializedName("data")
     private String data;
 
-    public static Monitor monitorWithEvents(List<Model> events) {
+    public static Monitor monitorWithEvents(List<Event> events) {
         if(events == null) {
             CastleLogger.e("Nil event array parameter provided. Won't flush events.");
             return null;
@@ -41,7 +39,7 @@ public class Monitor {
         Monitor monitor = new Monitor();
 
         List<String> encodedEvents = new ArrayList<>();
-        for (Model event : events) {
+        for (Event event : events) {
             encodedEvents.add(event.encode());
         }
 

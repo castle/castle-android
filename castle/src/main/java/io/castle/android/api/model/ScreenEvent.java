@@ -6,12 +6,10 @@ package io.castle.android.api.model;
 
 import android.app.Activity;
 
-import java.util.Map;
-
 /**
  * Model class for screen events
  */
-public class ScreenEvent extends Model {
+public class ScreenEvent extends Event {
 
     /**
      * Create new screen event with provided name

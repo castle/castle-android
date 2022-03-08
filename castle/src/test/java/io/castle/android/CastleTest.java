@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
-import io.castle.android.api.model.Model;
+import io.castle.android.api.model.Event;
 import io.castle.android.api.model.ScreenEvent;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -149,18 +149,18 @@ public class CastleTest {
 
         ScreenEvent screenEvent = new ScreenEvent("Main");
         Assert.assertEquals(screenEvent.getName(), "Main");
-        Assert.assertEquals(screenEvent.getType(), Model.EVENT_TYPE_SCREEN);
+        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
 
         screenEvent = new ScreenEvent(rule.getActivity());
         Assert.assertEquals(screenEvent.getName(), "TestActivityTitle");
-        Assert.assertEquals(screenEvent.getType(), Model.EVENT_TYPE_SCREEN);
+        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
 
         // Test null activity title
         rule.getActivity().setTitle(null);
 
         screenEvent = new ScreenEvent(rule.getActivity());
         Assert.assertEquals(screenEvent.getName(), "TestActivity");
-        Assert.assertEquals(screenEvent.getType(), Model.EVENT_TYPE_SCREEN);
+        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
 
         count = Castle.queueSize();
         Castle.screen("Main");
