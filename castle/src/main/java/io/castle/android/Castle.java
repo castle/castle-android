@@ -181,6 +181,17 @@ public class Castle {
         track(new Custom(event));
     }
 
+    /**
+     * Track custom event with a specified name
+     * @param event Event name
+     */
+    public static void custom(String event, Map<String, Object> properties) {
+        if (event == null || event.isEmpty()) {
+            return;
+        }
+        track(new Custom(event, properties));
+    }
+
     private static void track(Event event) {
         instance.eventQueue.add(event);
     }

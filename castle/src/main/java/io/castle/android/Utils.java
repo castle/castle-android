@@ -91,4 +91,12 @@ public class Utils {
         }
         return stringBuilder.toString();
     }
+
+    static boolean isWellformedJwtToken(String jwt) {
+        if (jwt != null && !jwt.isEmpty() && jwt.contains("")) {
+
+            return true;
+        }
+        return false;
+    }
 }

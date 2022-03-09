@@ -52,47 +52,6 @@ public abstract class Event {
         return name;
     }
 
-    public static boolean propertiesContainValidData(Map<String, Object> traits) {
-        // Check if map is null
-        if(traits == null) {
-            return false;
-        }
-
-        // Iterate through the contents and make sure there's no unsupported data types
-        for (Map.Entry<String, Object> entry : traits.entrySet()) {
-            Object value = entry.getValue();
-
-            // If the value is a Map call the method recursively
-            if (value instanceof Map) {
-                try {
-                    Map<String, Object> map = (Map<String, Object>) value;
-
-                    // If the contents aren't valid we can return without continuing any futher
-                    boolean valid = Event.propertiesContainValidData(map);
-                    if (!valid) {
-                        return false;
-                    }
-                } catch (Exception e) {
-                    return false;
-                }
-            }
-
-            // If the value of of any other type than NSNumber, NSString or NSNull: validation failed
-            if (!(value instanceof String
-                    || value instanceof Integer
-                    || value instanceof Float
-                    || value instanceof Double
-                    || value == null)
-            ) {
-                CastleLogger.e("Properties dictionary contains invalid data.");
-                return false;
-            }
-        }
-
-        // No data in the traits map was caught by the validation i.e. it's valid
-        return true;
-    }
-
     public String getTimestamp() {
         return timestamp;
     }
