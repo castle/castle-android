@@ -191,8 +191,9 @@ public class Castle {
      */
     public static void identify(String userJwt) {
         // TODO: Validate user jwt
-
-        Castle.userJwt(userJwt);
+        if (userJwt != null && !userJwt.isEmpty()) {
+            Castle.userJwt(userJwt);
+        }
     }
 
     /**
