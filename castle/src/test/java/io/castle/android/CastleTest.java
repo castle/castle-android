@@ -80,10 +80,10 @@ public class CastleTest {
     @Test
     public void testUserIdPersistance() {
         // Make sure the user id is persisted correctly after identify
-        Castle.identify("944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52");
+        Castle.identify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjMjQ0ZjMwLTM0MzItNGJiYy04OGYxLTFlM2ZjMDFiYzFmZSIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJlZ2lzdGVyZWRfYXQiOiIyMDIyLTAxLTAxVDA5OjA2OjE0LjgwM1oifQ.eAwehcXZDBBrJClaE0bkO9XAr4U3vqKUpyZ-d3SxnH0");
 
         // Check that the stored identity is the same as the identity we tracked
-        String userJwt = "944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52";
+        String userJwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjMjQ0ZjMwLTM0MzItNGJiYy04OGYxLTFlM2ZjMDFiYzFmZSIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJlZ2lzdGVyZWRfYXQiOiIyMDIyLTAxLTAxVDA5OjA2OjE0LjgwM1oifQ.eAwehcXZDBBrJClaE0bkO9XAr4U3vqKUpyZ-d3SxnH0";
         Assert.assertEquals(Castle.userJwt(), userJwt);
     }
 
@@ -118,7 +118,7 @@ public class CastleTest {
         int newCount = Castle.queueSize();
         Assert.assertEquals(count, newCount);
 
-        Castle.identify("944d7d6c5187cafac297785bbf6de0136a2e10f31788e92b2822f5cfd407fa52");
+        Castle.identify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjMjQ0ZjMwLTM0MzItNGJiYy04OGYxLTFlM2ZjMDFiYzFmZSIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJlZ2lzdGVyZWRfYXQiOiIyMDIyLTAxLTAxVDA5OjA2OjE0LjgwM1oifQ.eAwehcXZDBBrJClaE0bkO9XAr4U3vqKUpyZ-d3SxnH0");
 
         count = Castle.queueSize();
         Castle.track("Event");
