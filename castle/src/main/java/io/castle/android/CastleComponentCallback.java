@@ -17,7 +17,7 @@ class CastleComponentCallback implements ComponentCallbacks2 {
     public void onTrimMemory(int level) {
         if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
             // We're in the Background
-            Castle.track("Application Closed");
+            Castle.custom("Application Closed");
             Castle.flush();
         }
     }

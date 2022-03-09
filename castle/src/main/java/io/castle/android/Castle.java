@@ -90,13 +90,13 @@ public class Castle {
 
         // Check and track Application Installed or Application Updated.
         if (previousBuild == -1) {
-            track("Application Installed");
+            custom("Application Installed");
         } else if (appBuild != previousBuild) {
-            track("Application Updated");
+            custom("Application Updated");
         }
 
         // Track Application Opened.
-        track("Application Opened");
+        custom("Application Opened");
 
         flush();
 
@@ -171,10 +171,10 @@ public class Castle {
     }
 
     /**
-     * Track event with a specified name
+     * Track custom event with a specified name
      * @param event Event name
      */
-    public static void track(String event) {
+    public static void custom(String event) {
         if (event == null || event.isEmpty()) {
             return;
         }

@@ -114,14 +114,14 @@ public class CastleTest {
     public void testTracking() {
         // This should lead to no event being tracked since empty string isn't a valid name
         int count = Castle.queueSize();
-        Castle.track("");
+        Castle.custom("");
         int newCount = Castle.queueSize();
         Assert.assertEquals(count, newCount);
 
         Castle.identify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjMjQ0ZjMwLTM0MzItNGJiYy04OGYxLTFlM2ZjMDFiYzFmZSIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJlZ2lzdGVyZWRfYXQiOiIyMDIyLTAxLTAxVDA5OjA2OjE0LjgwM1oifQ.eAwehcXZDBBrJClaE0bkO9XAr4U3vqKUpyZ-d3SxnH0");
 
         count = Castle.queueSize();
-        Castle.track("Event");
+        Castle.custom("Event");
 
         // Wait until event is added in background thread
         await().atMost(AWAIT_TIMEOUT, SECONDS).until(eventIsAdded(count));
