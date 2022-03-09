@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onTrackCustomClick() {
-        Castle.custom("Added to cart", mapOf<String, Any>(
+        Castle.custom("Added to cart", mapOf(
             "product" to "iPhone 13 Pro",
             "price" to 1099.99
         ))
