@@ -6,4 +6,5 @@
     <string name="reset">Reset</string>
     <string name="flush_events">Flush events</string>
     <string name="request_location_access">Request location access</string>
+    <string name="track_custom">Track custom</string>
 </resources>

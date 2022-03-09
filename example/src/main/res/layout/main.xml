@@ -14,6 +14,11 @@
         android:layout_height="wrap_content"
         android:text="@string/track_screen" />
     <Button
+        android:id="@+id/track_custom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/track_custom" />
+    <Button
         android:id="@+id/reset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

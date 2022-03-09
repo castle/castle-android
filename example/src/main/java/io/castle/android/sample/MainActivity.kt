@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.identify.setOnClickListener { onIdentifyClick() }
         binding.trackScreen.setOnClickListener { onTrackScreenClick() }
+        binding.trackCustom.setOnClickListener { onTrackCustomClick() }
         binding.flush.setOnClickListener { onFlushClick() }
         binding.reset.setOnClickListener { onResetClick() }
         binding.location.setOnClickListener { onLocationClick() }
@@ -53,6 +54,13 @@ class MainActivity : AppCompatActivity() {
     private fun onTrackScreenClick() {
         // Track a screen view
         Castle.screen("Menu")
+    }
+
+    private fun onTrackCustomClick() {
+        Castle.custom("Added to cart", mapOf<String, Any>(
+            "product" to "iPhone 13 Pro",
+            "price" to 1099.99
+        ))
     }
 
     private fun onFlushClick() {
