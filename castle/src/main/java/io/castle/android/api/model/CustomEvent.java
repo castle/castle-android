@@ -14,11 +14,11 @@ import io.castle.android.CastleLogger;
 /**
  * Model class for events
  */
-public class Custom extends Event {
+public class CustomEvent extends Event {
     @SerializedName("properties")
     Map<String, Object> properties;
 
-    public Custom(String name) {
+    public CustomEvent(String name) {
         this(name, null);
     }
 
@@ -27,7 +27,7 @@ public class Custom extends Event {
      *
      * @param name Event name
      */
-    public Custom(String name, Map<String, Object> properties) {
+    public CustomEvent(String name, Map<String, Object> properties) {
         super(name);
         this.type = EVENT_TYPE_CUSTOM;
 

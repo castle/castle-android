@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import io.castle.android.api.model.Custom;
+import io.castle.android.api.model.CustomEvent;
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.ScreenEvent;
 import io.castle.android.api.model.UserJwt;
@@ -178,7 +178,7 @@ public class Castle {
         if (event == null || event.isEmpty()) {
             return;
         }
-        track(new Custom(event));
+        track(new CustomEvent(event));
     }
 
     /**
@@ -189,7 +189,7 @@ public class Castle {
         if (event == null || event.isEmpty()) {
             return;
         }
-        track(new Custom(event, properties));
+        track(new CustomEvent(event, properties));
     }
 
     private static void track(Event event) {

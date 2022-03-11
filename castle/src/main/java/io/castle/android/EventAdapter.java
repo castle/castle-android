@@ -11,7 +11,7 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
-import io.castle.android.api.model.Custom;
+import io.castle.android.api.model.CustomEvent;
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.ScreenEvent;
 
@@ -29,7 +29,7 @@ class EventAdapter implements JsonDeserializer<Event> {
                     typeOfT = ScreenEvent.class;
                     break;
                 case Event.EVENT_TYPE_CUSTOM:
-                    typeOfT = Custom.class;
+                    typeOfT = CustomEvent.class;
                     break;
             }
         }
