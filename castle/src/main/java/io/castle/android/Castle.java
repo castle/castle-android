@@ -207,7 +207,7 @@ public class Castle {
     }
 
     /**
-     * Get user id from last identify call, returns null if not set
+     * Get userJwt from storage, returns null if not set
      * @return user id
      */
     public static String userJwt() {
@@ -282,7 +282,7 @@ public class Castle {
     }
 
     /**
-     * Force a flush of the batch event queue, even if the flush limit hasn’t been reached
+     * Force a flush of the event queue, even if the flush limit hasn't been reached
      */
     public static void flush() {
         instance.eventQueue.flush();
