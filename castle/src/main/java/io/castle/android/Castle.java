@@ -197,22 +197,13 @@ public class Castle {
     }
 
     /**
-     * Track identify event with specified user identity. User jwt will be persisted. A call to identify or reset will clear the stored user identity. Provided user properties will be included in the identify event sent to the Castle API.
+     * Set user information with specified jwt encoded user. User jwt will be persisted.
      * @param userJwt encoded user jwt
      */
-    public static void identify(String userJwt) {
-        // TODO: Validate user jwt
+    public static void userJwt(String userJwt) {
         if (userJwt != null && !userJwt.isEmpty()) {
-            Castle.userJwt(userJwt);
+            instance.storageHelper.setUserJwt(userJwt);
         }
-    }
-
-    /**
-     * Set user id
-     * @param userJwt  user encoded as jwt
-     */
-    private static void userJwt(String userJwt) {
-        instance.storageHelper.setUserJwt(userJwt);
     }
 
     /**

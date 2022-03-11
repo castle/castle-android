@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.identify.setOnClickListener { onIdentifyClick() }
+        binding.userJwt.setOnClickListener { onUserJwtClick() }
         binding.trackScreen.setOnClickListener { onTrackScreenClick() }
         binding.trackCustom.setOnClickListener { onTrackCustomClick() }
         binding.flush.setOnClickListener { onFlushClick() }
@@ -46,9 +46,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onIdentifyClick() {
+    private fun onUserJwtClick() {
         // Identify with user encoded as jwt
-        Castle.identify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjMjQ0ZjMwLTM0MzItNGJiYy04OGYxLTFlM2ZjMDFiYzFmZSIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJlZ2lzdGVyZWRfYXQiOiIyMDIyLTAxLTAxVDA5OjA2OjE0LjgwM1oifQ.eAwehcXZDBBrJClaE0bkO9XAr4U3vqKUpyZ-d3SxnH0")
+        Castle.userJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjMjQ0ZjMwLTM0MzItNGJiYy04OGYxLTFlM2ZjMDFiYzFmZSIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJlZ2lzdGVyZWRfYXQiOiIyMDIyLTAxLTAxVDA5OjA2OjE0LjgwM1oifQ.eAwehcXZDBBrJClaE0bkO9XAr4U3vqKUpyZ-d3SxnH0")
     }
 
     private fun onTrackScreenClick() {
