@@ -217,9 +217,9 @@ public class EventQueue implements Callback<Void> {
         } else {
             CastleLogger.e(response.code() + " " + response.message());
             try {
-                CastleLogger.e("Batch request error:" + response.errorBody().string());
+                CastleLogger.e("Monitor request error:" + response.errorBody().string());
             } catch (Exception e) {
-                CastleLogger.e("Batch request error", e);
+                CastleLogger.e("Monitor request error", e);
             }
 
             flushed();
@@ -228,7 +228,7 @@ public class EventQueue implements Callback<Void> {
 
     @Override
     public void onFailure(Call<Void> call, Throwable t) {
-        CastleLogger.e("Batch request failed", t);
+        CastleLogger.e("Monitor request failed", t);
         flushed();
     }
 
