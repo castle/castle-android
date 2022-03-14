@@ -30,7 +30,7 @@ import io.castle.android.queue.EventQueue;
  * This class is the main entry point for using the Castle SDK and provides methods for tracking events, screen views, manual flushing of the event queue, allowlisting behaviour and resetting.
  */
 public class Castle {
-    public static final String clientIdHeaderName = "X-Castle-Client-Id";
+    public static final String requestTokenHeaderName = "X-Castle-Request-Token";
 
     private static Castle instance;
     private CastleConfiguration configuration;
@@ -307,7 +307,7 @@ public class Castle {
         Map<String, String> headers = new HashMap<>();
 
         if (isUrlAllowlisted(url)) {
-            headers.put(clientIdHeaderName, Castle.createRequestToken());
+            headers.put(requestTokenHeaderName, Castle.createRequestToken());
         }
 
         return headers;

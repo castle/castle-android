@@ -22,7 +22,7 @@ class CastleAuthenticationInterceptor implements Interceptor {
 
         Request.Builder builder = originalRequest.newBuilder()
                 .header("X-Castle-Publishable-Api-Key", Castle.publishableKey())
-                .header(Castle.clientIdHeaderName, Castle.createRequestToken())
+                .header(Castle.requestTokenHeaderName, Castle.createRequestToken())
                 .header("User-Agent", Castle.userAgent());
 
         return chain.proceed(builder.build());
