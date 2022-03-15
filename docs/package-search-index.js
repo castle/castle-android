@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"io.castle.android"},{"l":"io.castle.android.api"},{"l":"io.castle.android.api.model"},{"l":"io.castle.android.queue"}]
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"io.castle.android"},{"l":"io.castle.android.api"},{"l":"io.castle.android.api.model"},{"l":"io.castle.android.queue"}];updateSearchResults();
