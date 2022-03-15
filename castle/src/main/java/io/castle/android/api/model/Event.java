@@ -6,44 +6,36 @@ package io.castle.android.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import io.castle.android.Castle;
+import io.castle.android.CastleLogger;
 import io.castle.android.Utils;
 
 /**
  * Model class for events
  */
-public class Event {
-    public static final String EVENT_TYPE_EVENT = "track";
+public abstract class Event {
+    public static final String EVENT_TYPE_CUSTOM = "custom";
     public static final String EVENT_TYPE_SCREEN = "screen";
-    public static final String EVENT_TYPE_IDENTIFY = "identify";
 
-    @SerializedName("context")
-    Context context;
-    @SerializedName(value="event", alternate={"name"})
-    String event;
+    @SerializedName("name")
+    String name;
     @SerializedName("timestamp")
     String timestamp;
     @SerializedName("type")
     String type;
-    @SerializedName("user_id")
-    String userId;
-    @SerializedName("user_signature")
-    String userSignature;
+    @SerializedName("token")
+    String token;
 
     /**
      * Create new event with specified name
-     * @param event Event name
+     * @param name Event name
      */
-    public Event(String event) {
-        this.context = Castle.createContext();
-        this.event = event;
+    public Event(String name) {
+        this.name = name;
         this.timestamp = Utils.getTimestamp();
-        this.type = EVENT_TYPE_EVENT;
-        this.userId = Castle.userId();
-        this.userSignature = Castle.userSignature();
+        this.token = Castle.createRequestToken();
     }
 
     /**
@@ -56,7 +48,19 @@ public class Event {
     /**
      * @return Event name
      */
-    public String getEvent() {
-        return event;
+    public String getName() {
+        return name;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public String encode() {
+        return Castle.encodeEvent(this);
     }
 }

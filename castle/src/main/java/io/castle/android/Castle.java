@@ -12,16 +12,17 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import io.castle.android.api.model.CustomEvent;
 import io.castle.android.api.model.Event;
-import io.castle.android.api.model.IdentifyEvent;
 import io.castle.android.api.model.ScreenEvent;
+import io.castle.android.api.model.UserJwt;
 import io.castle.highwind.android.Highwind;
 import io.castle.android.queue.EventQueue;
 
@@ -30,10 +31,8 @@ import io.castle.android.queue.EventQueue;
  */
 public class Castle {
     public static final String requestTokenHeaderName = "X-Castle-Request-Token";
-    public static final String clientIdHeaderName = "X-Castle-Client-Id";
 
     private static Castle instance;
-    private Application application;
     private CastleConfiguration configuration;
     private EventQueue eventQueue;
     private StorageHelper storageHelper;
@@ -49,6 +48,21 @@ public class Castle {
         setup(application, castleConfiguration);
     }
 
+    public static String encodeEvent(Event event) {
+        if (event instanceof ScreenEvent) {
+            return instance.highwind.encodeScreenEvent(event.getToken(), Utils.getGsonInstance().toJson(event));
+        }
+        return instance.highwind.encodeCustomEvent(event.getToken(), Utils.getGsonInstance().toJson(event));
+    }
+
+    public static String encodeUser(String userJwt) {
+        return instance.highwind.encodeUserJwtPayloadSet(Utils.getGsonInstance().toJson(new UserJwt(userJwt)));
+    }
+
+    public static String encodePayload(String userPayload, List<String> eventPayloads) {
+        return instance.highwind.encodePayload(publishableKey(), userPayload, eventPayloads);
+    }
+
     private void setup(Application application, CastleConfiguration configuration) {
         Context context = application.getApplicationContext();
 
@@ -60,7 +74,6 @@ public class Castle {
         this.storageHelper = new StorageHelper(context);
         this.configuration = configuration;
         this.eventQueue = new EventQueue(context);
-        this.application = application;
         this.highwind = new Highwind(context, BuildConfig.VERSION_NAME, storageHelper.getDeviceId(), buildUserAgent(), configuration.publishableKey());
     }
 
@@ -77,13 +90,13 @@ public class Castle {
 
         // Check and track Application Installed or Application Updated.
         if (previousBuild == -1) {
-            track("Application Installed");
+            custom("Application Installed");
         } else if (appBuild != previousBuild) {
-            track("Application Updated");
+            custom("Application Updated");
         }
 
         // Track Application Opened.
-        track("Application Opened");
+        custom("Application Opened");
 
         flush();
 
@@ -158,62 +171,47 @@ public class Castle {
     }
 
     /**
-     * Track event with a specified name
+     * Track custom event with a specified name
      * @param event Event name
      */
-    protected static void track(String event) {
+    public static void custom(String event) {
         if (event == null || event.isEmpty()) {
             return;
         }
-        track(new Event(event));
+        track(new CustomEvent(event));
     }
 
-    protected static void track(Event event) {
+    /**
+     * Track custom event with a specified name
+     * @param event Event name
+     */
+    public static void custom(String event, Map<String, Object> properties) {
+        if (event == null || event.isEmpty()) {
+            return;
+        }
+        track(new CustomEvent(event, properties));
+    }
+
+    private static void track(Event event) {
         instance.eventQueue.add(event);
     }
 
     /**
-     * Track identify event with specified user identity. User identity will be persisted. A call to identify or reset will clear the stored user identity.
-     * @param userId user id
+     * Set user information with specified jwt encoded user. User jwt will be persisted.
+     * @param userJwt encoded user jwt
      */
-    public static void identify(String userId) {
-        identify(userId, new HashMap<>());
-    }
-
-    /**
-     * Track identify event with specified user identity. User identity will be persisted. A call to identify or reset will clear the stored user identity. Provided user traits will be included in the identify event sent to the Castle API.
-     * @param userId user id
-     * @param traits user traits
-     */
-    public static void identify(String userId, Map<String, String> traits) {
-        if (userId == null || userId.isEmpty() || traits == null) {
-            return;
+    public static void userJwt(String userJwt) {
+        if (userJwt != null && !userJwt.isEmpty()) {
+            instance.storageHelper.setUserJwt(userJwt);
         }
-
-        // Log warning if identify is called without secure mode signature set.
-        if (!Castle.secureModeEnabled()) {
-            CastleLogger.w("Identify called without secure mode signature set. If secure mode is enabled in Castle and identify is called before secure, the identify event will be discarded.");
-        }
-
-        Castle.userId(userId);
-        track(new IdentifyEvent(userId, traits));
-        flush();
     }
 
     /**
-     * Set user id
-     * @param userId  user id
-     */
-    private static void userId(String userId) {
-        instance.storageHelper.setUserId(userId);
-    }
-
-    /**
-     * Get user id from last identify call, returns null if not set
+     * Get userJwt from storage, returns null if not set
      * @return user id
      */
-    public static String userId() {
-        return instance.storageHelper.getUserId();
+    public static String userJwt() {
+        return instance.storageHelper.getUserJwt();
     }
 
     /**
@@ -221,8 +219,7 @@ public class Castle {
      */
     public static void reset() {
         Castle.flush();
-        Castle.userId(null);
-        Castle.userSignature(null);
+        Castle.userJwt(null);
     }
 
     /**
@@ -242,25 +239,6 @@ public class Castle {
      */
     public static void screen(Activity activity) {
         track(new ScreenEvent(activity));
-    }
-
-    /**
-     * Set signature to use for Secure Mode
-     * @param signature Signature sent to Castle to verify secure mode
-     */
-    public static void secure(String signature) {
-        if (signature == null || signature.isEmpty()) {
-            return;
-        }
-        Castle.userSignature(signature);
-    }
-
-    /**
-     * Check if a signature is set and secure mode enabled
-     * @return True if signature is set
-     */
-    public static boolean secureModeEnabled() {
-        return Castle.userSignature() != null;
     }
 
     /**
@@ -288,38 +266,11 @@ public class Castle {
     }
 
     /**
-     * Get identifier
-     * @deprecated
-     This method will be removed in an upcoming release.
-     <p>Use {@link Castle#createRequestToken()} instead.</p>
-     * @return identifier
-     */
-    public static String clientId() {
-        return createRequestToken();
-    }
-
-    /**
      * Get request token
      * @return request token
      */
     public static String createRequestToken() {
         return instance.id();
-    }
-
-    /**
-     * Get the user signature if set, otherwise returns null
-     * @return signature
-     */
-    public static String userSignature() {
-        return instance.storageHelper.getUserSignature();
-    }
-
-    /**
-     * Set the user signature for secure mode
-     * @param signature The signature to be used for secure mode
-     */
-    public static void userSignature(String signature) {
-        instance.storageHelper.setUserSignature(signature);
     }
 
     /**
@@ -331,7 +282,7 @@ public class Castle {
     }
 
     /**
-     * Force a flush of the batch event queue, even if the flush limit hasn’t been reached
+     * Force a flush of the event queue, even if the flush limit hasn't been reached
      */
     public static void flush() {
         instance.eventQueue.flush();
@@ -356,7 +307,7 @@ public class Castle {
         Map<String, String> headers = new HashMap<>();
 
         if (isUrlAllowlisted(url)) {
-            headers.put(clientIdHeaderName, Castle.createRequestToken());
+            headers.put(requestTokenHeaderName, Castle.createRequestToken());
         }
 
         return headers;
@@ -452,13 +403,5 @@ public class Castle {
 
     private void unregisterComponentCallbacks(Application application) {
         application.unregisterComponentCallbacks(componentCallbacks);
-    }
-
-    /**
-     * Get context with device information
-     * @return Context with current device information
-     */
-    public static io.castle.android.api.model.Context createContext() {
-        return io.castle.android.api.model.Context.create();
     }
 }

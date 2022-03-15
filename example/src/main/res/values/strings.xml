@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">Castle</string>
     <string name="castle_publishable_key" translatable="false">pk_CTsfAeRTqxGgA7HHxqpEESvjfPp4QAKA</string>
-    <string name="identify">Identify</string>
+    <string name="user_jwt">Set User JWT</string>
     <string name="track_screen">Track screen</string>
     <string name="reset">Reset</string>
     <string name="flush_events">Flush events</string>
     <string name="request_location_access">Request location access</string>
+    <string name="track_custom">Track custom</string>
 </resources>

@@ -6,8 +6,6 @@ package io.castle.android.api.model;
 
 import android.app.Activity;
 
-import java.util.Map;
-
 /**
  * Model class for screen events
  */

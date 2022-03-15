@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion '30.0.2'
     defaultConfig {
         applicationId "io.castle.android.sample"
         minSdkVersion 21
@@ -24,9 +23,6 @@ android {
             minifyEnabled false
         }
     }
-    lintOptions {
-        abortOnError false
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_10
@@ -40,6 +36,9 @@ android {
         google()
         mavenCentral()
         jcenter()
+    }
+    lint {
+        abortOnError false
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_10
