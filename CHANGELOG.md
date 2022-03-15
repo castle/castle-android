@@ -1,4 +1,22 @@
 # Change Log
+## 3.0.0 (2022-03-15)
+- Add support for enhanced user activity monitoring.
+	- Introduced custom(name) method
+	- Introduced custom(name, properties) method
+	- Introduced screen(name) method
+	- Introduced userJwt() method
+- Remove deprecated methods.
+	- Removed identify()
+	- Removed userId()
+	- Removed secure()
+	- Removed secureModeEnabled()
+	- Removed userSignature()
+	- Removed track()
+	- Removed useCloudflareApp()
+	- Removed apiDomain()
+    - Removed apiPath()
+	- Removed field clientIdHeaderName = "X-Castle-Client-Id";
+
 ## 2.1.4 (2022-03-03)
 - Fixes a rare bug that resulted in incorrectly encoded request tokens.
 
