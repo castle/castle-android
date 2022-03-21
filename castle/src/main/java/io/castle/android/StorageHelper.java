@@ -35,7 +35,7 @@ class StorageHelper {
     String getDeviceId() {
         String deviceId = getPreferences().getString(DEVICE_ID_KEY, null);
         if (deviceId == null) {
-            deviceId = UUID.randomUUID().toString();
+            deviceId = DeviceIdUtils.deviceId();
             setDeviceId(deviceId);
         }
         return deviceId;
