@@ -1,4 +1,8 @@
 # Change Log
+## 3.0.1 (2022-03-29)
+- Internal enhancements and stability improvements.
+- [#53](https://github.com/castle/castle-android/pull/53) Use widevine id if available
+
 ## 3.0.0 (2022-03-15)
 - Add support for enhanced user activity monitoring.
 	- Introduced custom(name) method
