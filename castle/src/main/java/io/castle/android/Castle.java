@@ -74,7 +74,7 @@ public class Castle {
         this.storageHelper = new StorageHelper(context);
         this.configuration = configuration;
         this.eventQueue = new EventQueue(context);
-        this.highwind = new Highwind(context, BuildConfig.VERSION_NAME, storageHelper.getDeviceId(), buildUserAgent(), configuration.publishableKey());
+        this.highwind = new Highwind(context, BuildConfig.VERSION_NAME, storageHelper.getDeviceId(), buildUserAgent(), configuration.publishableKey(), storageHelper.getDeviceIdSource());
     }
 
     private void registerLifeCycleCallbacks(Application application) {
