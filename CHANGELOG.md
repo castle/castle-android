@@ -1,4 +1,7 @@
 # Change Log
+## 3.0.2 (2022-04-06)
+- Internal enhancements and stability improvements.
+
 ## 3.0.1 (2022-03-29)
 - Internal enhancements and stability improvements.
 - [#53](https://github.com/castle/castle-android/pull/53) Use widevine id if available
