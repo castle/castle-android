@@ -29,25 +29,25 @@ Please see the [Mobile Integration Guide](https://docs.castle.io).
 ## Library size and method count
 |   | Size |
 |---|---|
-| Total AAR Size in castle-release.aar | 0.03 mb |
-| Total methods in castle-release.aar | 312 |
-| Total classes in castle-release.aar | 96 |
+| Total AAR Size in castle-release.aar | 0.06 mb |
+| Total methods in castle-release.aar | 539 |
+| Total classes in castle-release.aar | 143 |
 
 |   | Size |
 |---|---|
-|kotlin-stdlib-1.4.10.jar | 1,452.23 kb |
+|kotlin-stdlib-1.6.10.jar | 1,472,73 kb |
 |okhttp-4.9.0.jar | 772.78 kb |
 |okio-jvm-2.8.0.jar | 237.48 kb |
 |gson-2.8.5.jar | 235.96 kb |
-|kotlin-stdlib-common-1.4.10.jar | 186.73 kb |
+|kotlin-stdlib-common-1.6.10.jar | 195,92 kb |
 |retrofit-2.9.0.jar | 122.50 kb |
 |rootbeer-lib-0.0.8.aar | 27.53 kb |
-|highwind-1.1.0.aar | 31.8 kb |
+|highwind-1.3.1.aar | 31.8 kb |
 |tape-2.0.0-beta1.jar | 17.68 kb |
 |annotations-13.0.jar | 17.13 kb |
 |kotlin-stdlib-jdk8-1.4.10.jar | 15.85 kb |
 |logging-interceptor-4.9.0.jar | 15.31 kb |
 |converter-gson-2.9.0.jar | 4.51 kb |
 |kotlin-stdlib-jdk7-1.4.10.jar | 3.89 kb |
-| Total dependencies size | 3.01 Mb |
+| Total dependencies size | 3,07  Mb |
 
