@@ -50,17 +50,17 @@ public class Castle {
 
     public static String encodeEvent(Event event) {
         if (event instanceof ScreenEvent) {
-            return instance.highwind.encodeScreenEvent(event.getToken(), Utils.getGsonInstance().toJson(event));
+            return getInstance().highwind.encodeScreenEvent(event.getToken(), Utils.getGsonInstance().toJson(event));
         }
-        return instance.highwind.encodeCustomEvent(event.getToken(), Utils.getGsonInstance().toJson(event));
+        return getInstance().highwind.encodeCustomEvent(event.getToken(), Utils.getGsonInstance().toJson(event));
     }
 
     public static String encodeUser(String userJwt) {
-        return instance.highwind.encodeUserJwtPayloadSet(Utils.getGsonInstance().toJson(new UserJwt(userJwt)));
+        return getInstance().highwind.encodeUserJwtPayloadSet(Utils.getGsonInstance().toJson(new UserJwt(userJwt)));
     }
 
     public static String encodePayload(String userPayload, List<String> eventPayloads) {
-        return instance.highwind.encodePayload(publishableKey(), userPayload, eventPayloads);
+        return getInstance().highwind.encodePayload(publishableKey(), userPayload, eventPayloads);
     }
 
     private void setup(Application application, CastleConfiguration configuration) {
@@ -193,7 +193,14 @@ public class Castle {
     }
 
     private static void track(Event event) {
-        instance.eventQueue.add(event);
+        getInstance().eventQueue.add(event);
+    }
+
+    private static Castle getInstance() {
+        if (instance == null) {
+            throw new CastleError("Castle SDK must be configured before calling this method");
+        }
+        return instance;
     }
 
     /**
@@ -202,7 +209,7 @@ public class Castle {
      */
     public static void userJwt(String userJwt) {
         if (userJwt != null && !userJwt.isEmpty()) {
-            instance.storageHelper.setUserJwt(userJwt);
+            getInstance().storageHelper.setUserJwt(userJwt);
         }
     }
 
@@ -211,7 +218,7 @@ public class Castle {
      * @return user id
      */
     public static String userJwt() {
-        return instance.storageHelper.getUserJwt();
+        return getInstance().storageHelper.getUserJwt();
     }
 
     /**
@@ -246,7 +253,7 @@ public class Castle {
      * @return publishable key
      */
     public static String publishableKey() {
-        return instance.configuration.publishableKey();
+        return getInstance().configuration.publishableKey();
     }
 
     /**
@@ -254,7 +261,7 @@ public class Castle {
      * @return true of debug logging is enabled
      */
     public static boolean debugLoggingEnabled() {
-        return instance.configuration.debugLoggingEnabled();
+        return getInstance().configuration.debugLoggingEnabled();
     }
 
     /**
@@ -262,7 +269,7 @@ public class Castle {
      * @return Base url
      */
     public static String baseUrl() {
-        return instance.configuration.baseUrl();
+        return getInstance().configuration.baseUrl();
     }
 
     /**
@@ -270,7 +277,7 @@ public class Castle {
      * @return request token
      */
     public static String createRequestToken() {
-        return instance.id();
+        return getInstance().id();
     }
 
     /**
@@ -278,14 +285,14 @@ public class Castle {
      * @return configuration
      */
     public static CastleConfiguration configuration() {
-        return instance.configuration;
+        return getInstance().configuration;
     }
 
     /**
      * Force a flush of the event queue, even if the flush limit hasn't been reached
      */
     public static void flush() {
-        instance.eventQueue.flush();
+        getInstance().eventQueue.flush();
     }
 
     /**
@@ -345,7 +352,7 @@ public class Castle {
      * @return The current size of the event queue
      */
     public static int queueSize() {
-        return instance.eventQueue.size();
+        return getInstance().eventQueue.size();
     }
 
     /**
@@ -353,7 +360,7 @@ public class Castle {
      * @return True if flushing is in progress
      */
     static boolean isFlushing() {
-        return instance.eventQueue.isFlushing();
+        return getInstance().eventQueue.isFlushing();
     }
 
     /**
@@ -373,7 +380,7 @@ public class Castle {
      * @return current build
      */
     static int getCurrentBuild() {
-        return instance.appBuild;
+        return getInstance().appBuild;
     }
 
 
@@ -382,7 +389,7 @@ public class Castle {
      * @return User agent string in format application name/version (versionCode) (Castle library version; Android version; Device name)
      */
     public static String userAgent() {
-        return instance.buildUserAgent();
+        return getInstance().buildUserAgent();
     }
 
     private String buildUserAgent() {
@@ -394,7 +401,7 @@ public class Castle {
      * @return current version
      */
     static String getCurrentVersion() {
-        return instance.appVersion;
+        return getInstance().appVersion;
     }
 
     private void unregisterLifeCycleCallbacks(Application application) {
