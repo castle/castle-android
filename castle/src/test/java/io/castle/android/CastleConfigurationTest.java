@@ -12,6 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 
@@ -116,6 +117,23 @@ public class CastleConfigurationTest {
 
         // Destroy current instance
         Castle.destroy(application);
+    }
+
+    @Test
+    public void testNonConfiguredInstance() {
+        // Destroy current instance
+        Castle.destroy(application);
+
+        Assert.assertThrows(CastleError.class, () -> Castle.screen("Screen name"));
+        Assert.assertThrows(CastleError.class, () -> Castle.custom("Custom event"));
+        Assert.assertThrows(CastleError.class, Castle::userJwt);
+        Assert.assertThrows(CastleError.class, () -> Castle.userJwt("invalid_jwt_token_string"));
+        Assert.assertThrows(CastleError.class, Castle::queueSize);
+        Assert.assertThrows(CastleError.class, Castle::flush);
+        Assert.assertThrows(CastleError.class, () -> Castle.flushIfNeeded("https://google.com/"));
+        Assert.assertThrows(CastleError.class, () -> Castle.isUrlAllowlisted("https://google.com/"));
+        Assert.assertThrows(CastleError.class, Castle::baseUrl);
+        Assert.assertThrows(CastleError.class, Castle::createRequestToken);
     }
 
     @After
