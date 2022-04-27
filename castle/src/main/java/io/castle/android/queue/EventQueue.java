@@ -32,7 +32,7 @@ public class EventQueue implements Callback<Void> {
 
     private static final String BATCH_QUEUE_FILENAME = "castle-queue";
     private static final String QUEUE_FILENAME = "castle-monitor-queue";
-    private static final int MAX_BATCH_SIZE = 100;
+    private static final int MAX_BATCH_SIZE = 20;
 
     private ObjectQueue<Event> eventObjectQueue;
 
