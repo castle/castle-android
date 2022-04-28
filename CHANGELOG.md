@@ -1,4 +1,9 @@
 # Change Log
+## 3.0.3 (2022-04-26)
+- [#60](https://github.com/castle/castle-android/pull/60) Decrease batch size to 20
+- [#59](https://github.com/castle/castle-android/pull/59) Add error class and throw if sdk methods are accessed without being configured
+- [#58](https://github.com/castle/castle-android/pull/58) Fixes for permission logic and obfuscation issue that caused the host app to crash
+
 ## 3.0.2 (2022-04-06)
 - Internal enhancements and stability improvements.
 
