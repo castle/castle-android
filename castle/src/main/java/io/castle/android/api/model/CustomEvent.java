@@ -6,6 +6,7 @@ package io.castle.android.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import io.castle.android.Castle;
@@ -19,7 +20,7 @@ public class CustomEvent extends Event {
     Map<String, Object> properties;
 
     public CustomEvent(String name) {
-        this(name, null);
+        this(name, new HashMap<>());
     }
 
     /**
