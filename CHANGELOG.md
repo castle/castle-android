@@ -1,4 +1,8 @@
 # Change Log
+## 3.0.4 (2022-06-29)
+- Internal enhancements and stability improvements.
+- [#62](https://github.com/castle/castle-android/pull/62) Fix custom event with no params validation
+
 ## 3.0.3 (2022-04-26)
 - [#60](https://github.com/castle/castle-android/pull/60) Decrease batch size to 20
 - [#59](https://github.com/castle/castle-android/pull/59) Add error class and throw if sdk methods are accessed without being configured
