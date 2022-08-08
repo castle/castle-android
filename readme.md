@@ -42,7 +42,7 @@ Please see the [Mobile Integration Guide](https://docs.castle.io).
 |kotlin-stdlib-common-1.7.0.jar   | 194,27 kb |
 |retrofit-2.9.0.jar | 122.50 kb |
 |rootbeer-lib-0.0.8.aar | 27.53 kb |
-|highwind-1.4.0.aar | 41 kb |
+|highwind-1.4.1.aar | 41 kb |
 |tape-2.0.0-beta1.jar | 17.68 kb |
 |annotations-13.0.jar | 17.13 kb |
 |kotlin-stdlib-jdk8-1.4.10.jar | 15.85 kb |
