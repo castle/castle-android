@@ -1,4 +1,7 @@
 # Change Log
+## 3.0.5 (2022-08-08)
+- Internal enhancements and stability improvements.
+
 ## 3.0.4 (2022-06-29)
 - Internal enhancements and stability improvements.
 - [#62](https://github.com/castle/castle-android/pull/62) Fix custom event with no params validation

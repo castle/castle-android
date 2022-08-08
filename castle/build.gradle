@@ -77,8 +77,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
     implementation 'com.squareup.tape2:tape:2.0.0-beta1'
     api 'com.scottyab:rootbeer-lib:0.0.8'
-    api 'org.jetbrains.kotlin:kotlin-stdlib:1.7.0'
-    embed(name: 'highwind-1.4.0', ext: 'aar')
+    api 'org.jetbrains.kotlin:kotlin-stdlib:1.7.10'
+    embed(name: 'highwind-1.4.1', ext: 'aar')
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.test:core:1.4.0'
     testImplementation 'androidx.test:rules:1.4.0'
