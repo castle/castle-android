@@ -21,7 +21,8 @@
             android:value="@string/castle_publishable_key"/>
 
         <activity android:name=".MainActivity"
-            android:label="Castle TestApp">
+            android:label="Castle TestApp"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
