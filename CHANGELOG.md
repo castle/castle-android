@@ -1,4 +1,7 @@
 # Change Log
+## 3.0.6 (2022-09-19)
+- Fixes a bug that could result in the app crashing when generating a token
+
 ## 3.0.5 (2022-08-08)
 - Fixes a bug that could result in the app crashing when the location accuracy is less than 1 meter.
 
