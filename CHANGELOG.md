@@ -1,4 +1,7 @@
 # Change Log
+## 3.0.7 (2022-10-06)
+- Fixes an issue that could cause ANRs
+
 ## 3.0.6 (2022-09-19)
 - Fixes a bug that could result in the app crashing when generating a token
 
