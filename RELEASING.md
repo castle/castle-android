@@ -20,13 +20,13 @@ signing.keyId=1234567
 signing.password=password
 signing.secretKeyRingFile=/path/to/user/.gnupg/keyring.gpg
 
-mavenCentralRepositoryUsername=
-mavenCentralRepositoryPassword=
+mavenCentralUsername=
+mavenCentralPassword=
 ```
 
 In order to upload a new version to Sonatype OSS staging run the following command from the project root: `./gradlew clean  castle:publish --no-daemon --no-parallel`. Make sure you've executed all the steps in the "Prepare for release" section before publishing.
 
-To release the uploaded version run `./gradlew closeAndReleaseRepository`
+To release the uploaded version run `./gradlew publishAndReleaseToMavenCentral --no-configuration-cache`
  
 ## Create a new release on Github
 1. Create a new Github release at https://github.com/castle/castle-android/releases
