@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     defaultConfig {
         applicationId "io.castle.android.sample"
         minSdkVersion 21
-        targetSdkVersion 33
         versionCode 1
+        targetSdkVersion 34
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.ext.junit.runners.AndroidJUnit4"
     }

@@ -3,11 +3,11 @@ apply plugin: 'com.vanniktech.maven.publish'
 apply plugin: 'com.kezong.fat-aar'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 1
         versionName "\"" + VERSION_NAME + "\""
         buildConfigField 'int', 'VERSION_CODE', "1"
