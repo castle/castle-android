@@ -102,10 +102,9 @@ if (!ciBuild) {
     apply from: 'size.gradle'
 }
 
-mavenPublish {
-    nexus {
-        stagingProfile = "io.castle"
-    }
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
 }
 
 repositories {
