@@ -1,4 +1,7 @@
 # Change Log
+## 3.0.9 (2024-11-26)
+- Fixes an issue that could NumberFormatException when generating a token
+
 ## 3.0.8 (2024-02-15)
 - [#69](https://github.com/castle/castle-android/pull/69) Update dependencies and resolves NPE when configuring the SDK
 
