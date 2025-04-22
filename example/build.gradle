@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
     defaultConfig {
         applicationId "io.castle.android.sample"
         minSdkVersion 21
         versionCode 1
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.ext.junit.runners.AndroidJUnit4"
     }
@@ -25,29 +25,32 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_10
-        targetCompatibility JavaVersion.VERSION_1_10
+        sourceCompatibility 17
+        targetCompatibility 17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
     repositories {
         google()
         mavenCentral()
-        jcenter()
     }
     lint {
         abortOnError false
     }
+    namespace 'io.castle.android.sample'
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_10
-        targetCompatibility JavaVersion.VERSION_1_10
+        sourceCompatibility 17
+        targetCompatibility 17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api project(':castle')
 }
