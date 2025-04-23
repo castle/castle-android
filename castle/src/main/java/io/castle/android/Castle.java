@@ -36,7 +36,7 @@ public class Castle {
     private CastleConfiguration configuration;
     private EventQueue eventQueue;
     private StorageHelper storageHelper;
-    private CastleActivityLifecycleCallbacks activityLifecycleCallbacks;
+    private Application.ActivityLifecycleCallbacks activityLifecycleCallbacks;
     private CastleComponentCallback componentCallbacks;
     private Highwind highwind;
 
@@ -85,24 +85,29 @@ public class Castle {
         application.registerComponentCallbacks(componentCallbacks);
 
         // Get the previous recorded version.
-        String previousVersion = storageHelper.getVersion();
         int previousBuild = storageHelper.getBuild();
 
         // Check and track Application Installed or Application Updated.
         if (previousBuild == -1) {
-            custom("Application Installed");
+            trackLifeCycleEvent("Application Installed");
         } else if (appBuild != previousBuild) {
-            custom("Application Updated");
+            trackLifeCycleEvent("Application Updated");
         }
 
         // Track Application Opened.
-        custom("Application Opened");
+        trackLifeCycleEvent("Application Opened");
 
         flush();
 
         // Update the recorded version.
         storageHelper.setVersion(appVersion);
         storageHelper.setBuild(appBuild);
+    }
+
+    static void trackLifeCycleEvent(String event) {
+        if (Castle.configuration().applicationLifecycleTrackingEnabled()) {
+            custom(event);
+        }
     }
 
     private String id() {
