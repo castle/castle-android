@@ -9,7 +9,9 @@ import static org.awaitility.Awaitility.await;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Application;
+import android.content.ComponentName;
 import android.os.Build;
 
 import org.junit.After;
@@ -17,45 +19,56 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.Shadows;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.ScreenEvent;
+import io.castle.android.testsupport.TestActivity;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1})
 public class CastleTest {
     private static final long AWAIT_TIMEOUT = 5 * 60;
 
     @Rule
-    public ActivityTestRule<TestActivity> rule  = new ActivityTestRule<>(TestActivity.class);
-
-    @Rule
     public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_NETWORK_STATE);
 
     private Application application;
+    private Activity activity;
     private OkHttpClient client;
 
     @Before
     public void setup() {
-        application = rule.getActivity().getApplication();
+        application = ApplicationProvider.getApplicationContext();
 
-        rule.getActivity().setTitle("TestActivityTitle");
+        activity = Robolectric.buildActivity(TestActivity.class)
+                .create()  // Creates the activity
+                .start()   // Starts the activity
+                .resume()  // Resumes the activity to make it interactive
+                .get();
+
+        activity.setTitle("TestActivityTitle");
 
         ArrayList<String> baseURLAllowList = new ArrayList<>();
         baseURLAllowList.add("https://google.com/");
@@ -84,7 +97,7 @@ public class CastleTest {
 
         // Check that the stored identity is the same as the identity we tracked
         String userJwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjMjQ0ZjMwLTM0MzItNGJiYy04OGYxLTFlM2ZjMDFiYzFmZSIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJlZ2lzdGVyZWRfYXQiOiIyMDIyLTAxLTAxVDA5OjA2OjE0LjgwM1oifQ.eAwehcXZDBBrJClaE0bkO9XAr4U3vqKUpyZ-d3SxnH0";
-        Assert.assertEquals(Castle.userJwt(), userJwt);
+        Assert.assertEquals(userJwt, Castle.userJwt());
     }
 
     @Test
@@ -148,19 +161,19 @@ public class CastleTest {
         Assert.assertEquals(count, newCount);
 
         ScreenEvent screenEvent = new ScreenEvent("Main");
-        Assert.assertEquals(screenEvent.getName(), "Main");
-        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
+        Assert.assertEquals("Main", screenEvent.getName());
+        Assert.assertEquals(Event.EVENT_TYPE_SCREEN, screenEvent.getType());
 
-        screenEvent = new ScreenEvent(rule.getActivity());
-        Assert.assertEquals(screenEvent.getName(), "TestActivityTitle");
-        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
+        screenEvent = new ScreenEvent(activity);
+        Assert.assertEquals("TestActivityTitle", screenEvent.getName());
+        Assert.assertEquals(Event.EVENT_TYPE_SCREEN, screenEvent.getType());
 
         // Test null activity title
-        rule.getActivity().setTitle(null);
+        activity.setTitle(null);
 
-        screenEvent = new ScreenEvent(rule.getActivity());
-        Assert.assertEquals(screenEvent.getName(), "TestActivity");
-        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
+        screenEvent = new ScreenEvent(activity);
+        Assert.assertEquals("TestActivity", screenEvent.getName());
+        Assert.assertEquals(Event.EVENT_TYPE_SCREEN, screenEvent.getType());
 
         count = Castle.queueSize();
         Castle.screen("Main");
@@ -172,7 +185,7 @@ public class CastleTest {
         Assert.assertEquals(count + 1, newCount);
 
         count = Castle.queueSize();
-        Castle.screen(rule.getActivity());
+        Castle.screen(activity);
 
         // Wait until event is added in background thread
         await().atMost(AWAIT_TIMEOUT, SECONDS).until(eventIsAdded(count));
@@ -199,7 +212,7 @@ public class CastleTest {
     public void testDefaultHeaders() {
         Map<String, String> headers = Castle.headers("https://google.com/test");
         Assert.assertNotNull(headers);
-        Assert.assertTrue(!headers.isEmpty());
+        Assert.assertFalse(headers.isEmpty());
         Assert.assertTrue(headers.containsKey(Castle.requestTokenHeaderName));
     }
 
@@ -217,7 +230,7 @@ public class CastleTest {
                 .build();
 
         response = client.newCall(request).execute();
-        Assert.assertEquals(null, response.request().header(Castle.requestTokenHeaderName));
+        Assert.assertNull(response.request().header(Castle.requestTokenHeaderName));
     }
 
     @Test
@@ -226,7 +239,6 @@ public class CastleTest {
     }
 
     @Test
-    @Config(manifest = "AndroidManifest.xml")
     public void testUserAgent() {
         String regex = "[a-zA-Z0-9\\s._-]+/[0-9]+\\.[0-9]+\\.?[0-9]*(-[a-zA-Z0-9]*)? \\([a-zA-Z0-9-_.]+\\) \\(Castle [0-9]+\\.[0-9]+\\.?[0-9]*(-[a-zA-Z0-9]*)?; Android [0-9]+\\.?[0-9]*\\.?[0-9]*; [a-zA-Z0-9\\s]+\\)";
 

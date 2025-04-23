@@ -9,7 +9,6 @@ android {
         versionCode 1
         targetSdkVersion 35
         versionName "1.0.0"
-        testInstrumentationRunner "androidx.test.ext.junit.runners.AndroidJUnit4"
     }
     buildFeatures {
         viewBinding true

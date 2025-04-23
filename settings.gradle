@@ -1,1 +1,1 @@
-include ':example', ':castle'
+include ':example', ':castle', ':castle:testsupport'

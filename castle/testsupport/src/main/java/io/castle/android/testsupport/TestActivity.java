@@ -1,14 +1,11 @@
 /*
- * Copyright (c) 2020 Castle
+ * Copyright (c) 2025 Castle
  */
 
-package io.castle.android;
+package io.castle.android.testsupport;
 
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
-
-import org.robolectric.annotation.Config;
 
 public class TestActivity extends Activity {
     @Override

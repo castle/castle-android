@@ -55,9 +55,8 @@ android {
     }
 
     testOptions {
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
-
         unitTests {
+            returnDefaultValues = true
             includeAndroidResources = true
         }
     }
@@ -74,9 +73,9 @@ android {
 
 dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.11.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
     implementation 'com.squareup.tape2:tape:2.0.0-beta1'
     api 'com.scottyab:rootbeer-lib:0.1.1'
     api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -90,8 +89,9 @@ dependencies {
     testImplementation 'androidx.test.ext:junit:1.2.1'
     testImplementation 'androidx.test.espresso:espresso-core:3.6.1'
     testImplementation 'org.robolectric:robolectric:4.14.1'
-    testImplementation 'com.squareup.okhttp3:mockwebserver:4.7.2'
-    testImplementation 'org.awaitility:awaitility:4.1.1'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
+    testImplementation 'org.awaitility:awaitility:4.3.0'
+    testImplementation project(':castle:testsupport')
     androidTestImplementation 'androidx.test:runner:1.6.2'
     androidTestUtil 'androidx.test:orchestrator:1.5.1'
 

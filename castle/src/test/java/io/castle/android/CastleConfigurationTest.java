@@ -12,26 +12,24 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
+
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.ActivityTestRule;
+import androidx.test.core.app.ApplicationProvider;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1})
 public class CastleConfigurationTest {
-    @Rule
-    public ActivityTestRule<TestActivity> rule  = new ActivityTestRule<>(TestActivity.class);
 
     private Application application;
 
     @Before
     public void setup() {
-        application = rule.getActivity().getApplication();
+        application = ApplicationProvider.getApplicationContext();
     }
 
     @Test
