@@ -119,4 +119,7 @@ afterEvaluate {
     tasks.named('extractDeepLinksDebug') {
         dependsOn "explodeIo.castle.android.highwindHighwind-${highwind_version}Debug"
     }
+    tasks.named('extractDeepLinksRelease') {
+        dependsOn "explodeIo.castle.android.highwindHighwind-${highwind_version}Release"
+    }
 }
