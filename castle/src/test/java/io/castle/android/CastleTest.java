@@ -9,6 +9,7 @@ import static org.awaitility.Awaitility.await;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Application;
 import android.os.Build;
 
@@ -18,47 +19,68 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.ActivityTestRule;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.ScreenEvent;
+import io.castle.android.testsupport.TestActivity;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1})
 public class CastleTest {
     private static final long AWAIT_TIMEOUT = 5 * 60;
 
     @Rule
-    public ActivityTestRule<TestActivity> rule  = new ActivityTestRule<>(TestActivity.class);
-
-    @Rule
     public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_NETWORK_STATE);
 
     private Application application;
+    private Activity activity;
     private OkHttpClient client;
+    private MockWebServer server;
+    private String baseUrl;
+    private ArrayList<String> baseURLAllowList;
 
     @Before
     public void setup() {
-        application = rule.getActivity().getApplication();
+        application = ApplicationProvider.getApplicationContext();
 
-        rule.getActivity().setTitle("TestActivityTitle");
+        server = new MockWebServer();
 
-        ArrayList<String> baseURLAllowList = new ArrayList<>();
-        baseURLAllowList.add("https://google.com/");
+        baseUrl = server.url("/").toString().replace(":" + server.getPort(), "");
+
+        activity = Robolectric.buildActivity(TestActivity.class)
+                .create()  // Creates the activity
+                .start()   // Starts the activity
+                .resume()  // Resumes the activity to make it interactive
+                .get();
+
+        activity.setTitle("TestActivityTitle");
+
+        baseURLAllowList = new ArrayList<>();
+        baseURLAllowList.add(baseUrl);
+
+        configure(baseURLAllowList);
+    }
+
+    private void configure(ArrayList<String> baseURLAllowList) {
+        Castle.destroy(application);
 
         Castle.configure(application, new CastleConfiguration.Builder()
                 .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
@@ -84,13 +106,14 @@ public class CastleTest {
 
         // Check that the stored identity is the same as the identity we tracked
         String userJwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjMjQ0ZjMwLTM0MzItNGJiYy04OGYxLTFlM2ZjMDFiYzFmZSIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInJlZ2lzdGVyZWRfYXQiOiIyMDIyLTAxLTAxVDA5OjA2OjE0LjgwM1oifQ.eAwehcXZDBBrJClaE0bkO9XAr4U3vqKUpyZ-d3SxnH0";
-        Assert.assertEquals(Castle.userJwt(), userJwt);
+        Assert.assertEquals(userJwt, Castle.userJwt());
     }
 
     @Test
     public void testflushIfNeeded() {
+
         // Make sure flush is done for allowlisted base url
-        boolean flushed = Castle.flushIfNeeded("https://google.com/");
+        boolean flushed = Castle.flushIfNeeded(baseUrl);
 
         // FlushIfNeeded returns true if url is allowlisted and flush() is called
         Assert.assertTrue(flushed);
@@ -98,7 +121,7 @@ public class CastleTest {
         // Make sure flush is NOT done for non allowlisted base url
         flushed = Castle.flushIfNeeded("https://test.com");
 
-        // FlushIfNeeded returns fasle if url is not allowlisted
+        // FlushIfNeeded returns false if url is not allowlisted
         Assert.assertFalse(flushed);
     }
 
@@ -148,19 +171,19 @@ public class CastleTest {
         Assert.assertEquals(count, newCount);
 
         ScreenEvent screenEvent = new ScreenEvent("Main");
-        Assert.assertEquals(screenEvent.getName(), "Main");
-        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
+        Assert.assertEquals("Main", screenEvent.getName());
+        Assert.assertEquals(Event.EVENT_TYPE_SCREEN, screenEvent.getType());
 
-        screenEvent = new ScreenEvent(rule.getActivity());
-        Assert.assertEquals(screenEvent.getName(), "TestActivityTitle");
-        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
+        screenEvent = new ScreenEvent(activity);
+        Assert.assertEquals("TestActivityTitle", screenEvent.getName());
+        Assert.assertEquals(Event.EVENT_TYPE_SCREEN, screenEvent.getType());
 
         // Test null activity title
-        rule.getActivity().setTitle(null);
+        activity.setTitle(null);
 
-        screenEvent = new ScreenEvent(rule.getActivity());
-        Assert.assertEquals(screenEvent.getName(), "TestActivity");
-        Assert.assertEquals(screenEvent.getType(), Event.EVENT_TYPE_SCREEN);
+        screenEvent = new ScreenEvent(activity);
+        Assert.assertEquals("TestActivity", screenEvent.getName());
+        Assert.assertEquals(Event.EVENT_TYPE_SCREEN, screenEvent.getType());
 
         count = Castle.queueSize();
         Castle.screen("Main");
@@ -172,7 +195,7 @@ public class CastleTest {
         Assert.assertEquals(count + 1, newCount);
 
         count = Castle.queueSize();
-        Castle.screen(rule.getActivity());
+        Castle.screen(activity);
 
         // Wait until event is added in background thread
         await().atMost(AWAIT_TIMEOUT, SECONDS).until(eventIsAdded(count));
@@ -197,27 +220,39 @@ public class CastleTest {
 
     @Test
     public void testDefaultHeaders() {
-        Map<String, String> headers = Castle.headers("https://google.com/test");
+        Map<String, String> headers = Castle.headers(baseUrl + "test");
         Assert.assertNotNull(headers);
-        Assert.assertTrue(!headers.isEmpty());
+        Assert.assertFalse(headers.isEmpty());
         Assert.assertTrue(headers.containsKey(Castle.requestTokenHeaderName));
     }
 
     @Test
     public void testRequestInterceptor() throws IOException {
+        server.enqueue(new MockResponse().setBody("test"));
+
+        HttpUrl baseUrl = server.url("/test");
+
         Request request = new Request.Builder()
-                .url("https://google.com/test")
+                .url(baseUrl)
                 .build();
 
         Response response = client.newCall(request).execute();
         Assert.assertNotNull(response.request().header(Castle.requestTokenHeaderName));
 
+        // Test that the request token is not added to the request if the url is not allowlisted
+        configure(new ArrayList<>());
+
+        server.enqueue(new MockResponse().setBody("test"));
+
         request = new Request.Builder()
-                .url("https://example.com/test")
+                .url(baseUrl)
                 .build();
 
         response = client.newCall(request).execute();
-        Assert.assertEquals(null, response.request().header(Castle.requestTokenHeaderName));
+        Assert.assertNull(response.request().header(Castle.requestTokenHeaderName));
+
+        // Restore configuration
+        configure(baseURLAllowList);
     }
 
     @Test
@@ -226,7 +261,6 @@ public class CastleTest {
     }
 
     @Test
-    @Config(manifest = "AndroidManifest.xml")
     public void testUserAgent() {
         String regex = "[a-zA-Z0-9\\s._-]+/[0-9]+\\.[0-9]+\\.?[0-9]*(-[a-zA-Z0-9]*)? \\([a-zA-Z0-9-_.]+\\) \\(Castle [0-9]+\\.[0-9]+\\.?[0-9]*(-[a-zA-Z0-9]*)?; Android [0-9]+\\.?[0-9]*\\.?[0-9]*; [a-zA-Z0-9\\s]+\\)";
 
