@@ -4,6 +4,8 @@
 
 package io.castle.android;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -13,7 +15,7 @@ import okhttp3.Response;
 
 class CastleInterceptor implements Interceptor {
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public @NotNull Response intercept(@NotNull Chain chain) throws IOException {
         Request request = chain.request();
 
         // Only add headers is url is allowlisted
