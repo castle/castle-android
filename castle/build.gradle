@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.vanniktech.maven.publish'
 apply plugin: 'com.kezong.fat-aar'
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 
 android {
     compileSdkVersion 35
@@ -105,6 +106,7 @@ if (!ciBuild) {
 }
 
 mavenPublishing {
+    configure(new AndroidSingleVariantLibrary("release", true, true))
     publishToMavenCentral()
     signAllPublications()
 }
