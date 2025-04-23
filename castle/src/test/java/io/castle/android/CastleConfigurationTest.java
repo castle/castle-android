@@ -44,6 +44,7 @@ public class CastleConfigurationTest {
                 .flushLimit(2)
                 .baseURLAllowList(baseURLAllowList)
                 .maxQueueLimit(100)
+                .applicationLifecycleTrackingEnabled(false)
                 .build();
 
         Assert.assertTrue(configuration.screenTrackingEnabled());
@@ -53,6 +54,7 @@ public class CastleConfigurationTest {
         Assert.assertEquals("https://google.com/", configuration.baseURLAllowList().get(0));
         Assert.assertEquals(100, configuration.maxQueueLimit());
         Assert.assertEquals("https://m.castle.io/v1/", configuration.baseUrl());
+        Assert.assertFalse(configuration.applicationLifecycleTrackingEnabled());
 
         // Setup Castle SDK with provided configuration
         Castle.configure(application, configuration);
@@ -61,6 +63,7 @@ public class CastleConfigurationTest {
         Assert.assertEquals(1, Castle.configuration().baseURLAllowList().size());
         Assert.assertEquals("https://google.com/", Castle.configuration().baseURLAllowList().get(0));
         Assert.assertEquals(100, Castle.configuration().maxQueueLimit());
+        Assert.assertFalse(Castle.configuration().applicationLifecycleTrackingEnabled());
 
         Assert.assertEquals(1, Castle.headers("https://google.com/test").size());
 
@@ -71,13 +74,20 @@ public class CastleConfigurationTest {
 
         Castle.configure(application, configuration);
 
-        Assert.assertEquals(100, Castle.configuration().maxQueueLimit());
-
         // Destroy current instance
         Castle.destroy(application);
 
         Castle.configure(application, "pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ");
         Assert.assertEquals("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ", Castle.publishableKey());
+
+        // Check default values
+        Assert.assertFalse(Castle.configuration().screenTrackingEnabled());
+        Assert.assertFalse(Castle.configuration().debugLoggingEnabled());
+        Assert.assertTrue(Castle.configuration().applicationLifecycleTrackingEnabled());
+        Assert.assertEquals(20, Castle.configuration().flushLimit());
+        Assert.assertNull(Castle.configuration().baseURLAllowList());
+        Assert.assertEquals("https://m.castle.io/v1/", Castle.configuration().baseUrl());
+        Assert.assertEquals(1000, Castle.configuration().maxQueueLimit());
 
         // Destroy current instance
         Castle.destroy(application);

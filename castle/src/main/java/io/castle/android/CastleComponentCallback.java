@@ -9,6 +9,8 @@ import android.content.pm.PackageInfo;
 import android.content.res.*;
 import android.content.res.Configuration;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,13 +19,13 @@ class CastleComponentCallback implements ComponentCallbacks2 {
     public void onTrimMemory(int level) {
         if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
             // We're in the Background
-            Castle.custom("Application Closed");
+            Castle.trackLifeCycleEvent("Application Closed");
             Castle.flush();
         }
     }
 
     @Override
-    public void onConfigurationChanged(Configuration configuration) {}
+    public void onConfigurationChanged(@NotNull Configuration configuration) {}
 
     @Override
     public void onLowMemory() {}
