@@ -1,4 +1,7 @@
 # Change Log
+## 3.0.10 (2025-04-23)
+- [#73](https://github.com/castle/castle-android/pull/73) Update gradle to version 8.11.1
+
 ## 3.0.9 (2024-11-26)
 - Fixes an issue that could NumberFormatException when generating a token
 
