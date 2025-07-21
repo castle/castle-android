@@ -1,4 +1,7 @@
 # Change Log
+## 3.1.0 (2025-07-21)
+- Internal enhancements and stability improvements.
+
 ## 3.0.10 (2025-04-23)
 - [#74](https://github.com/castle/castle-android/pull/74) Add configuration for lifecycle events
 - [#73](https://github.com/castle/castle-android/pull/73) Update gradle to version 8.11.1
