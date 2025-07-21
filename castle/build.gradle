@@ -112,7 +112,7 @@ dependencies {
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2'
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2'
     api 'androidx.core:core-ktx:1.16.0'
-    embed(name: 'highwind-1.4.5', ext: 'aar', version: '1.4.5', group: 'io.castle.android.highwind')
+    embed(name: "highwind-${highwind_version}", ext: 'aar', version: "${highwind_version}", group: 'io.castle.android.highwind')
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.test:core:1.6.1'
     testImplementation 'androidx.test:rules:1.6.1'
