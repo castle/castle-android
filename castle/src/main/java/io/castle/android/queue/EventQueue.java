@@ -37,6 +37,7 @@ public class EventQueue implements Callback<Void> {
     private ObjectQueue<Event> eventObjectQueue;
 
     private Call<Void> flushCall;
+    private boolean flushOngoing = false;
     private int flushCount;
 
     private ExecutorService executor;
@@ -111,6 +112,7 @@ public class EventQueue implements Callback<Void> {
     public synchronized void flush() {
         CastleLogger.d("EventQueue size " + eventObjectQueue.size());
         if (!isFlushing() && (!eventObjectQueue.isEmpty())) {
+            flushOngoing = true;
             executor.execute(() -> {
                 try {
                     trim();
@@ -163,7 +165,7 @@ public class EventQueue implements Callback<Void> {
     }
 
     public synchronized boolean isFlushing() {
-        return flushCall != null;
+        return flushOngoing;
     }
 
     public synchronized boolean needsFlush() {
@@ -172,6 +174,7 @@ public class EventQueue implements Callback<Void> {
 
     private synchronized void flushed() {
         flushCall = null;
+        flushOngoing = false;
         flushCount = 0;
     }
 
