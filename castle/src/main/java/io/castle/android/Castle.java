@@ -121,9 +121,6 @@ public class Castle {
      */
     public static void configure(Application application, CastleConfiguration configuration) {
         if (instance == null) {
-            if (configuration.publishableKey() == null || !configuration.publishableKey().startsWith("pk_") || configuration.publishableKey().length() != 35) {
-                throw new RuntimeException("You must provide a valid Castle publishable key when initializing the SDK.");
-            }
             instance = new Castle(application, configuration);
             instance.registerLifeCycleCallbacks(application);
         }

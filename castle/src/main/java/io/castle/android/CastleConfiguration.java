@@ -218,8 +218,12 @@ public class CastleConfiguration {
          * @return Builder
          */
         public Builder publishableKey(String publishableKey) {
-            this.publishableKey = publishableKey;
+            // only set if it is a valid publishable Key
+            if (publishableKey == null || !publishableKey.startsWith("pk_") || publishableKey.length() != 35) {
+                throw new RuntimeException("You must provide a valid Castle publishable key when initializing the SDK.");
+            }
 
+            this.publishableKey = publishableKey;
             return this;
         }
 

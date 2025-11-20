@@ -25,7 +25,7 @@ public class Monitor {
             return null;
         }
 
-        if(events.size() == 0) {
+        if(events.isEmpty()) {
             CastleLogger.e("Empty event array parameter provided.");
             return null;
         }
