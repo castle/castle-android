@@ -78,11 +78,15 @@ public class Castle {
     }
 
     private void registerLifeCycleCallbacks(Application application) {
-        activityLifecycleCallbacks = new CastleActivityLifecycleCallbacks();
-        application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
-
         componentCallbacks = new CastleComponentCallback();
         application.registerComponentCallbacks(componentCallbacks);
+
+        if (!Castle.configuration().applicationLifecycleTrackingEnabled()) {
+            return;
+        }
+
+        activityLifecycleCallbacks = new CastleActivityLifecycleCallbacks();
+        application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
 
         // Get the previous recorded version.
         int previousBuild = storageHelper.getBuild();
@@ -407,7 +411,9 @@ public class Castle {
     }
 
     private void unregisterLifeCycleCallbacks(Application application) {
-        application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
+        if (Castle.configuration().applicationLifecycleTrackingEnabled()) {
+            application.unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
+        }
     }
 
     private void unregisterComponentCallbacks(Application application) {
