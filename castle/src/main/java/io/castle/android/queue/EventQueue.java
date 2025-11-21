@@ -86,10 +86,7 @@ public class EventQueue implements Callback<Void> {
     public synchronized void add(Event event) {
         executor.execute(() -> {
             try {
-                if (Castle.configuration().debugLoggingEnabled()) {
-                    CastleLogger.d("Tracking event " + Utils.getGsonInstance().toJson(event));
-                }
-
+                CastleLogger.d("Tracking event " + Utils.getGsonInstance().toJson(event));
                 eventObjectQueue.add(event);
 
                 if (needsFlush()) {
