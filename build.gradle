@@ -2,7 +2,7 @@
 
 buildscript {
     ext.kotlin_version = "2.1.20"
-    ext.highwind_version = "1.5.1"
+    ext.highwind_version = "1.5.2"
     ext.jacocoVersion = '0.8.4'
 
     repositories {
