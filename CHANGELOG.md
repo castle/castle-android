@@ -1,4 +1,9 @@
 # Change Log
+## 3.1.2 (2025-11-25)
+- [#81](https://github.com/castle/castle-android/pull/81) Move publishable key verification
+- [#80](https://github.com/castle/castle-android/pull/80) Fix possible RC in EventQueue Flush
+- Internal enhancements and stability improvements.
+
 ## 3.1.1 (2025-09-29)
 - Internal enhancements and stability improvements.
 
