@@ -92,11 +92,11 @@ public class CastleConfigurationTest {
         // Destroy current instance
         Castle.destroy(application);
 
-        // Setup Castle SDK with invalid publishableKey
-        configuration = new CastleConfiguration.Builder()
-                .publishableKey("sk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
-                .build();
         try {
+            // Setup Castle SDK with invalid publishableKey
+            configuration = new CastleConfiguration.Builder()
+                    .publishableKey("sk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
+                    .build();
             Castle.configure(application, configuration);
             Assert.fail("Should have thrown RuntimeException exception");
         } catch (RuntimeException e) {
