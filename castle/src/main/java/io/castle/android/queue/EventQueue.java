@@ -139,23 +139,24 @@ public class EventQueue implements Callback<Void> {
                         flushCount = end;
                         try {
                             flushCall = CastleAPIService.getInstance().monitor(monitor);
-                        } catch (NullPointerException npe) {
-                            // Band aid for https://github.com/castle/castle-android/issues/37
-                            CastleLogger.d("Did not flush EventQueue because NPE, clearing EventQueue");
-                            eventObjectQueue.clear();
+                            flushCall.enqueue(this);
+                        } catch (Exception e) {
+                            CastleLogger.e("Failed to enqueue monitor request", e);
+                            flushed();
                         }
-                        flushCall.enqueue(this);
                     } else {
                         CastleLogger.d("Did not flush EventQueue");
 
-                        // If events is empty and end is greater than zero, we just have unreadable data in the queue
-                        if (end > 0) {
+                        if (end > 0 && subList.isEmpty()) {
                             eventObjectQueue.clear();
                             CastleLogger.d("Clearing EventQueue because of unreadable data");
                         }
+
+                        flushed();
                     }
                 } catch (IOException exception) {
                     CastleLogger.e("Unable to flush queue", exception);
+                    flushed();
                 }
             });
         }
