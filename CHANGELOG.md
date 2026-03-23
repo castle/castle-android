@@ -1,4 +1,7 @@
 # Change Log
+## 3.1.4 (2026-03-23)
+- [#84](https://github.com/castle/castle-android/pull/84) Reset flushongoing to prevent stuck at true
+
 ## 3.1.3 (2026-03-17)
 - Internal enhancements and stability improvements.
 
