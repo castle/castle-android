@@ -1,4 +1,8 @@
 # Change Log
+## 3.1.7 (2026-05-06)
+- Internal enhancements and stability improvements.
+- [#92](https://github.com/castle/castle-android/pull/92) Run lifecycle event tracking and flush off the main thread
+- [#90](https://github.com/castle/castle-android/pull/90) Use apply and inline preferences accessors in StorageHelper
 
 ## 3.1.6 (2026-04-30)
 - Internal enhancements and stability improvements.
