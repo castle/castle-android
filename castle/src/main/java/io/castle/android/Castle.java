@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import io.castle.android.api.model.CustomEvent;
 import io.castle.android.api.model.Event;
@@ -88,24 +90,25 @@ public class Castle {
         activityLifecycleCallbacks = new CastleActivityLifecycleCallbacks();
         application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
 
-        // Get the previous recorded version.
-        int previousBuild = storageHelper.getBuild();
+        // Build the install/update/opened events off the main thread
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            int previousBuild = storageHelper.getBuild();
 
-        // Check and track Application Installed or Application Updated.
-        if (previousBuild == -1) {
-            trackLifeCycleEvent("Application Installed");
-        } else if (appBuild != previousBuild) {
-            trackLifeCycleEvent("Application Updated");
-        }
+            if (previousBuild == -1) {
+                trackLifeCycleEvent("Application Installed");
+            } else if (appBuild != previousBuild) {
+                trackLifeCycleEvent("Application Updated");
+            }
 
-        // Track Application Opened.
-        trackLifeCycleEvent("Application Opened");
+            trackLifeCycleEvent("Application Opened");
 
-        flush();
+            flush();
 
-        // Update the recorded version.
-        storageHelper.setVersion(appVersion);
-        storageHelper.setBuild(appBuild);
+            storageHelper.setVersion(appVersion);
+            storageHelper.setBuild(appBuild);
+        });
+        executor.shutdown();
     }
 
     static void trackLifeCycleEvent(String event) {
