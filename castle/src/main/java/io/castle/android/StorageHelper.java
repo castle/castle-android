@@ -22,22 +22,22 @@ class StorageHelper {
     private static final String DEVICE_ID_KEY = "device_id_key";
     private static final String DEVICE_ID_SOURCE_KEY = "device_id_source_key";
 
-    private SharedPreferences preferences;
+    private final SharedPreferences preferences;
 
     StorageHelper(Context context) {
         preferences = context.getSharedPreferences(STORAGE_PREFERENCE, Context.MODE_PRIVATE);
     }
 
     int getBuild() {
-        return getPreferences().getInt(BUILD_KEY, -1);
+        return preferences.getInt(BUILD_KEY, -1);
     }
 
     void setBuild(int build) {
-        getPreferencesEditor().putInt(BUILD_KEY, build).commit();
+        preferences.edit().putInt(BUILD_KEY, build).apply();
     }
 
     String getDeviceId() {
-        String deviceId = getPreferences().getString(DEVICE_ID_KEY, null);
+        String deviceId = preferences.getString(DEVICE_ID_KEY, null);
         if (deviceId == null) {
             Pair<String, Integer> id = DeviceIdUtils.deviceId();
             deviceId = id.first;
@@ -48,38 +48,30 @@ class StorageHelper {
     }
 
     private void setDeviceId(String deviceId) {
-        getPreferencesEditor().putString(DEVICE_ID_KEY, deviceId).commit();
+        preferences.edit().putString(DEVICE_ID_KEY, deviceId).apply();
     }
 
     Integer getDeviceIdSource() {
-        return getPreferences().getInt(DEVICE_ID_SOURCE_KEY, Highwind.ID_SOURCE_GENERATED);
+        return preferences.getInt(DEVICE_ID_SOURCE_KEY, Highwind.ID_SOURCE_GENERATED);
     }
 
     private void setDeviceIdSource(int source) {
-        getPreferencesEditor().putInt(DEVICE_ID_SOURCE_KEY, source).commit();
+        preferences.edit().putInt(DEVICE_ID_SOURCE_KEY, source).apply();
     }
 
     String getUserJwt() {
-        return getPreferences().getString(USER_JWT_KEY, null);
+        return preferences.getString(USER_JWT_KEY, null);
     }
 
     void setUserJwt(String userJwt) {
-        getPreferencesEditor().putString(USER_JWT_KEY, userJwt).commit();
-    }
-
-    private SharedPreferences getPreferences() {
-        return preferences;
-    }
-
-    private SharedPreferences.Editor getPreferencesEditor() {
-        return preferences.edit();
+        preferences.edit().putString(USER_JWT_KEY, userJwt).apply();
     }
 
     String getVersion() {
-        return getPreferences().getString(VERSION_KEY, null);
+        return preferences.getString(VERSION_KEY, null);
     }
 
     void setVersion(String version) {
-        getPreferencesEditor().putString(VERSION_KEY, version).commit();
+        preferences.edit().putString(VERSION_KEY, version).apply();
     }
 }
