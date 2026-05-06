@@ -1,4 +1,6 @@
 # Change Log
+## 3.1.7 (2026-05-06)
+- Internal enhancements and stability improvements.
 
 ## 3.1.6 (2026-04-30)
 - Internal enhancements and stability improvements.
