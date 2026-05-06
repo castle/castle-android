@@ -6,6 +6,7 @@ package io.castle.android;
 
 import static org.awaitility.Awaitility.await;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import android.Manifest;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,6 +89,14 @@ public class CastleTest {
                 .screenTrackingEnabled(true)
                 .baseURLAllowList(baseURLAllowList)
                 .build());
+
+        // Wait for lifecycle events submitted by configure() to settle so each test
+        // starts from a deterministic queue state.
+        AtomicInteger last = new AtomicInteger(-1);
+        await().pollInterval(50, MILLISECONDS).atMost(5, SECONDS).until(() -> {
+            int now = Castle.queueSize();
+            return now == last.getAndSet(now);
+        });
 
         client = new OkHttpClient.Builder()
                 .addInterceptor(Castle.castleInterceptor())

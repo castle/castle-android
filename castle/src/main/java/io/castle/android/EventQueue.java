@@ -2,7 +2,7 @@
  * Copyright (c) 2020 Castle
  */
 
-package io.castle.android.queue;
+package io.castle.android;
 
 import android.content.Context;
 
@@ -18,9 +18,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import io.castle.android.Castle;
-import io.castle.android.CastleLogger;
-import io.castle.android.Utils;
 import io.castle.android.api.CastleAPIService;
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.Monitor;
@@ -84,18 +81,28 @@ public class EventQueue implements Callback<Void> {
     }
 
     public synchronized void add(Event event) {
-        executor.execute(() -> {
-            try {
-                CastleLogger.d("Tracking event " + Utils.getGsonInstance().toJson(event));
-                eventObjectQueue.add(event);
+        executor.execute(() -> addImmediate(event));
+    }
 
-                if (needsFlush()) {
-                    flush();
-                }
-            } catch (IOException e) {
-                CastleLogger.e("Add to queue failed", e);
+    /**
+     * Add an event synchronously. Must only be called from a Runnable submitted via
+     * {@link #execute(Runnable)} so that ordering is preserved with {@link #add(Event)}.
+     */
+    void addImmediate(Event event) {
+        try {
+            CastleLogger.d("Tracking event " + Utils.getGsonInstance().toJson(event));
+            eventObjectQueue.add(event);
+
+            if (needsFlush()) {
+                flush();
             }
-        });
+        } catch (IOException e) {
+            CastleLogger.e("Add to queue failed", e);
+        }
+    }
+
+    void execute(Runnable runnable) {
+        executor.execute(runnable);
     }
 
     private synchronized void trim() throws IOException {

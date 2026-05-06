@@ -24,7 +24,6 @@ import io.castle.android.api.model.Event;
 import io.castle.android.api.model.ScreenEvent;
 import io.castle.android.api.model.UserJwt;
 import io.castle.highwind.android.Highwind;
-import io.castle.android.queue.EventQueue;
 
 /**
  * This class is the main entry point for using the Castle SDK and provides methods for tracking events, screen views, manual flushing of the event queue, allowlisting behaviour and resetting.
@@ -110,7 +109,8 @@ public class Castle {
 
     static void trackLifeCycleEvent(String event) {
         if (Castle.configuration().applicationLifecycleTrackingEnabled()) {
-            custom(event);
+            EventQueue queue = getInstance().eventQueue;
+            queue.execute(() -> queue.addImmediate(new CustomEvent(event)));
         }
     }
 
