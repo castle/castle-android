@@ -2,7 +2,7 @@
  * Copyright (c) 2020 Castle
  */
 
-package io.castle.android.queue;
+package io.castle.android;
 
 import com.squareup.tape2.ObjectQueue;
 
@@ -13,8 +13,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
-
-import io.castle.android.Utils;
 
 class GsonConverter<T> implements ObjectQueue.Converter<T> {
     private final Class<T> type;

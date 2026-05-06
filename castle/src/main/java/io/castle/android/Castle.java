@@ -18,15 +18,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import io.castle.android.api.model.CustomEvent;
 import io.castle.android.api.model.Event;
 import io.castle.android.api.model.ScreenEvent;
 import io.castle.android.api.model.UserJwt;
 import io.castle.highwind.android.Highwind;
-import io.castle.android.queue.EventQueue;
 
 /**
  * This class is the main entry point for using the Castle SDK and provides methods for tracking events, screen views, manual flushing of the event queue, allowlisting behaviour and resetting.
@@ -90,30 +87,30 @@ public class Castle {
         activityLifecycleCallbacks = new CastleActivityLifecycleCallbacks();
         application.registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
 
-        // Build the install/update/opened events off the main thread
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> {
-            int previousBuild = storageHelper.getBuild();
+        // Get the previous recorded version.
+        int previousBuild = storageHelper.getBuild();
 
-            if (previousBuild == -1) {
-                trackLifeCycleEvent("Application Installed");
-            } else if (appBuild != previousBuild) {
-                trackLifeCycleEvent("Application Updated");
-            }
+        // Check and track Application Installed or Application Updated.
+        if (previousBuild == -1) {
+            trackLifeCycleEvent("Application Installed");
+        } else if (appBuild != previousBuild) {
+            trackLifeCycleEvent("Application Updated");
+        }
 
-            trackLifeCycleEvent("Application Opened");
+        // Track Application Opened.
+        trackLifeCycleEvent("Application Opened");
 
-            flush();
+        flush();
 
-            storageHelper.setVersion(appVersion);
-            storageHelper.setBuild(appBuild);
-        });
-        executor.shutdown();
+        // Update the recorded version.
+        storageHelper.setVersion(appVersion);
+        storageHelper.setBuild(appBuild);
     }
 
     static void trackLifeCycleEvent(String event) {
         if (Castle.configuration().applicationLifecycleTrackingEnabled()) {
-            custom(event);
+            EventQueue queue = getInstance().eventQueue;
+            queue.execute(() -> queue.addImmediate(new CustomEvent(event)));
         }
     }
 
