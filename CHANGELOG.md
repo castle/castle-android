@@ -1,4 +1,7 @@
 # Change Log
+## 3.1.8 (2026-05-19)
+- Internal enhancements and stability improvements.
+
 ## 3.1.7 (2026-05-06)
 - Internal enhancements and stability improvements.
 - [#92](https://github.com/castle/castle-android/pull/92) Run lifecycle event tracking and flush off the main thread
