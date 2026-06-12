@@ -298,4 +298,32 @@ public class CastleTest {
     public void after() {
         Castle.destroy(application);
     }
+
+    @Test
+    public void testConfigureOffMainThreadAllowsTokenGeneration() throws InterruptedException {
+        Castle.destroy(application);
+
+        final java.util.concurrent.atomic.AtomicReference<Throwable> configureError = new java.util.concurrent.atomic.AtomicReference<>();
+        Thread configureThread = new Thread(() -> {
+            try {
+                Castle.configure(application, new CastleConfiguration.Builder()
+                        .publishableKey("pk_SE5aTeotKZpDEn8kurzBYquRZyy21fvZ")
+                        .screenTrackingEnabled(true)
+                        .baseURLAllowList(baseURLAllowList)
+                        .build());
+            } catch (Throwable t) {
+                configureError.set(t);
+            }
+        }, "castle-configure-off-main-test");
+
+        configureThread.start();
+        configureThread.join(SECONDS.toMillis(10));
+
+        Assert.assertFalse("configure thread did not finish in time", configureThread.isAlive());
+        Assert.assertNull("configure threw on background thread", configureError.get());
+
+        String token = Castle.createRequestToken();
+        Assert.assertNotNull(token);
+        Assert.assertFalse(token.isEmpty());
+    }
 }
