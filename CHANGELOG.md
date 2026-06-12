@@ -1,4 +1,8 @@
 # Change Log
+## 3.1.11 (2026-06-12)
+- Internal enhancements and stability improvements.
+- Ensure configure can be called from any thread.
+
 ## 3.1.10 (2026-06-11)
 - Internal enhancements and stability improvements.
 
