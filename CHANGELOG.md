@@ -1,4 +1,11 @@
 # Change Log
+
+## 4.0.0 (2026-07-06)
+- Move to Kotlin codebase and private repository.
+- Internal codebase merges, and introduction of native code.
+- applies better obfuscation and device information collection.
+- performance and threading behaviour improvements.
+
 ## 3.1.11 (2026-06-12)
 - Internal enhancements and stability improvements.
 - Ensure configure can be called from any thread.
