@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](https://opensource.org/licenses/MIT)
 
 
-With Version 4.0.0, this repository provides an empty shell, and all code is moved to a private repository. Access via Maven Central stays the same.
+With Version 4.0.0, this repository provides an empty shell, and all code is moved to a private repository. Access via Maven Central stays the same. [Migration Guide](https://docs.castle.io/docs/android-sdk-migrating-from-v3-to-v4)
 
 ## Requirements
 
