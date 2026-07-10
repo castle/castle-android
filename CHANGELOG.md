@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.0.2 (2026-07-10)
+- Internal enhancements and stability improvements.
+
 ## 4.0.1 (2026-07-10)
 - Internal enhancements and stability improvements.
 - Updated consumer proguard files.
