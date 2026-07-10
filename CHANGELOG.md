@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.0.1 (2026-07-10)
+- Internal enhancements and stability improvements.
+- Updated consumer proguard files.
+
 ## 4.0.0 (2026-07-06)
 - Move to Kotlin codebase and private repository.
 - Internal codebase merges, and introduction of native code.
