@@ -17,7 +17,7 @@ The preferred Android integration is to consume the Castle SDK from Maven Centra
 
 ```kotlin
 dependencies {
-    implementation("io.castle.android:castle:4.0.1")
+    implementation("io.castle.android:castle:4.1.0")
 }
 ```
 
