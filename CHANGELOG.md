@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.2.0 (2026-10-05)
+- Increase device fingerprint coverage.
+
 ## 4.1.1 (2026-09-11)
 - Stability Improvements.
 
