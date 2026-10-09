@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.2.1 (2026-10-09)
+- Configure startup performance improvements
+- Timing comparision fix
+
 ## 4.2.0 (2026-10-05)
 - Increase device fingerprint coverage.
 
