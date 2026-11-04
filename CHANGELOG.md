@@ -1,4 +1,7 @@
 # Change Log
+## 4.2.2 (2026-11-04)
+- Ensure tokens after configure always produce a valid token
+- Performance Improvements
 
 ## 4.2.1 (2026-10-09)
 - Configure startup performance improvements
